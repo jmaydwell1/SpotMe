@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/swaters/Desktop/Mobile App Development_ Fall_2021/SpotMe/app/src/main/res/layout/activity_main.xml" value="0.2864583333333333" />
+        <entry key="..\:/Users/swaters/Desktop/Mobile App Development_ Fall_2021/SpotMe/app/src/main/res/layout/activity_sticker_select.xml" value="0.3625" />
+        <entry key="..\:/Users/swaters/Desktop/Mobile App Development_ Fall_2021/SpotMe/app/src/main/res/mipmap-anydpi-v26/fire.xml" value="0.19427083333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
