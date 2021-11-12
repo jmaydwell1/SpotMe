@@ -102,6 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="88dp"
+        android:clickable="true"
         android:fontFamily="@font/poppins_medium"
         android:text="@string/sign_up_here"
         android:textColor=" #324A59"

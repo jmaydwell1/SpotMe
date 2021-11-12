@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/fullNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="@string/full_name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/emailTv"
+        app:layout_constraintStart_toStartOf="@+id/emailTv"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTitle" />
+
+    <EditText
+        android:id="@+id/phoneTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:ems="10"
+        android:hint="@string/phone"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/fullNameTv"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameTv" />
+
+    <EditText
+        android:id="@+id/emailTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneTv" />
+
+    <EditText
+        android:id="@+id/passwordTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/emailTv"
+        app:layout_constraintTop_toBottomOf="@+id/emailTv" />
+
+    <ImageView
+        android:id="@+id/signUpBtn"
+        android:layout_width="65dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginBottom="140dp"
+        android:contentDescription="@string/sign_up_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/passwordTv"
+        app:srcCompat="@drawable/btn_round"
+        tools:ignore="RedundantDescriptionCheck" />
+
+    <TextView
+        android:id="@+id/signUpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="129dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/create_your_account"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/loginHereTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="58dp"
+        android:clickable="true"
+        android:text="@string/login_here"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

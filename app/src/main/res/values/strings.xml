@@ -7,4 +7,9 @@
     <string name="never_work_out_alone_again">Never work out alone again!</string>
     <string name="sign_up_here">Sign Up Here</string>
     <string name="not_on_spotme">Not on SpotMe?</string>
+    <string name="create_your_account">Create your account</string>
+    <string name="full_name">Full Name</string>
+    <string name="login_here">Login Here.</string>
+    <string name="sign_up_button">sign up button</string>
+    <string name="phone">phone</string>
 </resources>

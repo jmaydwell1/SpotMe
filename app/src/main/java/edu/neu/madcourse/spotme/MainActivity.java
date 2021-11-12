@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,7 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
+    private TextView signUpTv;
     private Button loginBtn;
+    private TextView forgotPw;
+
     private static String CLIENT_REGISTRATION_TOKEN;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.editTextTextEmailAddressLogin);
         password = findViewById(R.id.editTextTextPassword);
         loginBtn = findViewById(R.id.nextBtn);
+        signUpTv = findViewById(R.id.signUpTv);
+        forgotPw = findViewById(R.id.forgotPwLogin);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
@@ -63,6 +69,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        signUpTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainActivity.this, SignUp.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+
+        forgotPw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent resetPwIntent = new Intent(MainActivity.this, ResetPW.class);
+                MainActivity.this.startActivity(resetPwIntent);
+            }
+        });
+
+
 
     }
 
