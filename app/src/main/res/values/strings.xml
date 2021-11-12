@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SpotMe</string>
+    <string name="spotme">SpotMe</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="never_work_out_alone_again">Never work out alone again!</string>
+    <string name="sign_up_here">Sign Up Here</string>
+    <string name="not_on_spotme">Not on SpotMe?</string>
 </resources>
