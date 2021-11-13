@@ -75,5 +75,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     // Dependency FirebaseUI for Firebase Realtime Database
     implementation 'com.firebaseui:firebase-ui-database:8.0.0'
-
+    // Declare the dependency for the Cloud Firestore library
+    implementation 'com.google.firebase:firebase-firestore'
 }
