@@ -5,49 +5,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/fullNameTv"
+    <TextView
+        android:id="@+id/signUpTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:ems="10"
-        android:hint="@string/full_name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/emailTv"
-        app:layout_constraintStart_toStartOf="@+id/emailTv"
-        app:layout_constraintTop_toBottomOf="@+id/signUpTitle" />
-
-    <EditText
-        android:id="@+id/phoneTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:ems="10"
-        android:hint="@string/phone"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/fullNameTv"
-        app:layout_constraintTop_toBottomOf="@+id/fullNameTv" />
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="308dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/create_your_account"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/emailTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <EditText
         android:id="@+id/emailTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="310dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="44dp"
         android:ems="10"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
+        android:importantForAutofill="no"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneTv" />
+        app:layout_constraintTop_toBottomOf="@id/signUpTitle" />
 
     <EditText
         android:id="@+id/passwordTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
+        android:layout_width="310dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="@string/password"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/emailTv"
-        app:layout_constraintTop_toBottomOf="@+id/emailTv" />
+        android:importantForAutofill="no"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailTv"/>
+
+    <EditText
+        android:id="@+id/fullNameTv"
+        android:layout_width="310dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/full_name"
+        android:inputType="textPersonName"
+        android:importantForAutofill="no"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordTv" />
+
+    <EditText
+        android:id="@+id/phoneTv"
+        android:layout_width="310dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/phone"
+        android:inputType="phone"
+        android:importantForAutofill="no"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fullNameTv" />
+
+    <EditText
+        android:id="@+id/dobTv"
+        android:layout_width="310dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/dob"
+        android:inputType="date"
+        android:importantForAutofill="no"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phoneTv" />
+
+    <EditText
+        android:id="@+id/genderTv"
+        android:layout_width="310dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/gender"
+        android:inputType="text"
+        android:importantForAutofill="no"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dobTv" />
 
     <ImageView
         android:id="@+id/signUpBtn"
@@ -63,28 +134,31 @@
         app:srcCompat="@drawable/ic_next_button"
         tools:ignore="RedundantDescriptionCheck" />
 
-    <TextView
-        android:id="@+id/signUpTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="129dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/create_your_account"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/resetPwBtn"
+        android:layout_width="65dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="28dp"
+        app:srcCompat="@drawable/ic_next_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintTop_toBottomOf="@id/genderTv"
+        />
 
     <TextView
         android:id="@+id/loginHereTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginBottom="58dp"
-        android:clickable="true"
+        android:layout_marginStart="54dp"
+        android:layout_marginBottom="88dp"
+        android:fontFamily="@font/poppins_medium"
         android:text="@string/login_here"
-        android:textSize="20sp"
+        android:clickable="true"
+        android:textColor="#324A59"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,10 @@
     <string name="full_name">Full Name</string>
     <string name="login_here">Login Here.</string>
     <string name="sign_up_button">sign up button</string>
-    <string name="phone">phone</string>
     <string name="reset_password">Reset your password</string>
     <string name="reset_password_explanation">Please enter the email address associated with your account.</string>
+    <string name="phone">Phone Number</string>
+    <string name="dob">Date Of Birth</string>
+    <string name="gender">Gender</string>
+
 </resources>
