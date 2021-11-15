@@ -12,4 +12,6 @@
     <string name="login_here">Login Here.</string>
     <string name="sign_up_button">sign up button</string>
     <string name="phone">phone</string>
+    <string name="reset_password">Reset your password</string>
+    <string name="reset_password_explanation">Please enter the email address associated with your account.</string>
 </resources>
