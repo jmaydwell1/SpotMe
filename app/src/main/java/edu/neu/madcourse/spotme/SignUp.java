@@ -1,10 +1,15 @@
 package edu.neu.madcourse.spotme;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,40 +27,42 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-import edu.neu.madcourse.spotme.database.models.User;
-
-
-public class SignUp extends AppCompatActivity {
+public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private TextView emailTv;
     private TextView passwordTv;
     private TextView phoneTv;
     private TextView fullNameTv;
     private TextView loginHereTv;
     private TextView dobTv;
-    private TextView genderTv;
+    private Spinner genderTv;
     private ImageView signUpBtn;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    private final Calendar myCalendar = Calendar.getInstance();
     private static String CLIENT_REGISTRATION_TOKEN;
+    private String SELECTED_GENDER;
     private static final String TAG = "SignUpSpotMe";
+
+    private String[] genders = { "Female", "Male" };
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        System.out.println("ON CREATE");
-
 
     }
 
     @Override
     public void onStart() {
-        System.out.println("ON START");
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -72,24 +79,63 @@ public class SignUp extends AppCompatActivity {
         genderTv = findViewById(R.id.genderTv);
         loginHereTv = findViewById(R.id.loginHereTv);
 
+        genderTv.setOnItemSelectedListener(this);
         signUpBtn = findViewById(R.id.signUpBtn);
+
+        ArrayAdapter ad
+                = new ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                genders);
+
+        // set simple layout resource file
+        // for each item of spinner
+        ad.setDropDownViewResource(
+                android.R.layout
+                        .simple_spinner_dropdown_item);
+
+        // Set the ArrayAdapter (ad) data on the
+        // Spinner which binds data to spinner
+        genderTv.setAdapter(ad);
+
+
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+
+        dobTv.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(SignUp.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("SIGNN UP BTN");
                 String fullName = fullNameTv.getText().toString();
                 String phone = phoneTv.getText().toString();
                 String email = emailTv.getText().toString();
                 String password = passwordTv.getText().toString();
                 String dob = dobTv.getText().toString();
-                String gender = genderTv.getText().toString();
 
-                if (fullName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || dob.isEmpty() || gender.isEmpty()) {
+                if (fullName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || dob.isEmpty()) {
                     Toast.makeText(SignUp.this, "Cannot have any empty field",
                             Toast.LENGTH_SHORT);
                 }
-
                 createAccount(email, password);
 
                 // Get Token
@@ -101,7 +147,7 @@ public class SignUp extends AppCompatActivity {
                         } else {
                             if (CLIENT_REGISTRATION_TOKEN == null) {
                                 CLIENT_REGISTRATION_TOKEN = task.getResult();
-                                writeNewUser(email, CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, gender);                            }
+                                writeNewUser(email, CLIENT_REGISTRATION_TOKEN, fullName, phone, dob);                            }
                             Log.e("CLIENT_REGISTRATION_TOKEN", CLIENT_REGISTRATION_TOKEN);
                         }
                     }
@@ -114,7 +160,6 @@ public class SignUp extends AppCompatActivity {
         loginHereTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("CLICK LOGIN");
                 Intent myIntent = new Intent(SignUp.this, MainActivity.class);
                 SignUp.this.startActivity(myIntent);
             }
@@ -123,19 +168,14 @@ public class SignUp extends AppCompatActivity {
     }
 
 
-    public void writeNewUser(String email, String token, String name, String phone, String dob, String gender) {
-        System.out.println("About to write");
+    public void writeNewUser(String email, String token, String name, String phone, String dob) {
         Map<String, Object> user = new HashMap<>();
         user.put("token", token);
         user.put("name", name);
         user.put("phone", phone);
         user.put("dob", dob);
-        user.put("gender", gender);
+        user.put("gender", SELECTED_GENDER);
         db.collection("users").document(email).set(user);
-
-    }
-    private void hi(View view) {
-        System.out.println("CKICK HI");
     }
 
     private void createAccount(String email, String password) {
@@ -156,9 +196,26 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
     }
+
+    private void updateLabel() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        dobTv.setText(sdf.format(myCalendar.getTime()));
+    }
+
     private void reload() {
         System.out.println("SIGNING OUT````");
         FirebaseAuth.getInstance().signOut();
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+        SELECTED_GENDER = genders[position];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
