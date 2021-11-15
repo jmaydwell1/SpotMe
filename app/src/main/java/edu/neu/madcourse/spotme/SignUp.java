@@ -61,8 +61,16 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("SIGNN UP BTN");
+                String fullName = fullNameTv.getText().toString();
+                String phone = phoneTv.getText().toString();
                 String email = emailTv.getText().toString();
                 String password = passwordTv.getText().toString();
+
+                if (fullName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(SignUp.this, "Cannot have any empty field",
+                            Toast.LENGTH_SHORT);
+                }
+
                 createAccount(email, password);
                 // You cannot add other properties to the Firebase User object directly -> still have to write to DB
             }

@@ -9,24 +9,17 @@
         android:id="@+id/forgotPWEmailTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="296dp"
-        android:layout_marginBottom="94dp"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/resetPwBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="296dp" />
 
     <ImageView
         android:id="@+id/resetPwBtn"
         android:layout_width="65dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="235dp"
+        android:layout_height="61dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPWEmailTv"
-        app:srcCompat="@drawable/btn_round" />
+        app:srcCompat="@drawable/btn_round"
+        tools:layout_editor_absoluteX="297dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
