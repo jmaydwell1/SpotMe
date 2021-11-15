@@ -31,7 +31,7 @@ public class ResetPW extends AppCompatActivity {
         super.onStart();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         forgotPWEmailTv = findViewById(R.id.forgotPWEmailTv);
-        resetPwBtn = findViewById(R.id.resetPwBtn);
+        resetPwBtn = findViewById(R.id.signUpBtn);
 
         resetPwBtn.setOnClickListener(new View.OnClickListener() {
             @Override

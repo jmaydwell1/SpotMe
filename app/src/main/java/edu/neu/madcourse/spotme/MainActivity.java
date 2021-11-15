@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView loginBtn;
     private TextView forgotPw;
 
-    private static String CLIENT_REGISTRATION_TOKEN;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 

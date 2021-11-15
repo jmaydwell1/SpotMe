@@ -16,5 +16,6 @@
     <string name="phone">Phone Number</string>
     <string name="dob">Date Of Birth</string>
     <string name="gender">Gender</string>
+    <string name="next_button">next button</string>
 
 </resources>

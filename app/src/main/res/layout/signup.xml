@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="fill_parent"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
@@ -126,20 +126,6 @@
 
         <ImageView
             android:id="@+id/signUpBtn"
-            android:layout_width="65dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="45dp"
-            android:layout_marginEnd="47dp"
-            android:layout_marginBottom="140dp"
-            android:contentDescription="@string/sign_up_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/passwordTv"
-            app:srcCompat="@drawable/ic_next_button"
-            tools:ignore="RedundantDescriptionCheck" />
-
-        <ImageView
-            android:id="@+id/resetPwBtn"
             android:layout_width="65dp"
             android:layout_height="61dp"
             android:layout_marginTop="64dp"
