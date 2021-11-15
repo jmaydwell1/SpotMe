@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/nextBtn"
-        android:layout_width="52dp"
-        android:layout_height="51dp"
+        android:layout_width="65dp"
+        android:layout_height="61dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
         app:srcCompat="@drawable/ic_next_button"
