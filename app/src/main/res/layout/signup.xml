@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/passwordTv"
-        app:srcCompat="@drawable/btn_round"
+        app:srcCompat="@drawable/ic_next_button"
         tools:ignore="RedundantDescriptionCheck" />
 
     <TextView

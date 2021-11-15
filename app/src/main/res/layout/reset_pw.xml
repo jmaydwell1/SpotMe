@@ -20,6 +20,6 @@
         android:layout_width="65dp"
         android:layout_height="61dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/btn_round"
+        app:srcCompat="@drawable/ic_next_button"
         tools:layout_editor_absoluteX="297dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
