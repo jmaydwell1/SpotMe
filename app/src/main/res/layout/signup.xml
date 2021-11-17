@@ -13,6 +13,7 @@
         android:ems="10"
         android:hint="@string/full_name"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@+id/emailTv"
         app:layout_constraintStart_toStartOf="@+id/emailTv"
         app:layout_constraintTop_toBottomOf="@+id/signUpTitle" />
@@ -24,7 +25,8 @@
         android:layout_marginTop="23dp"
         android:ems="10"
         android:hint="@string/phone"
-        android:inputType="textPersonName"
+        android:inputType="phone"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="@+id/fullNameTv"
         app:layout_constraintTop_toBottomOf="@+id/fullNameTv" />
 
@@ -36,8 +38,10 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneTv" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneTv"
+        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/passwordTv"
@@ -46,8 +50,10 @@
         android:layout_marginTop="23dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="@+id/emailTv"
-        app:layout_constraintTop_toBottomOf="@+id/emailTv" />
+        app:layout_constraintTop_toBottomOf="@+id/emailTv"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/signUpBtn"
@@ -82,6 +88,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginBottom="58dp"
         android:clickable="true"
+        android:minHeight="48dp"
         android:text="@string/login_here"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -11,26 +11,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MatchesRViewAdapter extends RecyclerView.Adapter<MatchesRViewAdapter.MyViewHolder> {
-    Context context;
-    ArrayList<MessageMatchModel> messageMatchModels;
+
+    private List<MessageMatchModel> matchList;
 
 
-    public MatchesRViewAdapter(Context context, ArrayList<MessageMatchModel> messageMatchModels) {
-        this.context = context;
-        this.messageMatchModels = messageMatchModels;
+    public MatchesRViewAdapter(List<MessageMatchModel>matchList) {
+        this.matchList = matchList;
     }
+
 
     @NonNull
     @Override
     // this is where you inflate the layout and give the look to our rows
     public MatchesRViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater infalter = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.matched_r_view_row,
+                parent, false);
 
-
-        return null;
+        return new MatchesRViewAdapter.MyViewHolder(view);
     }
 
     @Override
@@ -40,14 +42,20 @@ public class MatchesRViewAdapter extends RecyclerView.Adapter<MatchesRViewAdapte
 
         holder.name_of_match.setText("this is a new person :)");
         holder.date_of_match.setText("this is a new date i swear!");
-        holder.message_icon.findViewById(R.id.matchIcon);
+
+        String name = matchList.get(position).getNameOfMatch();
+        String date = matchList.get(position).getDateOfMatch();
+        int matchPic = matchList.get(position).getMatchIcon();
+        int messageButton = matchList.get(position).getMessageIcon();
+
+
+        holder.setData(name, date, matchPic, messageButton);
     }
 
     @Override
     // how many items do you really have
     public int getItemCount() {
-
-        return messageMatchModels.size();
+        return matchList.size();
     }
 
 
@@ -65,6 +73,15 @@ public class MatchesRViewAdapter extends RecyclerView.Adapter<MatchesRViewAdapte
             date_of_match = itemView.findViewById(R.id.dateOfMatch);
             message_icon = itemView.findViewById(R.id.messageIcon);
             match_icon = itemView.findViewById(R.id.matchIcon);
+
+        }
+
+        public void setData(String name, String date, int matchPic, int messageButton) {
+
+            name_of_match.setText(name);
+            date_of_match.setText(date);
+            message_icon.setImageResource(messageButton);
+            match_icon.setImageResource(matchPic);
 
         }
     }

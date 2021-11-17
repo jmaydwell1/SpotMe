@@ -13,5 +13,6 @@
     <string name="sign_up_button">sign up button</string>
     <string name="adam_smith">Adam Smith</string>
     <string name="message">Message</string>
+    <string name="phone">Phone</string>
     <string name="matched_on_14_11_2021">Matched on 14.11.2021</string>
 </resources>

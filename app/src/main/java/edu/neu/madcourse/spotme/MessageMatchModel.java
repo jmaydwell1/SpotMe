@@ -4,6 +4,7 @@ public class MessageMatchModel {
     String nameOfMatch, dateOfMatch;
     int messageIcon, matchIcon;
 
+    //constructor
     public MessageMatchModel(String nameOfMatch, String dateOfMatch,
                              int messageIcon, int matchIcon) {
         this.nameOfMatch = nameOfMatch;
