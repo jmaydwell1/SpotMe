@@ -1,140 +1,39 @@
 package edu.neu.madcourse.spotme;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText email;
-    private EditText password;
-    private TextView signUpTv;
-    private ImageView loginBtn;
-    private TextView forgotPw;
 
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
-
-    private static String SHARED_PREF_NAME = "SpotMe";
-    private static final String TAG = "AuthEmailPW";
+    private List<ColorSpace.Model> mModelList;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_main);
 
-        email = findViewById(R.id.editTextTextEmailAddressLogin);
-        password = findViewById(R.id.editTextTextPassword);
-        loginBtn = findViewById(R.id.nextBtn);
-        signUpTv = findViewById(R.id.signUpTv);
-        forgotPw = findViewById(R.id.forgotPwLogin);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                if (currentUser != null) {
-                    reload();
-                }
-                String emailInput = email.getText().toString();
-                String passwordInput = password.getText().toString();
-                if (emailInput.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Email cannot be empty!",
-                            Toast.LENGTH_SHORT).show();
-                } else if (passwordInput.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Password cannot be empty!",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    signIn(emailInput, passwordInput);
-                }
-            }
-        });
-
-
-        signUpTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(MainActivity.this, SignUp.class);
-                MainActivity.this.startActivity(myIntent);
-            }
-        });
-
-        forgotPw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent resetPwIntent = new Intent(MainActivity.this, ResetPW.class);
-                MainActivity.this.startActivity(resetPwIntent);
-            }
-        });
-
-
-
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mAdapter = new RecyclerViewAdapter(getListData());
+        LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void signIn(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
+    private List<ColorSpace.Model> getListData() {
+        mModelList = new ArrayList<>();
+        for (int i = 1; i <= 25; i++) {
+            mModelList.add(new ColorSpace.Model("TextView " + i));
+        }
+        return mModelList;
     }
-
-    private void reload() { }
-
-    private void updateUI(FirebaseUser user) {
-        System.out.println("DONEE " + user);
-    }
-
-
-
-    public void sharedPreferencesConfig(String username) {
-        // Storing data into SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-
-        // Creating an Editor object to edit(write to the file)
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-
-        // Storing the key and its value as the data fetched from edittext
-        // Store the login username
-        myEdit.putString("username", username);
-
-        // Once the changes have been made,
-        // we need to commit to apply those changes made,
-        // otherwise, it will throw an error
-        myEdit.commit();
-    }
-
 }
