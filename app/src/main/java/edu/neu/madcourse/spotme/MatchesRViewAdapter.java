@@ -17,7 +17,7 @@ public class MatchesRViewAdapter extends RecyclerView.Adapter<MatchesRViewAdapte
 
     private List<MessageMatchModel> matchList;
 
-    // constructor
+    //constructor
     public MatchesRViewAdapter(List<MessageMatchModel>matchList) {
         this.matchList = matchList;
     }
