@@ -39,7 +39,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.333"
                 app:srcCompat="@drawable/ic_baseline_looks_one_24"
-                app:tint="@color/spotMe_lightBlue" />
+                app:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/messageIcon"
@@ -54,7 +54,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.833"
                 app:srcCompat="@drawable/ic_baseline_message_24"
-                app:tint="@color/spotMe_lightBlue" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/nameOfMatch"
@@ -63,7 +63,7 @@
                 android:layout_marginStart="20dp"
                 android:text="@string/adam_smith"
                 android:textAlignment="textStart"
-                android:textColor="@color/spotMe_lightBlue"
+                android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -82,7 +82,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/matched_on_14_11_2021"
                 android:textAlignment="textStart"
-                android:textColor="@color/spotMe_lightBlue"
+                android:textColor="@color/white"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
