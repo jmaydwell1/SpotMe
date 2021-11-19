@@ -5,18 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/maxAge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/_100"
-        app:layout_constraintBottom_toTopOf="@id/maleIcon"
-        app:layout_constraintEnd_toEndOf="@id/ageBar"
-        app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toEndOf="@id/minAge"
-        app:layout_constraintTop_toBottomOf="@id/ageBar"
-        app:layout_constraintVertical_bias="0.0"
-        android:textSize="12sp"/>
+
 
     <ImageView
         android:id="@+id/maleIcon"
@@ -68,7 +57,10 @@
         app:layout_constraintStart_toEndOf="@id/ageTitle"
         app:layout_constraintTop_toBottomOf="@id/distanceBar" />
 
-    <Spinner
+
+<!--        android:id="@+id/multi_spinner" />-->
+
+    <edu.neu.madcourse.spotme.customui.MultiSpinner
         android:id="@+id/sportSpinner"
         android:layout_width="220dp"
         android:layout_height="25dp"
@@ -166,17 +158,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/femaleIcon" />
 
+
     <TextView
-        android:id="@+id/minAge"
+        android:id="@+id/ageProgressDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/_18"
+        android:text=""
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/femaleIcon"
         app:layout_constraintEnd_toEndOf="@id/ageBar"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@id/ageBar"
         app:layout_constraintTop_toBottomOf="@id/ageBar"
-        app:layout_constraintVertical_bias="0.0"
-        android:textSize="12sp"/>
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/distanceProgressDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/ageBar"
+        app:layout_constraintEnd_toEndOf="@id/distanceBar"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="@id/distanceBar"
+        app:layout_constraintTop_toBottomOf="@id/distanceBar"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
