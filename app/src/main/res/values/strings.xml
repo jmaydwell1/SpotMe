@@ -29,4 +29,17 @@
     <string name="save">SAVE</string>
     <string name="_18">18</string>
     <string name="_100">100</string>
+
+//Potential Matches
+    <string name="pm_app_name">RecyclerViewSW</string>
+    <string name="sporticon">sportIcon</string>
+    <string name="user_profile_img">User Profile Img</string>
+    <string name="pm_full_name">Full Name</string>
+
+    <string-array name = "user_fullNames_all">
+        <item>Alyssa Jones</item>
+        <item>Carter Smith</item>
+        <item>Brandon Johnson</item>
+    </string-array>
+
 </resources>
