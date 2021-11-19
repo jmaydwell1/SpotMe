@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".SignUp"/>
         <activity android:name=".ResetPW"/>
+        <activity android:name=".Preference"/>
      </application>
 
 </manifest>
