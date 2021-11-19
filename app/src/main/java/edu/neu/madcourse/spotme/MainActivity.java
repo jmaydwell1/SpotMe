@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private TextView signUpTv;
-    private Button loginBtn;
+    private ImageView loginBtn;
     private TextView forgotPw;
 
-    private static String CLIENT_REGISTRATION_TOKEN;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 

@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <ImageView
         android:id="@+id/nextBtn"
-        android:layout_width="52dp"
-        android:layout_height="51dp"
+        android:layout_width="65dp"
+        android:layout_height="61dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
-        android:background="@drawable/btn_round"
+        app:srcCompat="@drawable/ic_next_button"
         android:onClick="signIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.927"
@@ -94,7 +94,6 @@
         android:fontFamily="@font/poppins"
         android:text="@string/never_work_out_alone_again"
         android:textSize="12sp"
-        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddressLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
