@@ -3,6 +3,7 @@ package edu.neu.madcourse.spotme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView signUpTv;
     private ImageView loginBtn;
     private TextView forgotPw;
+    private Button testBtn;
+    private Dialog dialogTest;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -48,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         forgotPw = findViewById(R.id.forgotPwLogin);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
+        testBtn = findViewById(R.id.test_dialog_button);
+        dialogTest = new Dialog(this);
+        dialogTest.setContentView(R.layout.potential_buddy_dialog);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +94,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogTest.show();
+            }
+        });
 
     }
 
