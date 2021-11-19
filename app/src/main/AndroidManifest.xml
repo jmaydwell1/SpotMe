@@ -15,16 +15,19 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity"/>
-        <activity
-            android:name=".MainMatchMessageActivity"
-            android:exported="true">
+            android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainMatchMessageActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".PotentialMatches"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".SignUp"/>
         <activity android:name=".ResetPW"/>
         <activity android:name=".Preference"/>

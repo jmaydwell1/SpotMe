@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView forgotPw;
     private Button testBtn;
     private Dialog dialogTest;
+    private Button potentialMatchBtn;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         testBtn = findViewById(R.id.test_dialog_button);
         dialogTest = new Dialog(this);
         dialogTest.setContentView(R.layout.potential_buddy_dialog);
+        potentialMatchBtn = findViewById(R.id.test_potential_btn);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogTest.show();
-            }
+        testBtn.setOnClickListener(view -> dialogTest.show());
+
+        potentialMatchBtn.setOnClickListener(view -> {
+            Intent potentialIntent = new Intent(MainActivity.this, PotentialMatches.class);
+            MainActivity.this.startActivity(potentialIntent);
         });
 
     }

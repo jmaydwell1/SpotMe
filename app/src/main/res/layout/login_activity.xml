@@ -132,8 +132,17 @@
         android:layout_height="wrap_content"
         android:text="Test_popup"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/test_potential_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.808" />
+
+    <Button
+        android:id="@+id/test_potential_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test_Potential_Matches"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteX="287dp"
+        tools:layout_editor_absoluteY="552dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
