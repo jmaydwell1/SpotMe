@@ -86,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(resetPwIntent);
             }
         });
-
-
-
     }
 
     private void signIn(String email, String password) {
