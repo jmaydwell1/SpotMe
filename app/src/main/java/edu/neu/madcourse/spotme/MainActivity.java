@@ -3,6 +3,7 @@ package edu.neu.madcourse.spotme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView signUpTv;
     private ImageView loginBtn;
     private TextView forgotPw;
+    private Button potentialMatchBtn;
+    private Button matchBtn;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -48,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         forgotPw = findViewById(R.id.forgotPwLogin);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
+        potentialMatchBtn = findViewById(R.id.test_potential_btn);
+        matchBtn = findViewById(R.id.test_matches);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         signUpTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
                 Intent resetPwIntent = new Intent(MainActivity.this, ResetPW.class);
                 MainActivity.this.startActivity(resetPwIntent);
             }
+        });
+
+        potentialMatchBtn.setOnClickListener(view -> {
+            Intent potentialIntent = new Intent(MainActivity.this, PotentialMatches.class);
+            MainActivity.this.startActivity(potentialIntent);
+        });
+
+        matchBtn.setOnClickListener(view -> {
+            Intent potentialIntent = new Intent(MainActivity.this, MainMatchMessageActivity.class);
+            MainActivity.this.startActivity(potentialIntent);
         });
     }
 

@@ -1,95 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/spotMe_darkBlue"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="5dp"
-        app:cardBackgroundColor="@color/spotMe_darkBlue"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mCView"
+        android:layout_width="match_parent"
+        android:layout_height="139dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/mCView"
-            android:layout_width="match_parent"
-            android:layout_height="139dp">
+        <ImageView
+            android:id="@+id/matchIcon"
+            android:layout_width="142dp"
+            android:layout_height="136dp"
+            android:background="@color/spotMe_darkBlue"
+            android:visibility="visible"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.333"
+            app:srcCompat="@drawable/ic_baseline_looks_one_24"
+            app:tint="@color/white" />
 
-            <ImageView
-                android:id="@+id/matchIcon"
-                android:layout_width="142dp"
-                android:layout_height="136dp"
-                android:background="@color/spotMe_darkBlue"
-                android:visibility="visible"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.333"
-                app:srcCompat="@drawable/ic_baseline_looks_one_24"
-                app:tint="@color/white" />
+        <ImageView
+            android:id="@+id/messageIcon"
+            android:layout_width="64dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.833"
+            app:srcCompat="@drawable/ic_baseline_message_24"
+            app:tint="@color/white" />
+        <!--            app:layout_constraintStart_toEndOf="@+id/matchIcon"-->
 
-            <ImageView
-                android:id="@+id/messageIcon"
-                android:layout_width="64dp"
-                android:layout_height="43dp"
-                android:layout_marginStart="191dp"
-                android:layout_marginEnd="12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/matchIcon"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.833"
-                app:srcCompat="@drawable/ic_baseline_message_24"
-                app:tint="@color/white" />
 
-            <TextView
-                android:id="@+id/nameOfMatch"
-                android:layout_width="220dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="20dp"
-                android:text="@string/adam_smith"
-                android:textAlignment="textStart"
-                android:textColor="@color/white"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/matchIcon"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.153" />
+        <TextView
+            android:id="@+id/nameOfMatch"
+            android:layout_width="220dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/adam_smith"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/matchIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.153" />
 
-            <TextView
-                android:id="@+id/dateOfMatch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="59dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/matched_on_14_11_2021"
-                android:textAlignment="textStart"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/matchIcon"
-                app:layout_constraintTop_toBottomOf="@+id/nameOfMatch"
-                app:layout_constraintVertical_bias="0.0" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/dateOfMatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="59dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/matched_on_14_11_2021"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/matchIcon"
+            app:layout_constraintTop_toBottomOf="@+id/nameOfMatch"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

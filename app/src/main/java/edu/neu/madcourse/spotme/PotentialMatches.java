@@ -26,8 +26,6 @@ public class PotentialMatches extends AppCompatActivity {
         recyclerViewAdapter_sw adapter = new recyclerViewAdapter_sw(this, userModelsList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
     }
 
     private void setUpUserModels(){
