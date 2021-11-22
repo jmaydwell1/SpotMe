@@ -28,8 +28,6 @@
     <string name="distance">Distance</string>
     <string name="todo">TODO</string>
     <string name="save">SAVE</string>
-    <string name="_18">18</string>
-    <string name="_100">100</string>
 
 //Potential Matches
     <string name="pm_app_name">RecyclerViewSW</string>

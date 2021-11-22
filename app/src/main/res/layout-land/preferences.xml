@@ -6,14 +6,13 @@
     android:layout_height="match_parent">
 
 
-
     <ImageView
         android:id="@+id/maleIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="30dp"
         android:contentDescription="@string/todo"
         app:layout_constraintBottom_toTopOf="@id/savePrefBtn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +25,7 @@
         android:layout_width="37dp"
         android:layout_height="38dp"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="30dp"
         android:contentDescription="@string/todo"
         app:layout_constraintBottom_toTopOf="@id/savePrefBtn"
         app:layout_constraintEnd_toStartOf="@id/maleIcon"
@@ -37,10 +36,10 @@
 
     <SeekBar
         android:id="@+id/distanceBar"
-        android:layout_width="230dp"
-        android:layout_height="25dp"
+        android:layout_width="500dp"
+        android:layout_height="33dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="50dp"
         app:layout_constraintBottom_toTopOf="@id/ageBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/distanceTitle"
@@ -48,28 +47,27 @@
 
     <SeekBar
         android:id="@+id/ageBar"
-        android:layout_width="230dp"
-        android:layout_height="25dp"
+        android:layout_width="500dp"
+        android:layout_height="33dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="50dp"
         app:layout_constraintBottom_toTopOf="@id/femaleIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ageTitle"
         app:layout_constraintTop_toBottomOf="@id/distanceBar" />
 
 
-    <!--        android:id="@+id/multi_spinner" />-->
-
     <edu.neu.madcourse.spotme.customui.MultiSpinner
         android:id="@+id/sportSpinner"
-        android:layout_width="220dp"
+        android:layout_width="500dp"
         android:layout_height="25dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
         app:layout_constraintBottom_toTopOf="@id/distanceBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/sportTitle"
-        app:layout_constraintTop_toBottomOf="@id/preferenceTitle" />
+        app:layout_constraintTop_toBottomOf="@id/preferenceTitle"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/distanceTitle"
@@ -92,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/gender"
         app:layout_constraintBottom_toTopOf="@id/savePrefBtn"
@@ -106,22 +104,21 @@
         android:id="@+id/preferenceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/choose_your_preferences"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/sportTitle"
-        tools:layout_editor_absoluteX="97dp"
-        tools:layout_editor_absoluteY="69dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/sportTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/sport"
         android:textSize="14sp"
@@ -145,19 +142,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/distanceTitle" />
 
+
     <Button
         android:id="@+id/savePrefBtn"
         android:layout_width="277dp"
         android:layout_height="52dp"
+        android:layout_marginBottom="30dp"
         android:backgroundTint="#324A59"
         android:text="@string/save"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.559"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/femaleIcon" />
-
 
     <TextView
         android:id="@+id/ageProgressDisplay"

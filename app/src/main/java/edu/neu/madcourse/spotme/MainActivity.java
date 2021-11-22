@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
             Intent potentialIntent = new Intent(MainActivity.this, MainMatchMessageActivity.class);
             MainActivity.this.startActivity(potentialIntent);
         });
-
     }
 
     private void signIn(String email, String password) {
