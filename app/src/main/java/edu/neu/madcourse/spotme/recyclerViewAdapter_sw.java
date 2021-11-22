@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,48 +16,61 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+
 import java.util.ArrayList;
 
-public class recyclerViewAdapter_sw extends RecyclerView.Adapter<recyclerViewAdapter_sw.MyViewHolder> {
+import edu.neu.madcourse.spotme.database.models.PotentialMatch;
+
+public class recyclerViewAdapter_sw extends FirestoreRecyclerAdapter<PotentialMatch, recyclerViewAdapter_sw.MyViewHolder> {
     Context context;
     ArrayList<userModel> userModels;
     Dialog dialogTest;
 
-    public recyclerViewAdapter_sw(Context context, ArrayList<userModel> userModels){
-        this.context = context;
-        this.userModels = userModels;
+    public recyclerViewAdapter_sw(@NonNull FirestoreRecyclerOptions<PotentialMatch> options){
+        super(options);
+//        this.context = context;
+//        this.userModels = userModels;
     }
 
     @NonNull
     @Override
-    public recyclerViewAdapter_sw.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.recyclerview_row_sw, parent, false);
-        final MyViewHolder viewHolder = new MyViewHolder(view);
+//        final MyViewHolder viewHolder = new MyViewHolder(view);
 
-        dialogTest = new Dialog(context);
-        dialogTest.setContentView(R.layout.potential_buddy_dialog);
-        dialogTest.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialogTest = new Dialog(context);
+//        dialogTest.setContentView(R.layout.potential_buddy_dialog);
+//        dialogTest.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        viewHolder.potentialMatchCard.setOnClickListener(itemView -> dialogTest.show());
+//        viewHolder.potentialMatchCard.setOnClickListener(itemView -> dialogTest.show());
 
-        return viewHolder;
+        return new MyViewHolder(view);
     }
+
+//    @Override
+//    public void onBindViewHolder(@NonNull recyclerViewAdapter_sw.MyViewHolder holder, int position) {
+//        holder.textView.setText(userModels.get(position).getFullName());
+//        holder.imageView.setImageResource(userModels.get(position).getUserImgInt());
+//
+//    }
 
     @Override
-    public void onBindViewHolder(@NonNull recyclerViewAdapter_sw.MyViewHolder holder, int position) {
-        holder.textView.setText(userModels.get(position).getFullName());
-        holder.imageView.setImageResource(userModels.get(position).getUserImgInt());
-
+    protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull PotentialMatch model) {
+        String name = model.getName();
+        Log.d("name: ", name);
+        holder.textView.setText(name);
     }
 
-    @Override
-    public int getItemCount() {
-        return userModels.size();
-    }
+//    @Override
+//    public int getItemCount() {
+//        return userModels.size();
+//    }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imageView;
         TextView textView;

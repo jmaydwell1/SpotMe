@@ -72,8 +72,9 @@ dependencies {
     // Declare the dependency for the Realtime Database library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-database'
-    // Dependency FirebaseUI for Firebase Realtime Database
+    // Dependency FirebaseUI for Firebase Realtime Database and Firestore
     implementation 'com.firebaseui:firebase-ui-database:8.0.0'
+    implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
     // Declare the dependency for the Cloud Firestore library
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
