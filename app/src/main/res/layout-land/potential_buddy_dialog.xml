@@ -5,22 +5,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/potential_picture_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="20dp"
         app:cardCornerRadius="40dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/spotMe_darkerBlue">
+        app:strokeColor="@color/spotMe_grey"
+        app:strokeWidth="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingVertical="20dp"
-            android:background="@color/spotMe_darkerBlue">
+            android:paddingVertical="20dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/potential_big_picture"
@@ -29,9 +30,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/adam_smith"
                 app:shapeAppearanceOverlay="@style/roundImgView"
-                android:layout_marginLeft="30dp"
-                app:strokeWidth="8dp"
-                app:strokeColor="@color/spotMe_offWhite"/>
+                android:layout_marginLeft="30dp" />
 
             <LinearLayout
                 android:id="@+id/linear_layout_potential"
@@ -52,7 +51,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Contact Name"
-                    android:textColor="@color/spotMe_offWhite"
+                    android:textColor="@color/spotMe_darkerBlue"
                     android:textSize="24sp" />
 
                 <TextView
@@ -62,8 +61,7 @@
                     android:fontFamily="@font/poppins_light"
                     android:text="Gender, Age"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/spotMe_offWhite"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -72,8 +70,7 @@
                     android:fontFamily="@font/poppins_light"
                     android:text="0.5 miles away"
                     android:textSize="16sp"
-                    android:textStyle="italic"
-                    android:textColor="@color/spotMe_offWhite"/>
+                    android:textStyle="italic" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -94,5 +91,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>

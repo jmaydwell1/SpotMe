@@ -7,18 +7,22 @@
     android:gravity="center"
     android:layout_gravity="center">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/spotMe_darkerBlue"
-        app:cardBackgroundColor="@color/spotMe_darkerBlue"
-        app:cardCornerRadius="40dp">
+        app:cardCornerRadius="40dp"
+        app:strokeColor="@color/spotMe_grey"
+        app:strokeWidth="6dp"
+        android:layout_margin="5dp"
+        >
+<!--        android:background="@color/spotMe_darkerBlue"-->
+<!--        app:cardBackgroundColor="@color/spotMe_darkerBlue"-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
-            android:background="@color/spotMe_darkerBlue"
+            android:layout_margin="40dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -29,9 +33,7 @@
                 android:layout_height="300dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/adam_smith"
-                app:shapeAppearanceOverlay="@style/roundImgView"
-                app:strokeColor="@color/spotMe_offWhite"
-                app:strokeWidth="8dp" />
+                app:shapeAppearanceOverlay="@style/roundImgView" />
 
             <TextView
                 android:id="@+id/potential_big_name"
@@ -41,7 +43,7 @@
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center_horizontal"
                 android:text="Contact Name"
-                android:textColor="@color/spotMe_offWhite"
+                android:textColor="@color/spotMe_darkerBlue"
                 android:textSize="24sp" />
 
             <TextView
@@ -51,9 +53,9 @@
                 android:fontFamily="@font/poppins_light"
                 android:gravity="center_horizontal"
                 android:text="Gender, Age"
-                android:textColor="@color/spotMe_offWhite"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+            android:textStyle="bold" />
+            <!--                android:textColor="@color/spotMe_offWhite"-->
 
             <TextView
                 android:layout_width="match_parent"
@@ -62,9 +64,9 @@
                 android:fontFamily="@font/poppins_light"
                 android:gravity="center_horizontal"
                 android:text="0.5 miles away"
-                android:textColor="@color/spotMe_offWhite"
                 android:textSize="16sp"
                 android:textStyle="italic" />
+            <!--                android:textColor="@color/spotMe_offWhite"-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -85,6 +87,6 @@
                     android:src="@drawable/pingpong_icon" />
             </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>
