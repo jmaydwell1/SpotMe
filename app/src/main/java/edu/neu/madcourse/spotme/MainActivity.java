@@ -3,7 +3,6 @@ package edu.neu.madcourse.spotme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         potentialMatchBtn.setOnClickListener(view -> {
-            Intent potentialIntent = new Intent(MainActivity.this, PotentialMatches.class);
+            Intent potentialIntent = new Intent(MainActivity.this, PotentialMatchesActivity.class);
             MainActivity.this.startActivity(potentialIntent);
         });
 
@@ -101,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             Intent potentialIntent = new Intent(MainActivity.this, MainMatchMessageActivity.class);
             MainActivity.this.startActivity(potentialIntent);
         });
+
     }
 
     private void signIn(String email, String password) {
@@ -148,5 +148,4 @@ public class MainActivity extends AppCompatActivity {
         // otherwise, it will throw an error
         myEdit.commit();
     }
-
 }

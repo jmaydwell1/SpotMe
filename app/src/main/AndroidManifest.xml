@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PotentialMatches"
+            android:name=".PotentialMatchesActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".SignUp"/>
         <activity android:name=".ResetPW"/>

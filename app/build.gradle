@@ -78,9 +78,12 @@ dependencies {
     // Dependency FirebaseUI for Firebase Realtime Database and Firestore
     implementation 'com.firebaseui:firebase-ui-database:8.0.0'
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
-    // Declare the dependency for the Cloud Firestore library
-    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
+
+    // Glide for picture loading
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }
