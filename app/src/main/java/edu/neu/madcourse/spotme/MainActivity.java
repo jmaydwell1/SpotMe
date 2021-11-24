@@ -5,15 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,15 +30,14 @@ public class MainActivity extends AppCompatActivity {
     private Button potentialMatchBtn;
     private Button matchBtn;
 
-    private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private static String SHARED_PREF_NAME = "SpotMe";
     private static final String TAG = "AuthEmailPW";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.login_activity);
 
         email = findViewById(R.id.editTextTextEmailAddressLogin);
@@ -49,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.nextBtn);
         signUpTv = findViewById(R.id.signUpTv);
         forgotPw = findViewById(R.id.forgotPwLogin);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
         potentialMatchBtn = findViewById(R.id.test_potential_btn);
@@ -65,11 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 String emailInput = email.getText().toString();
                 String passwordInput = password.getText().toString();
                 if (emailInput.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Email cannot be empty!",
-                            Toast.LENGTH_SHORT).show();
+                    Utils.makeToast(getApplicationContext(),"Email cannot be empty!");
                 } else if (passwordInput.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Password cannot be empty!",
-                            Toast.LENGTH_SHORT).show();
+                    Utils.makeToast(getApplicationContext(), "Password cannot be empty!");
                 } else {
                     signIn(emailInput, passwordInput);
                 }
@@ -112,41 +105,18 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
+                            preferenceIntent.putExtra("userEmail", user.getEmail());
+                            MainActivity.this.startActivity(preferenceIntent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            Utils.makeToast(MainActivity.this, "Authentication failed.");
                         }
                     }
                 });
     }
 
     private void reload() { }
-
-    private void updateUI(FirebaseUser user) {
-        System.out.println("DONEE " + user);
-    }
-
-
-
-    public void sharedPreferencesConfig(String username) {
-        // Storing data into SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-
-        // Creating an Editor object to edit(write to the file)
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-
-        // Storing the key and its value as the data fetched from edittext
-        // Store the login username
-        myEdit.putString("username", username);
-
-        // Once the changes have been made,
-        // we need to commit to apply those changes made,
-        // otherwise, it will throw an error
-        myEdit.commit();
-    }
 
 }

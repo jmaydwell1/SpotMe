@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import edu.neu.madcourse.spotme.database.models.User;
+
 public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private TextView emailTv;
     private TextView passwordTv;
@@ -167,13 +169,8 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 
 
     public void writeNewUser(String email, String token, String name, String phone, String dob) {
-        Map<String, Object> user = new HashMap<>();
-        user.put("token", token);
-        user.put("name", name);
-        user.put("phone", phone);
-        user.put("dob", dob);
-        user.put("gender", SELECTED_GENDER);
-        db.collection("users").document(email).set(user);
+        User newUser = new User(token, name, phone, dob, SELECTED_GENDER);
+        db.collection("users").document(email).set(newUser);
     }
 
     private void createAccount(String email, String password) {
