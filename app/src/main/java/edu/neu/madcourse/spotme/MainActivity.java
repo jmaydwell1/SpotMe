@@ -3,7 +3,6 @@ package edu.neu.madcourse.spotme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         potentialMatchBtn.setOnClickListener(view -> {
-            Intent potentialIntent = new Intent(MainActivity.this, PotentialMatches.class);
+            Intent potentialIntent = new Intent(MainActivity.this, PotentialMatchesActivity.class);
             MainActivity.this.startActivity(potentialIntent);
         });
 
@@ -94,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             Intent potentialIntent = new Intent(MainActivity.this, MainMatchMessageActivity.class);
             MainActivity.this.startActivity(potentialIntent);
         });
+
     }
 
     private void signIn(String email, String password) {
@@ -119,4 +119,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void reload() { }
 
+    private void updateUI(FirebaseUser user) {
+        System.out.println("DONEE " + user);
+    }
+
+    public void sharedPreferencesConfig(String username) {
+        // Storing data into SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+
+        // Creating an Editor object to edit(write to the file)
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        // Storing the key and its value as the data fetched from edittext
+        // Store the login username
+        myEdit.putString("username", username);
+
+        // Once the changes have been made,
+        // we need to commit to apply those changes made,
+        // otherwise, it will throw an error
+        myEdit.commit();
+    }
 }
