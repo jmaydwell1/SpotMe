@@ -25,13 +25,13 @@ import java.time.Period;
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
 
 public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMatch, PotentialMatchAdapter.PotentialMatchHolder> {
-    Dialog dialogTest;
-    TextView dialogNameTv;
-    TextView dialogGenderAgeTv;
-    ShapeableImageView dialogPictureIv;
-    LocalDate today;
-    FirebaseStorage storage;
-    StorageReference profilePictureStorage;
+    private Dialog dialogTest;
+    private TextView dialogNameTv;
+    private TextView dialogGenderAgeTv;
+    private ShapeableImageView dialogPictureIv;
+    private LocalDate today;
+    private FirebaseStorage storage;
+    private StorageReference profilePictureStorage;
 
     public PotentialMatchAdapter(@NonNull FirestoreRecyclerOptions<PotentialMatch> options){
         super(options);
