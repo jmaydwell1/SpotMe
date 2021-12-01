@@ -3,14 +3,16 @@ package edu.neu.madcourse.spotme.database.models;
 public class Match {
     private String name;
     private String picture;
+    private String date;
     private boolean match;
 
     public Match() {
     }
 
-    public Match(String name, String picture, boolean match) {
+    public Match(String name, String picture, String date, boolean match) {
         this.name = name;
         this.picture = picture;
+        this.date = date;
         this.match = match;
     }
 
@@ -28,6 +30,14 @@ public class Match {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public boolean isMatch() {
