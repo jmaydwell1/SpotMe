@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.storage.FirebaseStorage;
@@ -58,13 +59,9 @@ public class MatchesRViewAdapter extends FirestoreRecyclerAdapter<Match, Matches
 //        String date = matchList.get(position).getDateOfMatch();
 //        int matchPic = matchList.get(position).getMatchIcon();
 //        int messageButton = matchList.get(position).getMessageIcon();
-
-
-//        holder.setData(name, date, matchPic, messageButton);
-        Log.d("!!!NAME: ", model.getName());
-//        updateHolderData(holder, model.getName());
-        holder.name_of_match.setText(model.getName());
-//        holder.setData(model.getName(), model.getDate());
+        String picturePath = "profile_pictures/" + model.getPicture();
+        profilePictureStorage = storage.getReference().child(picturePath);
+        holder.setData(model.getName(), model.getDate(), profilePictureStorage, holder);
     }
 
 //    @Override
@@ -78,36 +75,27 @@ public class MatchesRViewAdapter extends FirestoreRecyclerAdapter<Match, Matches
         // kind of like on create
         // grabs the info from our row layout/card
 
-        TextView name_of_match;
-//        TextView date_of_match;
+        TextView name_of_match, date_of_match;
 //        ImageView message_icon, match_icon;
+        ImageView match_icon;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name_of_match = itemView.findViewById(R.id.nameOfMatch);
-//            date_of_match = itemView.findViewById(R.id.dateOfMatch);
+            date_of_match = itemView.findViewById(R.id.dateOfMatch);
 //            message_icon = itemView.findViewById(R.id.messageIcon);
-//            match_icon = itemView.findViewById(R.id.matchIcon);
+            match_icon = itemView.findViewById(R.id.matchIcon);
 
         }
 
-//        public void setData(String name, String date) {
-//
-//            name_of_match.setText(name);
-//            date_of_match.setText(date);
-////            message_icon.setImageResource(messageButton);
-////            match_icon.setImageResource(matchPic);
-//
-//        }
+        public void setData(String name, String date, StorageReference profilePictureStorage, MyViewHolder holder) {
+
+            name_of_match.setText(name);
+            date_of_match.setText("Matched on " + date);
+            Glide.with(holder.match_icon.getContext()).load(profilePictureStorage).into(holder.match_icon);
+//            message_icon.setImageResource(messageButton);
+//            match_icon.setImageResource(matchPic);
+
+        }
     }
-
-//    public void updateHolderData(MyViewHolder holder, String name) {
-//
-//        holder.name_of_match.setText(name);
-////        date_of_match.setText(date);
-////            message_icon.setImageResource(messageButton);
-////            match_icon.setImageResource(matchPic);
-//
-//    }
-
 }
