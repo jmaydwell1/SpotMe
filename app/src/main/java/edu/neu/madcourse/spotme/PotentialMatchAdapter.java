@@ -84,11 +84,17 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         Log.d("CURRENT USER: ", loginId);
         String name = snapshot.getString("name");
         String picture = snapshot.getString("picture");
-        String date = snapshot.getString("date");
+        String date = formatTodayDate();
         boolean match = false;
         Match matchData = new Match(name, picture, date, match);
         FirebaseFirestore.getInstance().collection("matches").document(loginId).collection("swiped").document(userBLoginId).set(matchData);
 
+    }
+
+    private String formatTodayDate() {
+        LocalDate today = LocalDate.now();
+        String formattedDate = today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
+        return formattedDate;
     }
 
     //    // Not deleting in firestore, but set visibility as invisible

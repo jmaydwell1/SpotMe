@@ -53,6 +53,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 //                Log.d("COUNT!!: ", String.valueOf(adapter.getItemCount()));
                 adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
+                recyclerView.scrollToPosition(0);
             }
         }).attachToRecyclerView(recyclerView);
 
@@ -67,6 +68,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                 Log.d("RIGHT COUNT!!: ", String.valueOf(adapter.getItemCount()));
                 adapter.writeToMatchDB(viewHolder.getLayoutPosition());
                 adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
+                recyclerView.scrollToPosition(0);
             }
         }).attachToRecyclerView(recyclerView);
     }
