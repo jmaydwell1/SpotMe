@@ -38,7 +38,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
         // Pull data from Firestore
         firebaseFirestore = FirebaseFirestore.getInstance();
-        query = firebaseFirestore.collection("users");
+        query = firebaseFirestore.collection("users").whereNotEqualTo("email", loginId);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         populatePotentialMatches();
@@ -51,7 +51,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                Log.d("COUNT!!: ", String.valueOf(adapter.getItemCount()));
                 adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
                 recyclerView.scrollToPosition(0);
             }
@@ -65,7 +64,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Log.d("RIGHT COUNT!!: ", String.valueOf(adapter.getItemCount()));
                 adapter.writeToMatchDB(viewHolder.getLayoutPosition());
                 adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
                 recyclerView.scrollToPosition(0);

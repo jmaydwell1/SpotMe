@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             sharedPreferencesConfig(email);
-                            Log.d("SHARED PREF: ", getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).getString("loginId", "empty"));
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
                             preferenceIntent.putExtra("userEmail", user.getEmail());
