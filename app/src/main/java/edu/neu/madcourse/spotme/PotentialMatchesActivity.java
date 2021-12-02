@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -21,12 +22,19 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
+    private SharedPreferences sharedPreferences;
+    private String loginId;
+
+    private static String SHARED_PREF_NAME = "SpotMeSP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.potential_matches);
         recyclerView = findViewById(R.id.swRecyclerView);
+
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        loginId = sharedPreferences.getString("loginId", "empty");
 
         // Pull data from Firestore
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -43,7 +51,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Log.d("COUNT!!: ", String.valueOf(adapter.getItemCount()));
+//                Log.d("COUNT!!: ", String.valueOf(adapter.getItemCount()));
                 adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
             }
         }).attachToRecyclerView(recyclerView);
@@ -57,6 +65,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Log.d("RIGHT COUNT!!: ", String.valueOf(adapter.getItemCount()));
+                adapter.writeToMatchDB(viewHolder.getLayoutPosition());
                 adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
             }
         }).attachToRecyclerView(recyclerView);
@@ -82,7 +91,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         FirestoreRecyclerOptions<PotentialMatch> options = new FirestoreRecyclerOptions.Builder<PotentialMatch>()
                 .setQuery(query, PotentialMatch.class)
                 .build();
-        adapter = new PotentialMatchAdapter(options);
+        adapter = new PotentialMatchAdapter(options, loginId);
         recyclerView.setAdapter(adapter);
     }
 

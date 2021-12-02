@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    private static String SHARED_PREF_NAME = "SpotMe";
+    private static String SHARED_PREF_NAME = "SpotMeSP";
     private static final String TAG = "AuthEmailPW";
 
     @Override
@@ -107,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
+                            sharedPreferencesConfig(email);
+                            Log.d("SHARED PREF: ", getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).getString("loginId", "empty"));
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
                             preferenceIntent.putExtra("userEmail", user.getEmail());
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("DONEE " + user);
     }
 
-    public void sharedPreferencesConfig(String username) {
+    public void sharedPreferencesConfig(String loginId) {
         // Storing data into SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Storing the key and its value as the data fetched from edittext
         // Store the login username
-        myEdit.putString("username", username);
+        myEdit.putString("loginId", loginId);
 
         // Once the changes have been made,
         // we need to commit to apply those changes made,

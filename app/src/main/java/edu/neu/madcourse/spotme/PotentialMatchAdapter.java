@@ -3,6 +3,7 @@ package edu.neu.madcourse.spotme;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,16 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.time.LocalDate;
 import java.time.Period;
 
+import edu.neu.madcourse.spotme.database.firestore.Firestore;
+import edu.neu.madcourse.spotme.database.models.Match;
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
 
 public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMatch, PotentialMatchAdapter.PotentialMatchHolder> {
@@ -34,11 +39,14 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
     private LocalDate today;
     private FirebaseStorage storage;
     private StorageReference profilePictureStorage;
+    private String loginId;
 
-    public PotentialMatchAdapter(@NonNull FirestoreRecyclerOptions<PotentialMatch> options){
+    public PotentialMatchAdapter(@NonNull FirestoreRecyclerOptions<PotentialMatch> options, String loginId){
         super(options);
-        today = LocalDate.now();
-        storage = FirebaseStorage.getInstance();
+        this.today = LocalDate.now();
+        this.storage = FirebaseStorage.getInstance();
+        this.loginId = loginId;
+        Log.d("CURRENT USER CONSTRUCTION: ", loginId);
     }
 
     @Override
@@ -66,6 +74,21 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
     @Override
     public int getItemCount() {
         return super.getItemCount();
+    }
+
+    public void writeToMatchDB(int position) {
+        // check if the other user has swiped on this user before
+        DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
+        String userBLoginId = snapshot.getId();
+        Log.d("OTHER USER: ", userBLoginId);
+        Log.d("CURRENT USER: ", loginId);
+        String name = snapshot.getString("name");
+        String picture = snapshot.getString("picture");
+        String date = snapshot.getString("date");
+        boolean match = false;
+        Match matchData = new Match(name, picture, date, match);
+        FirebaseFirestore.getInstance().collection("matches").document(loginId).collection("swiped").document(userBLoginId).set(matchData);
+
     }
 
     //    // Not deleting in firestore, but set visibility as invisible
