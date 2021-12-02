@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -64,7 +63,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                adapter.writeToMatchDB(viewHolder.getLayoutPosition());
+//                adapter.writeToMatchDB(viewHolder.getLayoutPosition());
+                adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
                 adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
                 recyclerView.scrollToPosition(0);
             }

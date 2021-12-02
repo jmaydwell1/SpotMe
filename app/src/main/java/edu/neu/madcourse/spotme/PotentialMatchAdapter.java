@@ -14,13 +14,12 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.common.ChangeEventType;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -39,6 +38,7 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
     private LocalDate today;
     private FirebaseStorage storage;
     private StorageReference profilePictureStorage;
+    private FirebaseFirestore db;
     private String loginId;
 
     public PotentialMatchAdapter(@NonNull FirestoreRecyclerOptions<PotentialMatch> options, String loginId){
@@ -46,6 +46,7 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         this.today = LocalDate.now();
         this.storage = FirebaseStorage.getInstance();
         this.loginId = loginId;
+        this.db = FirebaseFirestore.getInstance();
         Log.d("CURRENT USER CONSTRUCTION: ", loginId);
     }
 
@@ -76,19 +77,50 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         return super.getItemCount();
     }
 
-    public void writeToMatchDB(int position) {
-        // check if the other user has swiped on this user before
+    public void checkIfUsersMatch(int position) {
         DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
         String userBLoginId = snapshot.getId();
-        Log.d("OTHER USER: ", userBLoginId);
+
         Log.d("CURRENT USER: ", loginId);
+        Log.d("OTHER USER: ", userBLoginId);
+
+        DocumentReference docRef = Firestore.readFromDBSubCollection(db, "matches", userBLoginId, "swiped", loginId);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                writeMatchToDB(position, document.exists(), document);
+            } else {
+                Log.d("CheckIfUsersMatch", "get failed with ", task.getException());
+            }
+        });
+    }
+
+    private void writeMatchToDB(int position, boolean exist, DocumentSnapshot document) {
+        DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
+        String userBLoginId = snapshot.getId();
         String name = snapshot.getString("name");
         String picture = snapshot.getString("picture");
         String date = formatTodayDate();
-        boolean match = false;
-        Match matchData = new Match(name, picture, date, match);
-        FirebaseFirestore.getInstance().collection("matches").document(loginId).collection("swiped").document(userBLoginId).set(matchData);
 
+        Log.d("CURRENT USER: ", loginId);
+        Log.d("OTHER USER: ", userBLoginId);
+
+        final Match[] matchData = new Match[2];
+        if (exist) {
+            Log.d("CheckIfUsersMatch", "DocumentSnapshot data: " + document.getData());
+            String userBName = document.getString("name");
+            String userBPicture = document.getString("picture");
+            matchData[0] = new Match(name, picture, date, true);
+            matchData[1] = new Match(userBName, userBPicture, date, true);
+            Firestore.writeToDBSubCollection(db, "matches", loginId, "swiped", userBLoginId, matchData[0]);
+            Firestore.writeToDBSubCollection(db, "matches", userBLoginId, "swiped", loginId, matchData[1]);
+            // TODO send a notification
+
+        } else {
+            Log.d("CheckIfUsersMatch", "No such document");
+            matchData[0] = new Match(name, picture, date, false);
+            Firestore.writeToDBSubCollection(db, "matches", loginId, "swiped", userBLoginId, matchData[0]);
+        }
     }
 
     private String formatTodayDate() {
@@ -96,12 +128,6 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         String formattedDate = today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
         return formattedDate;
     }
-
-    //    // Not deleting in firestore, but set visibility as invisible
-//    public void deleteItem(@NonNull PotentialMatchHolder holder) {
-//        holder.potentialMatchCard.setVisibility(View.GONE);
-////        getSnapshots().getSnapshot(1).getReference().
-////    }
 
     public class PotentialMatchHolder extends RecyclerView.ViewHolder{
         TextView holderNameTv;
