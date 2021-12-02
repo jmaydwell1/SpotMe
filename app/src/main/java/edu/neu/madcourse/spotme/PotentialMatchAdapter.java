@@ -13,9 +13,11 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.common.ChangeEventType;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -60,6 +62,17 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         updateBigCard(model.getName(), genderAge);
 
     }
+
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
+
+    //    // Not deleting in firestore, but set visibility as invisible
+//    public void deleteItem(@NonNull PotentialMatchHolder holder) {
+//        holder.potentialMatchCard.setVisibility(View.GONE);
+////        getSnapshots().getSnapshot(1).getReference().
+////    }
 
     public class PotentialMatchHolder extends RecyclerView.ViewHolder{
         TextView holderNameTv;
