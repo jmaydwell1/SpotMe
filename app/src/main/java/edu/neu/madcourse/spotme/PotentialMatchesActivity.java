@@ -48,15 +48,14 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
         // Preferences hard coded
         preferenceSports = new ArrayList<>(Arrays.asList("Soccer", "Boxing"));
-        preferenceGenders = new ArrayList<>(Arrays.asList("Female", "Male"));
+        preferenceGenders = new ArrayList<>(Arrays.asList("Female"));
 
         // Pull data from Firestore
         firebaseFirestore = FirebaseFirestore.getInstance();
-//        query = firebaseFirestore.collection("users").whereNotEqualTo("email", loginId);
-        query = firebaseFirestore.collection("users");
+//        query = firebaseFirestore.collection("users").whereNotEqualTo("email", loginId); // figure out a way to do this other than not equal
+        query = firebaseFirestore.collection("users").orderBy("name").startAt("T"); // for distance
 //        preferenceQuery = query.whereGreaterThanOrEqualTo("dob", preferenceMinDOB).whereLessThanOrEqualTo("dob", preferenceMaxDOB);
-        preferenceQuery = query.whereGreaterThanOrEqualTo("phone", "123");
-        preferenceQuery = preferenceQuery.whereArrayContainsAny("sports", preferenceSports);
+        preferenceQuery = query.whereArrayContainsAny("sports", preferenceSports);
         if (preferenceGenders.size() == 1) {
             preferenceQuery = preferenceQuery.whereEqualTo("gender", preferenceGenders.get(0));
         }
