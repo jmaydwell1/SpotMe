@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,8 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
     private FirebaseFirestore db;
     private String loginId;
 
+    private boolean soccer, pingpong, yoga, ski, swimming, running;
+
     public PotentialMatchAdapter(@NonNull FirestoreRecyclerOptions<PotentialMatch> options, String loginId){
         super(options);
         this.today = LocalDate.now();
@@ -66,6 +69,12 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         String genderAge = model.getGender() + ", " + calculateAge(model.getDob());
         String picturePath = "profile_pictures/" + model.getPicture();
         profilePictureStorage = storage.getReference().child(picturePath);
+        soccer = true;
+        pingpong = false;
+        yoga = true;
+        ski = false;
+        swimming = false;
+        running = true;
         updatePotentialMatchCard(holder, model.getName(), genderAge, profilePictureStorage);
         updateBigCard(model.getName(), genderAge);
 
@@ -133,6 +142,7 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         TextView holderGenderAgeTv;
         ShapeableImageView holderPictureIv;
         CardView potentialMatchCard;
+        ImageView holderSoccerIv, holderPingPongIv, holderYogaIv, holderSkiIv, holderSwimmingIv, holderRunningIv;
 
         public PotentialMatchHolder(@NonNull View itemView) {
             super(itemView);
@@ -140,6 +150,22 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
             holderGenderAgeTv = itemView.findViewById(R.id.potential_match_genderage_tv);
             holderPictureIv = itemView.findViewById(R.id.potential_match_picture);
             potentialMatchCard = itemView.findViewById(R.id.potential_match_card);
+
+            holderSoccerIv = itemView.findViewById(R.id.potential_match_soccer_icon);
+            holderPingPongIv = itemView.findViewById(R.id.potential_match_pingpong_icon);
+            holderYogaIv = itemView.findViewById(R.id.potential_match_yoga_icon);
+            holderSkiIv = itemView.findViewById(R.id.potential_match_ski_icon);
+            holderSwimmingIv = itemView.findViewById(R.id.potential_match_swimming_icon);
+            holderRunningIv = itemView.findViewById(R.id.potential_match_running_icon);
+        }
+
+        public void updateSportsIconVisibility(boolean soccer, boolean pingpong, boolean yoga, boolean ski, boolean swimming, boolean running) {
+            if (soccer) holderSoccerIv.setVisibility(View.VISIBLE);
+            if (pingpong) holderPingPongIv.setVisibility(View.VISIBLE);
+            if (yoga) holderYogaIv.setVisibility(View.VISIBLE);
+            if (ski) holderSkiIv.setVisibility(View.VISIBLE);
+            if (swimming) holderSwimmingIv.setVisibility(View.VISIBLE);
+            if (running) holderRunningIv.setVisibility(View.VISIBLE);
         }
     }
 
@@ -147,6 +173,7 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         holder.holderNameTv.setText(name);
         holder.holderGenderAgeTv.setText(genderAge);
         Glide.with(holder.holderPictureIv.getContext()).load(profilePictureStorage).into(holder.holderPictureIv);
+        holder.updateSportsIconVisibility(soccer, pingpong, yoga, ski, swimming, running);
     }
 
     private void updateBigCard(String name, String genderAgeText) {
