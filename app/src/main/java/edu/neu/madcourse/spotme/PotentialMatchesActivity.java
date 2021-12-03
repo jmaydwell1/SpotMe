@@ -11,7 +11,12 @@ import android.os.Bundle;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
 
@@ -21,8 +26,14 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore firebaseFirestore;
     private Query query;
+    private Query preferenceQuery;
     private SharedPreferences sharedPreferences;
     private String loginId;
+
+    private Integer preferenceDistance, preferenceMinAge, preferenceMaxAge;
+    private List<String> preferenceGenders, preferenceSports;
+
+    private String preferenceMinDOB, preferenceMaxDOB;
 
     private static String SHARED_PREF_NAME = "SpotMeSP";
 
@@ -35,40 +46,25 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         loginId = sharedPreferences.getString("loginId", "empty");
 
+        // Preferences hard coded
+        preferenceSports = new ArrayList<>(Arrays.asList("Soccer", "Boxing"));
+        preferenceGenders = new ArrayList<>(Arrays.asList("Female", "Male"));
+
         // Pull data from Firestore
         firebaseFirestore = FirebaseFirestore.getInstance();
-        query = firebaseFirestore.collection("users").whereNotEqualTo("email", loginId);
+//        query = firebaseFirestore.collection("users").whereNotEqualTo("email", loginId);
+        query = firebaseFirestore.collection("users");
+//        preferenceQuery = query.whereGreaterThanOrEqualTo("dob", preferenceMinDOB).whereLessThanOrEqualTo("dob", preferenceMaxDOB);
+        preferenceQuery = query.whereGreaterThanOrEqualTo("phone", "123");
+        preferenceQuery = preferenceQuery.whereArrayContainsAny("sports", preferenceSports);
+        if (preferenceGenders.size() == 1) {
+            preferenceQuery = preferenceQuery.whereEqualTo("gender", preferenceGenders.get(0));
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         populatePotentialMatches();
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
-                recyclerView.scrollToPosition(0);
-            }
-        }).attachToRecyclerView(recyclerView);
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                adapter.writeToMatchDB(viewHolder.getLayoutPosition());
-                adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
-                adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
-                recyclerView.scrollToPosition(0);
-            }
-        }).attachToRecyclerView(recyclerView);
+        onSwipeLeftConfig();
+        onSwipeRightConfig();
     }
 
     // Function to tell the app to start getting
@@ -89,10 +85,41 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
     private void populatePotentialMatches() {
         FirestoreRecyclerOptions<PotentialMatch> options = new FirestoreRecyclerOptions.Builder<PotentialMatch>()
-                .setQuery(query, PotentialMatch.class)
+                .setQuery(preferenceQuery, PotentialMatch.class)
                 .build();
         adapter = new PotentialMatchAdapter(options, loginId);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void onSwipeLeftConfig() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
+                recyclerView.scrollToPosition(0);
+            }
+        }).attachToRecyclerView(recyclerView);
+    }
+
+    private void onSwipeRightConfig() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
+                adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
+                recyclerView.scrollToPosition(0);
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 
 }
