@@ -47,7 +47,6 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         this.storage = FirebaseStorage.getInstance();
         this.loginId = loginId;
         this.db = FirebaseFirestore.getInstance();
-        Log.d("CURRENT USER CONSTRUCTION: ", loginId);
     }
 
     @Override
