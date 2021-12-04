@@ -88,5 +88,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     // RecyclerView decorator
-    implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.2.3'
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.1'
 }

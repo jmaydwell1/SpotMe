@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -22,6 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+
 
 public class PotentialMatchesActivity extends AppCompatActivity {
 
@@ -142,6 +147,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                         adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
                         recyclerView.scrollToPosition(0);
                         break;
+
                     case ItemTouchHelper.RIGHT:
                         adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
                         adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
@@ -152,12 +158,12 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addBackgroundColor(ContextCompat.getColor(PotentialMatchesActivity.this, R.color.black))
-                        .addActionIcon(R.drawable.ic_baseline_delete_forever_24)
+                new RecyclerViewSwipeDecorator.Builder(PotentialMatchesActivity.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeRightActionIcon(R.drawable.ic_baseline_check_box_24)
+                        .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_forever_24)
                         .create()
                         .decorate();
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, true);
             }
         }).attachToRecyclerView(recyclerView);
     }
