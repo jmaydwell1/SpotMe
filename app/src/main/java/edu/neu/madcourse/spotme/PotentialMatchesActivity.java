@@ -2,11 +2,14 @@ package edu.neu.madcourse.spotme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -62,8 +65,9 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         populatePotentialMatches();
-        onSwipeLeftConfig();
-        onSwipeRightConfig();
+//        onSwipeLeftConfig();
+//        onSwipeRightConfig();
+        onSwipeConfig();
     }
 
     // Function to tell the app to start getting
@@ -81,6 +85,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         super.onStop();
         adapter.stopListening();
     }
+
+
 
     private void populatePotentialMatches() {
         FirestoreRecyclerOptions<PotentialMatch> options = new FirestoreRecyclerOptions.Builder<PotentialMatch>()
@@ -117,6 +123,41 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                 adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
                 adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
                 recyclerView.scrollToPosition(0);
+            }
+        }).attachToRecyclerView(recyclerView);
+    }
+
+
+    private void onSwipeConfig() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                switch (direction) {
+                    case ItemTouchHelper.LEFT:
+                        adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
+                        recyclerView.scrollToPosition(0);
+                        break;
+                    case ItemTouchHelper.RIGHT:
+                        adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
+                        adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
+                        recyclerView.scrollToPosition(0);
+                        break;
+                }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addBackgroundColor(ContextCompat.getColor(PotentialMatchesActivity.this, R.color.black))
+                        .addActionIcon(R.drawable.ic_baseline_delete_forever_24)
+                        .create()
+                        .decorate();
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }).attachToRecyclerView(recyclerView);
     }
