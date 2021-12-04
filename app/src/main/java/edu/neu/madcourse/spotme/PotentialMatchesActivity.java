@@ -135,6 +135,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
     private void onSwipeConfig() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            private Drawable mIcon;
+
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -145,12 +147,17 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                 switch (direction) {
                     case ItemTouchHelper.LEFT:
                         adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
+//                        Canvas c = new Canvas();
+//                        c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+//                        viewHolder.itemView.draw(c);
                         recyclerView.scrollToPosition(0);
                         break;
 
                     case ItemTouchHelper.RIGHT:
                         adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
                         adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
+//                        Canvas d = new Canvas();
+//                        d.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                         recyclerView.scrollToPosition(0);
                         break;
                 }
