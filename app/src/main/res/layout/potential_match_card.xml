@@ -55,10 +55,6 @@
                     android:layout_margin="3dp"
                     android:visibility="gone"
                     android:contentDescription="@string/sporticon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/potential_match_picture"
                     app:srcCompat="@drawable/soccer_icon" />
 
                 <ImageView
@@ -68,9 +64,6 @@
                     android:contentDescription="@string/sporticon"
                     android:layout_margin="3dp"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/potential_match_picture"
                     app:srcCompat="@drawable/pingpong_icon" />
 
                 <ImageView
@@ -80,9 +73,6 @@
                     android:layout_margin="3dp"
                     android:visibility="gone"
                     android:contentDescription="@string/sporticon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/potential_match_picture"
                     app:srcCompat="@drawable/pingpong_icon" />
 
             </LinearLayout>
@@ -99,9 +89,6 @@
                     android:layout_margin="3dp"
                     android:visibility="gone"
                     android:contentDescription="@string/sporticon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/potential_match_picture"
                     app:srcCompat="@drawable/soccer_icon" />
 
@@ -112,9 +99,6 @@
                     android:layout_margin="3dp"
                     android:visibility="gone"
                     android:contentDescription="@string/sporticon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/potential_match_picture"
                     app:srcCompat="@drawable/pingpong_icon" />
 
                 <ImageView
@@ -124,9 +108,6 @@
                     android:layout_margin="3dp"
                     android:visibility="gone"
                     android:contentDescription="@string/sporticon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/potential_match_picture"
                     app:srcCompat="@drawable/pingpong_icon" />
 
             </LinearLayout>

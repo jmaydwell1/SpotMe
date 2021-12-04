@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.Match;
@@ -36,13 +37,14 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
     private TextView dialogNameTv;
     private TextView dialogGenderAgeTv;
     private ShapeableImageView dialogPictureIv;
+    private ImageView dialogSoccerIv, dialogPingPongIv, dialogYogaIv, dialogSkiIv, dialogSwimmingIv, dialogRunningIv;
     private LocalDate today;
     private FirebaseStorage storage;
     private StorageReference profilePictureStorage;
     private FirebaseFirestore db;
     private String loginId;
 
-    private boolean soccer, pingpong, yoga, ski, swimming, running;
+//    private boolean soccer, pingpong, yoga, ski, swimming, running;
 
     public PotentialMatchAdapter(@NonNull FirestoreRecyclerOptions<PotentialMatch> options, String loginId){
         super(options);
@@ -60,7 +62,7 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         final PotentialMatchHolder viewHolder = new PotentialMatchHolder(view);
 
         initializeBigCard(viewHolder);
-        setBigCardListener(viewHolder);
+//        setBigCardListener(viewHolder);
         return viewHolder;
     }
 
@@ -69,14 +71,10 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         String genderAge = model.getGender() + ", " + calculateAge(model.getDob());
         String picturePath = "profile_pictures/" + model.getPicture();
         profilePictureStorage = storage.getReference().child(picturePath);
-        soccer = true;
-        pingpong = false;
-        yoga = true;
-        ski = false;
-        swimming = false;
-        running = true;
-        updatePotentialMatchCard(holder, model.getName(), genderAge, profilePictureStorage);
-        updateBigCard(model.getName(), genderAge);
+        List<String> sports = model.getSports();
+        updatePotentialMatchCard(holder, model.getName(), genderAge, profilePictureStorage, sports);
+//        updateBigCard(model.getName(), genderAge);
+        setBigCardListener(holder);
 
     }
 
@@ -169,17 +167,40 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         }
     }
 
-    private void updatePotentialMatchCard(PotentialMatchHolder holder, String name, String genderAge, StorageReference profilePictureStorage) {
+    private void updatePotentialMatchCard(PotentialMatchHolder holder, String name, String genderAge, StorageReference profilePictureStorage, List<String> sports) {
         holder.holderNameTv.setText(name);
         holder.holderGenderAgeTv.setText(genderAge);
         Glide.with(holder.holderPictureIv.getContext()).load(profilePictureStorage).into(holder.holderPictureIv);
+
+        boolean soccer = false, pingpong = false, yoga = false, ski = false, swimming = false, running = false;
+
+        for (String sport : sports) {
+            switch (sport) {
+                case "Soccer":
+                    soccer = true;
+                    continue;
+                case "Ping Pong":
+                    pingpong = true;
+                    continue;
+                case "Yoga":
+                    yoga = true;
+                    continue;
+                case "Ski":
+                    ski = true;
+                    continue;
+                case "Swimming":
+                    swimming = true;
+                    continue;
+                case "Running":
+                    running = true;
+                    continue;
+            }
+        }
         holder.updateSportsIconVisibility(soccer, pingpong, yoga, ski, swimming, running);
     }
 
     private void updateBigCard(String name, String genderAgeText) {
-        dialogNameTv = dialogTest.findViewById(R.id.potential_big_name);
-        dialogGenderAgeTv = dialogTest.findViewById(R.id.potential_big_gender_age);
-        dialogPictureIv = dialogTest.findViewById(R.id.potential_big_picture);
+        dialogFindViewIds();
 
         dialogNameTv.setText(name);
         dialogGenderAgeTv.setText(genderAgeText);
@@ -199,9 +220,19 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         dialogTest.setContentView(R.layout.potential_buddy_dialog);
         dialogTest.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        dialogFindViewIds();
+    }
+
+    private void dialogFindViewIds() {
         dialogNameTv = dialogTest.findViewById(R.id.potential_big_name);
         dialogGenderAgeTv = dialogTest.findViewById(R.id.potential_big_gender_age);
         dialogPictureIv = dialogTest.findViewById(R.id.potential_big_picture);
+        dialogSoccerIv = dialogTest.findViewById(R.id.potential_big_soccer_icon);
+        dialogPingPongIv = dialogTest.findViewById(R.id.potential_big_pingpong_icon);
+        dialogYogaIv = dialogTest.findViewById(R.id.potential_big_yoga_icon);
+        dialogSkiIv = dialogTest.findViewById(R.id.potential_big_ski_icon);
+        dialogSwimmingIv = dialogTest.findViewById(R.id.potential_big_swimming_icon);
+        dialogRunningIv = dialogTest.findViewById(R.id.potential_big_running_icon);
     }
 
     private void setBigCardListener(PotentialMatchHolder viewHolder) {
@@ -209,8 +240,18 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
             dialogNameTv.setText(viewHolder.holderNameTv.getText());
             dialogGenderAgeTv.setText(viewHolder.holderGenderAgeTv.getText());
             dialogPictureIv.setImageDrawable(viewHolder.holderPictureIv.getDrawable());
+            setDialogSportIcons(viewHolder);
             dialogTest.show();
         });
+    }
+
+    private void setDialogSportIcons(PotentialMatchHolder viewHolder) {
+        dialogSoccerIv.setVisibility(viewHolder.holderSoccerIv.getVisibility());
+        dialogPingPongIv.setVisibility(viewHolder.holderPingPongIv.getVisibility());
+        dialogYogaIv.setVisibility(viewHolder.holderYogaIv.getVisibility());
+        dialogSkiIv.setVisibility(viewHolder.holderSkiIv.getVisibility());
+        dialogSwimmingIv.setVisibility(viewHolder.holderSwimmingIv.getVisibility());
+        dialogRunningIv.setVisibility(viewHolder.holderRunningIv.getVisibility());
     }
 
 }

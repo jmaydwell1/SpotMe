@@ -1,5 +1,7 @@
 package edu.neu.madcourse.spotme.database.models;
 
+import java.util.List;
+
 public class PotentialMatch {
     private String name;
     private String dob;
@@ -7,17 +9,19 @@ public class PotentialMatch {
     private String phone;
     private String tokenId;
     private String picture;
+    private List<String> sports;
 
     public PotentialMatch() {
     }
 
-    public PotentialMatch(String name, String dob, String gender, String phone, String tokenId, String picture) {
+    public PotentialMatch(String name, String dob, String gender, String phone, String tokenId, String picture, List<String> sports) {
         this.name = name;
         this.dob = dob;
         this.gender = gender;
         this.phone = phone;
         this.tokenId = tokenId;
         this.picture = picture;
+        this.sports = sports;
     }
 
     public String getName() {
@@ -44,6 +48,10 @@ public class PotentialMatch {
         return picture;
     }
 
+    public List<String> getSports() {
+        return sports;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -66,5 +74,9 @@ public class PotentialMatch {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public void setSports(List<String> sports) {
+        this.sports = sports;
     }
 }

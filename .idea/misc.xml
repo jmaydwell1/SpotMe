@@ -15,7 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_potential_buddy.xml" value="0.17198592628736575" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.29971685581989765" />
         <entry key="app/src/main/res/layout/matched_r_view_row.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/potential_buddy_dialog.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/potential_buddy_dialog.xml" value="0.33" />
         <entry key="app/src/main/res/layout/potential_match_card.xml" value="0.5" />
         <entry key="app/src/main/res/layout/potential_matches.xml" value="0.22" />
         <entry key="app/src/main/res/layout/recyclerview_row_sw.xml" value="0.335" />

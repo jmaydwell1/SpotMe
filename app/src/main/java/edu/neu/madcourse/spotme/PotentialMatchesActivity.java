@@ -47,7 +47,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         loginId = sharedPreferences.getString("loginId", "empty");
 
         // Preferences hard coded
-        preferenceSports = new ArrayList<>(Arrays.asList("Soccer", "Boxing"));
+        preferenceSports = new ArrayList<>(Arrays.asList("Soccer", "Ski"));
         preferenceGenders = new ArrayList<>(Arrays.asList("Female"));
 
         // Pull data from Firestore
