@@ -37,23 +37,24 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
     Context context;
     ArrayList<PotentialMatch> potentialMatchArrayList;
 
-    private Dialog dialogTest;
-    private TextView dialogNameTv;
-    private TextView dialogGenderAgeTv;
+    private Dialog potentialMatchDialog;
+    private TextView dialogNameTv, dialogGenderAgeTv, dialogDistanceTv;
     private ShapeableImageView dialogPictureIv;
     private ImageView dialogSoccerIv, dialogPingPongIv, dialogYogaIv, dialogSkiIv, dialogSwimmingIv, dialogRunningIv;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
     private StorageReference profilePictureStorage;
-    private String loginId;
+    private String loginId, userLatitude, userLongitude;
     private LocalDate today;
 
-    public PotentialMatchAdapter(Context context, ArrayList<PotentialMatch> potentialMatchArrayList, String loginId) {
+    public PotentialMatchAdapter(Context context, ArrayList<PotentialMatch> potentialMatchArrayList, String loginId, String userLatitude, String userLongitude) {
         this.context = context;
         this.potentialMatchArrayList = potentialMatchArrayList;
         this.today = LocalDate.now();
         this.storage = FirebaseStorage.getInstance();
         this.loginId = loginId;
+        this.userLatitude = userLatitude;
+        this.userLongitude = userLongitude;
         this.db = FirebaseFirestore.getInstance();
     }
 
@@ -70,11 +71,13 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
     public void onBindViewHolder(@NonNull PotentialMatchHolder holder, int position) {
         PotentialMatch potentialMatch = potentialMatchArrayList.get(position);
         String genderAge = potentialMatch.getGender() + ", " + calculateAge(potentialMatch.getDob());
+        Double distance = Math.round(Utils.distance(userLatitude, userLongitude, potentialMatch.getLatitude(), potentialMatch.getLongitude(), "M") * 100) / 100.0;
+        String distanceText = String.valueOf(distance) + " miles away";
         String picturePath = "profile_pictures/" + potentialMatch.getPicture();
         profilePictureStorage = storage.getReference().child(picturePath);
         List<String> sports = potentialMatch.getSports();
         Log.d("onbindviewHolder", loginId + sports.toString());
-        updatePotentialMatchCard(holder, potentialMatch.getName(), genderAge, profilePictureStorage, sports);
+        updatePotentialMatchCard(holder, potentialMatch.getName(), genderAge, profilePictureStorage, sports, distanceText);
         setBigCardListener(holder);
     }
 
@@ -84,8 +87,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
     }
 
     public static class PotentialMatchHolder extends RecyclerView.ViewHolder {
-        TextView holderNameTv;
-        TextView holderGenderAgeTv;
+        TextView holderNameTv, holderGenderAgeTv, holderDistanceTv;
         ShapeableImageView holderPictureIv;
         CardView potentialMatchCard;
         ImageView holderSoccerIv, holderPingPongIv, holderYogaIv, holderSkiIv, holderSwimmingIv, holderRunningIv;
@@ -94,6 +96,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
             super(itemView);
             holderNameTv = itemView.findViewById(R.id.potential_match_name);
             holderGenderAgeTv = itemView.findViewById(R.id.potential_match_genderage_tv);
+            holderDistanceTv = itemView.findViewById(R.id.potential_match_distance_tv);
             holderPictureIv = itemView.findViewById(R.id.potential_match_picture);
             potentialMatchCard = itemView.findViewById(R.id.potential_match_card);
 
@@ -115,9 +118,10 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
         }
     }
 
-    private void updatePotentialMatchCard(PotentialMatchHolder holder, String name, String genderAge, StorageReference profilePictureStorage, List<String> sports) {
+    private void updatePotentialMatchCard(PotentialMatchHolder holder, String name, String genderAge, StorageReference profilePictureStorage, List<String> sports, String distanceText) {
         holder.holderNameTv.setText(name);
         holder.holderGenderAgeTv.setText(genderAge);
+        holder.holderDistanceTv.setText(distanceText);
         Glide.with(holder.holderPictureIv.getContext()).load(profilePictureStorage).into(holder.holderPictureIv);
 
         boolean soccer = false, pingpong = false, yoga = false, ski = false, swimming = false, running = false;
@@ -146,13 +150,6 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
         holder.updateSportsIconVisibility(soccer, pingpong, yoga, ski, swimming, running);
     }
 
-    private void updateBigCard(String name, String genderAgeText) {
-        dialogFindViewIds();
-
-        dialogNameTv.setText(name);
-        dialogGenderAgeTv.setText(genderAgeText);
-    }
-
     private int calculateAge(String date) {
         // "MM/DD/YY"
         String[] dateArray = date.split("/");
@@ -163,32 +160,34 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
     }
 
     private void initializeBigCard(PotentialMatchHolder viewHolder) {
-        dialogTest = new Dialog(viewHolder.potentialMatchCard.getContext());
-        dialogTest.setContentView(R.layout.potential_buddy_dialog);
-        dialogTest.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        potentialMatchDialog = new Dialog(viewHolder.potentialMatchCard.getContext());
+        potentialMatchDialog.setContentView(R.layout.potential_buddy_dialog);
+        potentialMatchDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         dialogFindViewIds();
     }
 
     private void dialogFindViewIds() {
-        dialogNameTv = dialogTest.findViewById(R.id.potential_big_name);
-        dialogGenderAgeTv = dialogTest.findViewById(R.id.potential_big_gender_age);
-        dialogPictureIv = dialogTest.findViewById(R.id.potential_big_picture);
-        dialogSoccerIv = dialogTest.findViewById(R.id.potential_big_soccer_icon);
-        dialogPingPongIv = dialogTest.findViewById(R.id.potential_big_pingpong_icon);
-        dialogYogaIv = dialogTest.findViewById(R.id.potential_big_yoga_icon);
-        dialogSkiIv = dialogTest.findViewById(R.id.potential_big_ski_icon);
-        dialogSwimmingIv = dialogTest.findViewById(R.id.potential_big_swimming_icon);
-        dialogRunningIv = dialogTest.findViewById(R.id.potential_big_running_icon);
+        dialogNameTv = potentialMatchDialog.findViewById(R.id.potential_big_name);
+        dialogPictureIv = potentialMatchDialog.findViewById(R.id.potential_big_picture);
+        dialogGenderAgeTv = potentialMatchDialog.findViewById(R.id.potential_big_gender_age);
+        dialogDistanceTv = potentialMatchDialog.findViewById(R.id.potential_big_distance);
+        dialogSoccerIv = potentialMatchDialog.findViewById(R.id.potential_big_soccer_icon);
+        dialogPingPongIv = potentialMatchDialog.findViewById(R.id.potential_big_pingpong_icon);
+        dialogYogaIv = potentialMatchDialog.findViewById(R.id.potential_big_yoga_icon);
+        dialogSkiIv = potentialMatchDialog.findViewById(R.id.potential_big_ski_icon);
+        dialogSwimmingIv = potentialMatchDialog.findViewById(R.id.potential_big_swimming_icon);
+        dialogRunningIv = potentialMatchDialog.findViewById(R.id.potential_big_running_icon);
     }
 
     private void setBigCardListener(PotentialMatchHolder viewHolder) {
         viewHolder.potentialMatchCard.setOnClickListener(itemView -> {
             dialogNameTv.setText(viewHolder.holderNameTv.getText());
             dialogGenderAgeTv.setText(viewHolder.holderGenderAgeTv.getText());
+            dialogDistanceTv.setText(viewHolder.holderDistanceTv.getText() + " miles away");
             dialogPictureIv.setImageDrawable(viewHolder.holderPictureIv.getDrawable());
             setDialogSportIcons(viewHolder);
-            dialogTest.show();
+            potentialMatchDialog.show();
         });
     }
 

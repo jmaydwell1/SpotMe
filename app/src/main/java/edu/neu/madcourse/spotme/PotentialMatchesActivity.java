@@ -18,7 +18,6 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
@@ -39,9 +38,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private ArrayList<String> matchesId;
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore db;
-    private String loginId;
-    private Double userALatitude;
-    private Double userALongitude;
+    private String loginId, userALatitude, userALongitude;
     private ProgressBar progressBar;
 
     private SharedPreferences sharedPreferences;
@@ -67,8 +64,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         loginId = sharedPreferences.getString("loginId", "empty");
         // TODO add current user's location to sharedPreferences
-        userALatitude = Double.valueOf(sharedPreferences.getFloat("latitude", 0f));
-        userALongitude = Double.valueOf(sharedPreferences.getFloat("longitude", 0f));
+        userALatitude = sharedPreferences.getString("latitude", "empty");
+        userALongitude = sharedPreferences.getString("longitude", "empty");
 
 
         preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong", "Soccer"));
@@ -83,7 +80,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         matchesListener();
 //        potentialMatchesListener();
 
-        adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId);
+        adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId, userALatitude, userALongitude);
         recyclerView.setAdapter(adapter);
         onSwipeConfig();
     }
@@ -194,8 +191,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private boolean matchPreferences(PotentialMatch potentialMatch) {
         return gendersFilter(potentialMatch.getGender())
                 && ageFilter(potentialMatch.getDob())
-                && sportsFilter(potentialMatch.getSports());
-//                && withinDistance(potentialMatch.getLocation());
+                && sportsFilter(potentialMatch.getSports())
+                && withinDistance(potentialMatch.getLatitude(), potentialMatch.getLongitude());
     }
 
     private boolean ageFilter(String dob) {
@@ -220,9 +217,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         return preferenceGenders.contains(gender);
     }
 
-    private boolean withinDistance(GeoPoint userBGeoPoint) {
-        double userBLatitude = userBGeoPoint.getLatitude();
-        double userBLongitude = userBGeoPoint.getLongitude();
+    private boolean withinDistance(String userBLatitude, String userBLongitude) {
         double distance = Utils.distance(userALatitude, userALongitude, userBLatitude, userBLongitude, "M");
         final double MARGIN_OF_ERROR = 0.2;
         double difference = preferenceDistance - Math.abs(distance);

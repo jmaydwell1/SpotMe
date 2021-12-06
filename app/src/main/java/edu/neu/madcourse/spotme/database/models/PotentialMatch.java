@@ -11,11 +11,13 @@ public class PotentialMatch {
     private String picture;
     private String email;
     private List<String> sports;
+    private String latitude;
+    private String longitude;
 
     public PotentialMatch() {
     }
 
-    public PotentialMatch(String name, String dob, String gender, String phone, String tokenId, String picture, String email, List<String> sports) {
+    public PotentialMatch(String name, String dob, String gender, String phone, String tokenId, String picture, String email, List<String> sports, String latitude, String longitude) {
         this.name = name;
         this.dob = dob;
         this.gender = gender;
@@ -24,6 +26,8 @@ public class PotentialMatch {
         this.picture = picture;
         this.email = email;
         this.sports = sports;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getName() {
@@ -58,6 +62,14 @@ public class PotentialMatch {
         return sports;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -88,5 +100,13 @@ public class PotentialMatch {
 
     public void setSports(List<String> sports) {
         this.sports = sports;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }
