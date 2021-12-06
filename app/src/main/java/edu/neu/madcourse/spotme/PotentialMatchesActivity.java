@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
@@ -39,6 +40,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore db;
     private String loginId;
+    private Double userALatitude;
+    private Double userALongitude;
     private ProgressBar progressBar;
 
     private SharedPreferences sharedPreferences;
@@ -63,6 +66,10 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         String SHARED_PREF_NAME = "SpotMeSP";
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         loginId = sharedPreferences.getString("loginId", "empty");
+        // TODO add current user's location to sharedPreferences
+        userALatitude = Double.valueOf(sharedPreferences.getFloat("latitude", 0f));
+        userALongitude = Double.valueOf(sharedPreferences.getFloat("longitude", 0f));
+
 
         preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong", "Soccer"));
         preferenceGenders = new ArrayList<>(Arrays.asList("Female", "Male"));
@@ -188,6 +195,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         return gendersFilter(potentialMatch.getGender())
                 && ageFilter(potentialMatch.getDob())
                 && sportsFilter(potentialMatch.getSports());
+//                && withinDistance(potentialMatch.getLocation());
     }
 
     private boolean ageFilter(String dob) {
@@ -210,5 +218,14 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
     private boolean gendersFilter(String gender) {
         return preferenceGenders.contains(gender);
+    }
+
+    private boolean withinDistance(GeoPoint userBGeoPoint) {
+        double userBLatitude = userBGeoPoint.getLatitude();
+        double userBLongitude = userBGeoPoint.getLongitude();
+        double distance = Utils.distance(userALatitude, userALongitude, userBLatitude, userBLongitude, "M");
+        final double MARGIN_OF_ERROR = 0.2;
+        double difference = preferenceDistance - Math.abs(distance);
+        return Math.abs(difference) >= MARGIN_OF_ERROR;
     }
 }
