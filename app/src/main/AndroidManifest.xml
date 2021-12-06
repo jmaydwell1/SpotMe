@@ -30,6 +30,7 @@
         <activity android:name=".SignUp"/>
         <activity android:name=".ResetPW"/>
         <activity android:name=".Preference"/>
+        <activity android:name=".TestPMActivity"/>
      </application>
 
 </manifest>

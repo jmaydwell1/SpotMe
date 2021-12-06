@@ -6,6 +6,8 @@
         <entry key="app/src/main/res/drawable/ic_baseline_check_box_24.xml" value="0.20277777777777778" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.228125" />
         <entry key="app/src/main/res/layout/potential_match_card.xml" value="0.11005434782608696" />
+        <entry key="app/src/main/res/layout/potential_matches.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/progress_bar.xml" value="0.1" />
       </map>
     </option>
   </component>

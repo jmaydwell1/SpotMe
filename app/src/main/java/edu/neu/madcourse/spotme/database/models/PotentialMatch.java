@@ -9,18 +9,20 @@ public class PotentialMatch {
     private String phone;
     private String tokenId;
     private String picture;
+    private String email;
     private List<String> sports;
 
     public PotentialMatch() {
     }
 
-    public PotentialMatch(String name, String dob, String gender, String phone, String tokenId, String picture, List<String> sports) {
+    public PotentialMatch(String name, String dob, String gender, String phone, String tokenId, String picture, String email, List<String> sports) {
         this.name = name;
         this.dob = dob;
         this.gender = gender;
         this.phone = phone;
         this.tokenId = tokenId;
         this.picture = picture;
+        this.email = email;
         this.sports = sports;
     }
 
@@ -46,6 +48,10 @@ public class PotentialMatch {
 
     public String getPicture() {
         return picture;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public List<String> getSports() {
@@ -74,6 +80,10 @@ public class PotentialMatch {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setSports(List<String> sports) {
