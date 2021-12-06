@@ -169,7 +169,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 
 
     public void writeNewUser(String email, String token, String name, String phone, String dob) {
-        User newUser = new User(token, name, phone, dob, SELECTED_GENDER);
+        User newUser = new User(token, name, phone, dob, SELECTED_GENDER, email);
         db.collection("users").document(email).set(newUser);
     }
 

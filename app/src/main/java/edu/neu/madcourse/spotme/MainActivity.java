@@ -5,10 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -41,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationProvider;
 
 
-    private static String SHARED_PREF_NAME = "SpotMe";
+    private static String SHARED_PREF_NAME = "SpotMeSP";
     private static final String TAG = "AuthEmailPW";
 
     @Override
@@ -154,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
                     double latitude = location.getLatitude();
                     System.out.println("LONG " + longitude);
                     System.out.println("LAT " + latitude);
-
                 }
             }
         }));
