@@ -5,8 +5,15 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_check_box_24.xml" value="0.20277777777777778" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.228125" />
-        <entry key="app/src/main/res/layout/potential_match_card.xml" value="0.11005434782608696" />
+        <entry key="app/src/main/res/drawable/ic_baseline_looks_one_24.xml" value="0.2171875" />
+        <entry key="app/src/main/res/drawable/ic_baseline_looks_two_24.xml" value="0.2171875" />
+        <entry key="app/src/main/res/layout-land/login_activity.xml" value="0.33" />
+        <entry key="app/src/main/res/layout-land/potential_buddy_dialog.xml" value="0.17019400352733685" />
+        <entry key="app/src/main/res/layout/login_activity.xml" value="0.15450861195542046" />
+        <entry key="app/src/main/res/layout/potential_buddy_dialog.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/potential_match_card.xml" value="0.33" />
         <entry key="app/src/main/res/layout/potential_matches.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/preferences.xml" value="0.15450861195542046" />
         <entry key="app/src/main/res/layout/progress_bar.xml" value="0.1" />
       </map>
     </option>

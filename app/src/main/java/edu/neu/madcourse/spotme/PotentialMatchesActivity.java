@@ -62,7 +62,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         loginId = sharedPreferences.getString("loginId", "empty");
 
-        preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong"));
+        preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong", "Soccer"));
         preferenceGenders = new ArrayList<>(Arrays.asList("Female", "Male"));
         preferenceMinAge = 0;
         preferenceMaxAge = 30;

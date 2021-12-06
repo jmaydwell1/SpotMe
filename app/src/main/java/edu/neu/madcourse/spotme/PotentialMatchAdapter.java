@@ -73,6 +73,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
         String picturePath = "profile_pictures/" + potentialMatch.getPicture();
         profilePictureStorage = storage.getReference().child(picturePath);
         List<String> sports = potentialMatch.getSports();
+        Log.d("onbindviewHolder", loginId + sports.toString());
         updatePotentialMatchCard(holder, potentialMatch.getName(), genderAge, profilePictureStorage, sports);
         setBigCardListener(holder);
     }
@@ -125,14 +126,19 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
             switch (sport) {
                 case "Soccer":
                     soccer = true;
+                    continue;
                 case "Ping Pong":
                     pingpong = true;
+                    continue;
                 case "Yoga":
                     yoga = true;
+                    continue;
                 case "Ski":
                     ski = true;
+                    continue;
                 case "Swimming":
                     swimming = true;
+                    continue;
                 case "Running":
                     running = true;
             }
