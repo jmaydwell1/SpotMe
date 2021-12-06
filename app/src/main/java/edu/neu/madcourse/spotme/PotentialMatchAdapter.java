@@ -42,11 +42,11 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
     private TextView dialogGenderAgeTv;
     private ShapeableImageView dialogPictureIv;
     private ImageView dialogSoccerIv, dialogPingPongIv, dialogYogaIv, dialogSkiIv, dialogSwimmingIv, dialogRunningIv;
-    private LocalDate today;
+    private FirebaseFirestore db;
     private FirebaseStorage storage;
     private StorageReference profilePictureStorage;
-    private FirebaseFirestore db;
     private String loginId;
+    private LocalDate today;
 
     public PotentialMatchAdapter(Context context, ArrayList<PotentialMatch> potentialMatchArrayList, String loginId) {
         this.context = context;
@@ -125,22 +125,16 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
             switch (sport) {
                 case "Soccer":
                     soccer = true;
-                    continue;
                 case "Ping Pong":
                     pingpong = true;
-                    continue;
                 case "Yoga":
                     yoga = true;
-                    continue;
                 case "Ski":
                     ski = true;
-                    continue;
                 case "Swimming":
                     swimming = true;
-                    continue;
                 case "Running":
                     running = true;
-                    continue;
             }
         }
         holder.updateSportsIconVisibility(soccer, pingpong, yoga, ski, swimming, running);
@@ -214,7 +208,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
                 DocumentSnapshot document = task.getResult();
                 writeMatchToDB(position, document.exists(), document);
                 potentialMatchArrayList.remove(position);
-                notifyDataSetChanged();
+                notifyItemRemoved(position);
             } else {
                 Log.d("CheckIfUsersMatch", "get failed with ", task.getException());
             }
@@ -251,7 +245,6 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
 
     private String formatTodayDate() {
         LocalDate today = LocalDate.now();
-        String formattedDate = today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
-        return formattedDate;
+        return today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
     }
 }

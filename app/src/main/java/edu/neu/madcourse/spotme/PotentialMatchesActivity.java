@@ -1,141 +1,117 @@
 package edu.neu.madcourse.spotme;
 
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
-
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
-
 
 public class PotentialMatchesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private ArrayList<PotentialMatch> potentialMatches;
     private PotentialMatchAdapter adapter;
-    private FirebaseFirestore firebaseFirestore;
-    private Query query;
-    private Query preferenceQuery;
-    private SharedPreferences sharedPreferences;
+    private FirebaseFirestore db;
     private String loginId;
+    private ProgressBar progressBar;
+
+    private SharedPreferences sharedPreferences;
 
     private Integer preferenceDistance, preferenceMinAge, preferenceMaxAge;
     private List<String> preferenceGenders, preferenceSports;
-
-    private String preferenceMinDOB, preferenceMaxDOB;
-
-    private static String SHARED_PREF_NAME = "SpotMeSP";
+    private LocalDate today;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.potential_matches);
-        recyclerView = findViewById(R.id.swRecyclerView);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setProgressTintList(ColorStateList.valueOf(Color.GRAY));
+
+        recyclerView = findViewById(R.id.swRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        String SHARED_PREF_NAME = "SpotMeSP";
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         loginId = sharedPreferences.getString("loginId", "empty");
 
-        // Preferences hard coded
-        preferenceSports = new ArrayList<>(Arrays.asList("Soccer", "Ski"));
-        preferenceGenders = new ArrayList<>(Arrays.asList("Female"));
+        preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong"));
+        preferenceGenders = new ArrayList<>(Arrays.asList("Female", "Male"));
+        preferenceMinAge = 0;
+        preferenceMaxAge = 30;
 
-        // Pull data from Firestore
-        firebaseFirestore = FirebaseFirestore.getInstance();
-//        query = firebaseFirestore.collection("users").whereNotEqualTo("email", loginId); // figure out a way to do this other than not equal
-        query = firebaseFirestore.collection("users").orderBy("name").startAt("T"); // for distance
-//        preferenceQuery = query.whereGreaterThanOrEqualTo("dob", preferenceMinDOB).whereLessThanOrEqualTo("dob", preferenceMaxDOB);
-        preferenceQuery = query.whereArrayContainsAny("sports", preferenceSports);
-        if (preferenceGenders.size() == 1) {
-            preferenceQuery = preferenceQuery.whereEqualTo("gender", preferenceGenders.get(0));
-        }
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        populatePotentialMatches();
-//        onSwipeLeftConfig();
-//        onSwipeRightConfig();
+        today = LocalDate.now();
+        db = FirebaseFirestore.getInstance();
+        potentialMatches = new ArrayList<>();
+        PotentialMatchesListener();
+
+        adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId);
+        recyclerView.setAdapter(adapter);
         onSwipeConfig();
     }
 
-    // Function to tell the app to start getting
-    // data from database on starting of the activity
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
+    private void PotentialMatchesListener() {
+
+        db.collection("users").whereNotEqualTo("email", loginId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        if (error != null) {
+                            if (progressBar.getVisibility() == View.VISIBLE) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+                            Log.e("Firestore data potential match error", error.getMessage());
+                            return;
+                        }
+
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                // filter potential matches here
+                                PotentialMatch potentialMatch = dc.getDocument().toObject(PotentialMatch.class);
+                                if (matchPreferences(potentialMatch)) {
+                                    potentialMatches.add(dc.getDocument().toObject(PotentialMatch.class));
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                            if (progressBar.getVisibility() == View.VISIBLE) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
+
     }
-
-    // Function to tell the app to stop getting
-    // data from database on stopping of the activity
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
-
-
-
-    private void populatePotentialMatches() {
-        FirestoreRecyclerOptions<PotentialMatch> options = new FirestoreRecyclerOptions.Builder<PotentialMatch>()
-                .setQuery(preferenceQuery, PotentialMatch.class)
-                .build();
-        adapter = new PotentialMatchAdapter(options, loginId);
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void onSwipeLeftConfig() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
-                recyclerView.scrollToPosition(0);
-            }
-        }).attachToRecyclerView(recyclerView);
-    }
-
-    private void onSwipeRightConfig() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
-                adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
-                recyclerView.scrollToPosition(0);
-            }
-        }).attachToRecyclerView(recyclerView);
-    }
-
 
     private void onSwipeConfig() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            private Drawable mIcon;
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -144,21 +120,14 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getBindingAdapterPosition();
                 switch (direction) {
                     case ItemTouchHelper.LEFT:
-                        adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
-//                        Canvas c = new Canvas();
-//                        c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-//                        viewHolder.itemView.draw(c);
-                        recyclerView.scrollToPosition(0);
+                        potentialMatches.remove(position);
+                        adapter.notifyItemRemoved(position);
                         break;
-
                     case ItemTouchHelper.RIGHT:
-                        adapter.checkIfUsersMatch(viewHolder.getLayoutPosition());
-                        adapter.notifyItemMoved(viewHolder.getLayoutPosition(), adapter.getItemCount() - 1);
-//                        Canvas d = new Canvas();
-//                        d.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                        recyclerView.scrollToPosition(0);
+                        adapter.checkIfUsersMatch(position);
                         break;
                 }
             }
@@ -175,4 +144,31 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         }).attachToRecyclerView(recyclerView);
     }
 
+    private boolean matchPreferences(PotentialMatch potentialMatch) {
+        return gendersFilter(potentialMatch.getGender())
+                && ageFilter(potentialMatch.getDob())
+                && sportsFilter(potentialMatch.getSports());
+    }
+
+    private boolean ageFilter(String dob) {
+        int userAge = calculateAge(dob);
+        return userAge >= preferenceMinAge && userAge <= preferenceMaxAge;
+    }
+
+    private int calculateAge(String date) {
+        // "MM/DD/YY"
+        String[] dateArray = date.split("/");
+        String year = Integer.parseInt(dateArray[2]) > 50 ? ("19" + dateArray[2]) : ("20" + dateArray[2]);
+        LocalDate birthday = LocalDate.of(Integer.parseInt(year), Integer.parseInt(dateArray[0]), Integer.parseInt(dateArray[1]));
+        Period p = Period.between(birthday, today);
+        return p.getYears();
+    }
+
+    private boolean sportsFilter(List<String> sports) {
+        return !Collections.disjoint(sports, preferenceSports);
+    }
+
+    private boolean gendersFilter(String gender) {
+        return preferenceGenders.contains(gender);
+    }
 }
