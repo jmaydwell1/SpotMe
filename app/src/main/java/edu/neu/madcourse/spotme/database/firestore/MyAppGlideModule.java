@@ -1,4 +1,4 @@
-package edu.neu.madcourse.spotme;
+package edu.neu.madcourse.spotme.database.firestore;
 
 import android.content.Context;
 

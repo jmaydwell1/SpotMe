@@ -32,7 +32,7 @@
         <entry key="app/src/main/res/layout/potential_matches.xml" value="0.22" />
         <entry key="app/src/main/res/layout/recyclerview_row_sw.xml" value="0.335" />
         <entry key="app/src/main/res/layout/reset_pw.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/signup.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/signup.xml" value="0.5" />
       </map>
     </option>
   </component>
