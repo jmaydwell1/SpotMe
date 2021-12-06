@@ -3,15 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/background_content_top.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/btn_round.xml" value="0.3572916666666667" />
+        <entry key="app/src/main/res/drawable/chat_input.xml" value="0.1037037037037037" />
+        <entry key="app/src/main/res/drawable/ic_info_24.xml" value="0.11388888888888889" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_next_button.xml" value="0.3572916666666667" />
+        <entry key="app/src/main/res/drawable/ic_spot_me_logo_placeholder.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/drawable/ic_spotmewhite.xml" value="0.29635416666666664" />
+        <entry key="app/src/main/res/drawable/received_message_background.xml" value="0.190625" />
+        <entry key="app/src/main/res/drawable/sent_message_background.xml" value="0.190625" />
         <entry key="app/src/main/res/layout-land/login_activity.xml" value="0.33" />
         <entry key="app/src/main/res/layout-land/potential_buddy_dialog.xml" value="0.1" />
         <entry key="app/src/main/res/layout-land/reset_pw.xml" value="0.1" />
         <entry key="app/src/main/res/layout-land/signup.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_list_of_matches.xml" value="0.26458333333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/activity_message_storage.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_message_storing.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_spot_me_splash_screen.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/blob_for_received_message.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/blob_for_sent_message.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/fragment_potential_buddy.xml" value="0.17198592628736575" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.29971685581989765" />
         <entry key="app/src/main/res/layout/matched_r_view_row.xml" value="0.33" />

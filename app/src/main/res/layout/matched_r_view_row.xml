@@ -37,21 +37,6 @@
             app:srcCompat="@drawable/ic_baseline_looks_one_24"/>
 <!--            app:tint="@color/white" />-->
 
-        <ImageView
-            android:id="@+id/messageIcon"
-            android:layout_width="64dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.833"
-            app:srcCompat="@drawable/ic_baseline_message_24"
-            app:tint="@color/white" />
-        <!--            app:layout_constraintStart_toEndOf="@+id/matchIcon"-->
-
 
         <TextView
             android:id="@+id/nameOfMatch"
@@ -89,4 +74,3 @@
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
