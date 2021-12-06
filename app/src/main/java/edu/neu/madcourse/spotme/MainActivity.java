@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
-
 public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
