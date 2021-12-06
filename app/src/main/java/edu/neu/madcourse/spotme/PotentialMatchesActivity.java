@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import edu.neu.madcourse.spotme.database.models.Match;
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -34,6 +35,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<PotentialMatch> potentialMatches;
+    private ArrayList<String> matchesId;
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore db;
     private String loginId;
@@ -69,16 +71,17 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
         today = LocalDate.now();
         db = FirebaseFirestore.getInstance();
+        matchesId = new ArrayList<>();
         potentialMatches = new ArrayList<>();
-        PotentialMatchesListener();
+        matchesListener();
+//        potentialMatchesListener();
 
         adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId);
         recyclerView.setAdapter(adapter);
         onSwipeConfig();
     }
 
-    private void PotentialMatchesListener() {
-
+    private void potentialMatchesListener() {
         db.collection("users").whereNotEqualTo("email", loginId)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -96,8 +99,9 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
                                 // filter potential matches here
                                 PotentialMatch potentialMatch = dc.getDocument().toObject(PotentialMatch.class);
-                                if (matchPreferences(potentialMatch)) {
-                                    potentialMatches.add(dc.getDocument().toObject(PotentialMatch.class));
+                                Log.d("potential match", potentialMatch.getEmail());
+                                if (notMatchedYet(potentialMatch.getEmail()) && matchPreferences(potentialMatch)) {
+                                    potentialMatches.add(potentialMatch);
                                 }
                             }
                             adapter.notifyDataSetChanged();
@@ -108,6 +112,35 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void matchesListener() {
+        db.collection("matches").document(loginId).collection("swiped")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            if (progressBar.getVisibility() == View.VISIBLE) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+                            Log.e("Firestore data potential match error", error.getMessage());
+                            return;
+                        }
+
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                // get matched users here
+                                Match match = dc.getDocument().toObject(Match.class);
+                                if (match.isMatch()) {
+                                    Log.d("matches listener", match.getName());
+                                    matchesId.add(dc.getDocument().getId());
+                                }
+                            }
+                        }
+                        Log.d("matches size", String.valueOf(matchesId.size()));
+                        potentialMatchesListener();
+                    }
+                });
     }
 
     private void onSwipeConfig() {
@@ -145,6 +178,10 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, true);
             }
         }).attachToRecyclerView(recyclerView);
+    }
+
+    private boolean notMatchedYet(String potentialMatchEmail) {
+        return !matchesId.contains(potentialMatchEmail);
     }
 
     private boolean matchPreferences(PotentialMatch potentialMatch) {
