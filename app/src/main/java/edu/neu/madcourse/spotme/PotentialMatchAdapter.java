@@ -201,41 +201,39 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
         dialogRunningIv.setVisibility(viewHolder.holderRunningIv.getVisibility());
     }
 
-    public void checkIfUsersMatch(int position) {
-        PotentialMatch userB = potentialMatchArrayList.get(position);
+    public void checkIfUsersMatch(int position, PotentialMatch deletedMatch) {
+        PotentialMatch userB = deletedMatch;
         String userBLoginId = userB.getEmail();
 
-        Log.d("CURRENT USER: ", loginId);
-        Log.d("OTHER USER: ", userBLoginId);
+        Log.d("checkIf - CURRENT USER: ", loginId);
+        Log.d("checkIf - USER B: ", userBLoginId);
 
         DocumentReference docRef = Firestore.readFromDBSubCollection(db, "matches", userBLoginId, "swiped", loginId);
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
-                writeMatchToDB(position, document.exists(), document);
-                potentialMatchArrayList.remove(position);
-                notifyItemRemoved(position);
+                writeMatchToDB(deletedMatch, document.exists());
             } else {
-                Log.d("CheckIfUsersMatch", "get failed with ", task.getException());
+                Log.d("Check If Users Match", "get failed with ", task.getException());
             }
         });
     }
 
-    private void writeMatchToDB(int position, boolean exist, DocumentSnapshot document) {
-        PotentialMatch userB = potentialMatchArrayList.get(position);
+    private void writeMatchToDB(PotentialMatch deletedMatch, boolean exist) {
+        PotentialMatch userB = deletedMatch;
         String userBLoginId = userB.getEmail();
         String name = userB.getName();
         String picture = userB.getPicture();
         String date = formatTodayDate();
 
-        Log.d("CURRENT USER: ", loginId);
-        Log.d("OTHER USER: ", userBLoginId);
+        Log.d("writeToDB - CURRENT USER: ", loginId);
+        Log.d("writeToDB - USER B: ", userBLoginId);
 
         final Match[] matchData = new Match[2];
         if (exist) {
-            Log.d("CheckIfUsersMatch", "DocumentSnapshot data: " + document.getData());
-            String userBName = document.getString("name");
-            String userBPicture = document.getString("picture");
+            Log.d("Write Match to DB", "YES USERS MATCH");
+            String userBName = deletedMatch.getName();
+            String userBPicture = deletedMatch.getPicture();
             matchData[0] = new Match(name, picture, date, true);
             matchData[1] = new Match(userBName, userBPicture, date, true);
             Firestore.writeToDBSubCollection(db, "matches", loginId, "swiped", userBLoginId, matchData[0]);
@@ -243,7 +241,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
             // TODO send a notification
 
         } else {
-            Log.d("CheckIfUsersMatch", "No such document");
+            Log.d("Write Match to DB", "USERS DON'T MATCH");
             matchData[0] = new Match(name, picture, date, false);
             Firestore.writeToDBSubCollection(db, "matches", loginId, "swiped", userBLoginId, matchData[0]);
         }

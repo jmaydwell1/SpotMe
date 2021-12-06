@@ -127,7 +127,10 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                         adapter.notifyItemRemoved(position);
                         break;
                     case ItemTouchHelper.RIGHT:
-                        adapter.checkIfUsersMatch(position);
+                        PotentialMatch deletedMatch = potentialMatches.get(position);
+                        adapter.checkIfUsersMatch(position, deletedMatch);
+                        potentialMatches.remove(position);
+                        adapter.notifyItemRemoved(position);
                         break;
                 }
             }
