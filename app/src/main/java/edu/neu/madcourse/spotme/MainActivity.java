@@ -2,9 +2,12 @@ package edu.neu.madcourse.spotme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +16,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.android.gms.location.FusedLocationProviderClient;
 
 public class MainActivity extends AppCompatActivity {
     private EditText email;
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private Button matchBtn;
 
     private FirebaseAuth mAuth;
+    private FusedLocationProviderClient fusedLocationProvider;
+
 
     private static String SHARED_PREF_NAME = "SpotMeSP";
     private static final String TAG = "AuthEmailPW";
@@ -38,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.login_activity);
+        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
+        getPermission();
+
 
         email = findViewById(R.id.editTextTextEmailAddressLogin);
         password = findViewById(R.id.editTextTextPassword);
@@ -104,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            sharedPreferencesConfig(email);
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
                             preferenceIntent.putExtra("userEmail", user.getEmail());
@@ -120,24 +129,30 @@ public class MainActivity extends AppCompatActivity {
 
     private void reload() { }
 
-    private void updateUI(FirebaseUser user) {
-        System.out.println("DONEE " + user);
+    private void getPermission() {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            getLocation();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+        }
     }
 
-    public void sharedPreferencesConfig(String loginId) {
-        // Storing data into SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+    private  void getLocation() throws SecurityException {
 
-        // Creating an Editor object to edit(write to the file)
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-
-        // Storing the key and its value as the data fetched from edittext
-        // Store the login username
-        myEdit.putString("loginId", loginId);
-
-        // Once the changes have been made,
-        // we need to commit to apply those changes made,
-        // otherwise, it will throw an error
-        myEdit.commit();
+        fusedLocationProvider.getLastLocation().addOnCompleteListener((new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if (location != null) {
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+                    System.out.println("LONG " + longitude);
+                    System.out.println("LAT " + latitude);
+                }
+            }
+        }));
     }
+
 }
