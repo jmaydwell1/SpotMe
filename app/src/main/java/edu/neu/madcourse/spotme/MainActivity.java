@@ -35,10 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button matchBtn;
 
     private FirebaseAuth mAuth;
-    private FusedLocationProviderClient fusedLocationProvider;
 
-
-    private static String SHARED_PREF_NAME = "SpotMeSP";
     private static final String TAG = "AuthEmailPW";
 
     @Override
@@ -46,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.login_activity);
-        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
-        getPermission();
 
 
         email = findViewById(R.id.editTextTextEmailAddressLogin);
@@ -129,31 +124,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reload() { }
-
-    private void getPermission() {
-        if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            getLocation();
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-        }
-    }
-
-    private  void getLocation() throws SecurityException {
-
-        fusedLocationProvider.getLastLocation().addOnCompleteListener((new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                if (location != null) {
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
-                    System.out.println("LONG " + longitude);
-                    System.out.println("LAT " + latitude);
-                }
-            }
-        }));
-    }
 
 }

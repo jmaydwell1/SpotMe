@@ -40,5 +40,9 @@
         <item>Carter Smith</item>
         <item>Brandon Johnson</item>
     </string-array>
+//FCM
+    <string name="fcm_message">FCM Message</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
 
 </resources>

@@ -1,5 +1,8 @@
 package edu.neu.madcourse.spotme;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,8 +11,14 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,6 +30,7 @@ import java.util.List;
 
 import edu.neu.madcourse.spotme.customui.MultiSpinner;
 import edu.neu.madcourse.spotme.database.firestore.Firestore;
+import edu.neu.madcourse.spotme.database.models.UserLocation;
 import edu.neu.madcourse.spotme.database.models.UserPreference;
 
 public class Preference extends AppCompatActivity implements MultiSpinner.MultiSpinnerListener {
@@ -34,6 +44,9 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     private TextView distanceProgressDisplay;
     private Button saveBtn;
     private FirebaseFirestore db;
+    private FusedLocationProviderClient fusedLocationProvider;
+    private String userEmail;
+
 
     private List<String> sports = Arrays.asList("Soccer", "Running", "Yoga", "Boxing", "Badminton", "Ping Pong");
     private List<String> CHOSEN_SPORT;
@@ -47,6 +60,8 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.preferences);
+        fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
+        getPermission();
 
         db = FirebaseFirestore.getInstance();
 
@@ -61,11 +76,16 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.sportSpinner);
         multiSpinner.setItems(sports, "Select a sport", this);
 
+        Bundle extras = getIntent().getExtras();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        if (extras != null) {
+            userEmail = extras.getString("userEmail");
+        } else {
+            userEmail = auth.getCurrentUser().getEmail();
+        }
+
         saveBtn = findViewById(R.id.savePrefBtn);
-
-//        RangeSlider slider = findViewById(R.id.slider);
-//        slider.setValues(19f,23f);
-
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,14 +100,6 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                     selectedGenders.add("Female");
                 }
                 UserPreference preference = new UserPreference(SELECTED_DISTANCE, selectedGenders, SELECTED_AGE, 18, CHOSEN_SPORT);
-                Bundle extras = getIntent().getExtras();
-                String userEmail;
-                if (extras != null) {
-                    userEmail = extras.getString("userEmail");
-                } else {
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                    userEmail = auth.getCurrentUser().getEmail();
-                }
                 Firestore.mergeToDB(db, "preferences", userEmail, preference);
             }
         });
@@ -173,5 +185,33 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
             }
         }
         return sportsChosen;
+    }
+
+    private void getPermission() {
+        if (ActivityCompat.checkSelfPermission(Preference.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            getLocation();
+        } else {
+            ActivityCompat.requestPermissions(Preference.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+        }
+    }
+
+    private void getLocation() throws SecurityException {
+
+        fusedLocationProvider.getLastLocation().addOnCompleteListener((new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if (location != null) {
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+                    UserLocation userLocation = new UserLocation(longitude, latitude);
+                    Firestore.mergeToDB(db, "users", userEmail, userLocation);
+                } else {
+
+                }
+            }
+        }));
     }
 }

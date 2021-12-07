@@ -186,5 +186,7 @@ public class PotentialMatchAdapter extends FirestoreRecyclerAdapter<PotentialMat
         });
     }
 
+
+
 }
 
