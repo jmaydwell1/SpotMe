@@ -47,6 +47,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private List<String> preferenceGenders, preferenceSports;
     private LocalDate today;
 
+    private static final String TAG = "PotentialMatchesActivity";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,12 +65,13 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         String SHARED_PREF_NAME = "SpotMeSP";
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         loginId = sharedPreferences.getString("loginId", "empty");
-        // TODO add current user's location to sharedPreferences
         // default is Northeastern University location
-        userALatitude = sharedPreferences.getString("latitude", "42.478951");
-        userALongitude = sharedPreferences.getString("longitude", "-71.189247");
+        userALatitude = sharedPreferences.getString("userLatitude", "42.478951");
+        userALongitude = sharedPreferences.getString("userLongitude", "-71.189247");
+        Log.d(TAG, userALatitude);
+        Log.d(TAG, userALongitude);
 
-
+        preferenceDistance = 100;
         preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong", "Soccer"));
         preferenceGenders = new ArrayList<>(Arrays.asList("Female", "Male"));
         preferenceMinAge = 0;
@@ -105,6 +108,9 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                                 // filter potential matches here
                                 PotentialMatch potentialMatch = dc.getDocument().toObject(PotentialMatch.class);
                                 Log.d("potential match", potentialMatch.getEmail());
+                                Log.d("potential match", potentialMatch.getPhone());
+                                Log.d("potential match", "lat: " + potentialMatch.getLatitude());
+                                Log.d("potential match", "long: " + potentialMatch.getLongitude());
                                 if (notMatchedYet(potentialMatch.getEmail()) && matchPreferences(potentialMatch)) {
                                     potentialMatches.add(potentialMatch);
                                 }
@@ -220,9 +226,12 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     }
 
     private boolean withinDistance(String userBLatitude, String userBLongitude) {
+        Log.d(TAG, "userBLat: " + userBLatitude);
+        Log.d(TAG, "userBLon: " + userBLongitude);
         double distance = Utils.distance(userALatitude, userALongitude, userBLatitude, userBLongitude, "M");
         final double MARGIN_OF_ERROR = 0.2;
         double difference = preferenceDistance - Math.abs(distance);
+        Log.d(TAG, "distance: ");
         return Math.abs(difference) >= MARGIN_OF_ERROR;
     }
 }

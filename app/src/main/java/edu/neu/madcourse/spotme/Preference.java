@@ -209,7 +209,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                     double longitude = location.getLongitude();
                     double latitude = location.getLatitude();
                     writeSharedPreferencesLocation(latitude, longitude);
-                    UserLocation userLocation = new UserLocation(longitude, latitude);
+                    UserLocation userLocation = new UserLocation(String.valueOf(longitude), String.valueOf(latitude));
                     Firestore.mergeToDB(db, "users", userEmail, userLocation);
                 } else {
 

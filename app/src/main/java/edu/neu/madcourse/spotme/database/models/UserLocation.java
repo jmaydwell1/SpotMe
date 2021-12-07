@@ -1,27 +1,27 @@
 package edu.neu.madcourse.spotme.database.models;
 
 public class UserLocation {
-    private double longitude;
-    private double latitude;
+    private String longitude;
+    private String latitude;
 
-    public UserLocation(double longitude, double latitude) {
+    public UserLocation(String longitude, String latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 }
