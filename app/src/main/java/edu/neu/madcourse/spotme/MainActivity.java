@@ -43,8 +43,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+        // If currently there
+//        if (mAuth.getCurrentUser() != null) {
+//            System.out.println("CURRENT USER IS " + mAuth.getCurrentUser().getEmail());
+//            Intent myIntent = new Intent(MainActivity.this, PotentialMatchesActivity.class);
+//            MainActivity.this.startActivity(myIntent);
+//
+//        }
         getSupportActionBar().hide();
         setContentView(R.layout.login_activity);
+
+
 
 
         email = findViewById(R.id.editTextTextEmailAddressLogin);
@@ -52,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.nextBtn);
         signUpTv = findViewById(R.id.signUpTv);
         forgotPw = findViewById(R.id.forgotPwLogin);
-        mAuth = FirebaseAuth.getInstance();
+
 
         potentialMatchBtn = findViewById(R.id.test_potential_btn);
         matchBtn = findViewById(R.id.test_matches);

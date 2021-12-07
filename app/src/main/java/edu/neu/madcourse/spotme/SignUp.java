@@ -152,6 +152,8 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                                 User newUser = new User(CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, SELECTED_GENDER, email, null);
                                 Firestore.writeToDB(db, "users", email, newUser);
                             Log.e("CLIENT_REGISTRATION_TOKEN", CLIENT_REGISTRATION_TOKEN);
+                            Intent preferenceIntent = new Intent(SignUp.this, Preference.class);
+                            SignUp.this.startActivity(preferenceIntent);
                         }
                     }
                 }});

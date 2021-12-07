@@ -14,6 +14,10 @@ public class Firestore {
         db.collection(tableName).document(documentName).set(data, SetOptions.merge());
     }
 
+    public static DocumentReference readFromDBCollection(FirebaseFirestore db, String collection, String documentName) {
+        return db.collection(collection).document(documentName);
+    }
+
     public static void writeToDBSubCollection(FirebaseFirestore db, String collection, String documentName, String subCollection, String subDocument, Object data) {
         db.collection(collection).document(documentName).collection(subCollection).document(subDocument).set(data);
     }
