@@ -110,7 +110,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                         }
 
                         for (DocumentChange dc : value.getDocumentChanges()) {
-                            if (dc.getType() == DocumentChange.Type.ADDED || dc.getType() == DocumentChange.Type.MODIFIED) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
                                 // filter potential matches here
                                 PotentialMatch potentialMatch = dc.getDocument().toObject(PotentialMatch.class);
                                 Log.d(TAG, potentialMatch.getEmail());

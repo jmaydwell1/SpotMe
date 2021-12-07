@@ -52,7 +52,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     private String userEmail;
 
 
-    private List<String> sports = Arrays.asList("Soccer", "Running", "Yoga", "Boxing", "Badminton", "Ping Pong");
+    private List<String> sports = Arrays.asList("Soccer", "Ping Pong", "Yoga", "Ski", "Swimming", "Running");
     private List<String> CHOSEN_SPORT;
     private int MIN_AGE = 18;
     private int MIN_DISTANCE = 0;
