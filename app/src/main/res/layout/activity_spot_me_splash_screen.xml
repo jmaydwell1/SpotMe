@@ -8,21 +8,21 @@
     tools:context=".SpotMeSplashScreen">
 
     <ImageView
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_spot_me_logo_placeholder" />
+        android:src="@drawable/spotMeWhiteIcon" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/spot_me"
-        android:textColor="@color/spotMe_offWhite"
-        android:textSize="50sp"
-        android:textStyle="italic"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="110dp"
-        />
+        android:text="@string/spot_me"
+        android:textColor="@color/spotMe_offWhite"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="40sp"
+        android:textStyle="italic"/>
 
 </RelativeLayout>
