@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
+import android.content.SharedPreferences;
+
 public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private static final String TAG = "AuthEmailPW";
+    private static String SHARED_PREF_NAME = "SpotMeSP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
+                            sharedPreferencesConfig(email);
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
                             preferenceIntent.putExtra("userEmail", user.getEmail());
@@ -124,4 +128,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void reload() { }
 
+    public void sharedPreferencesConfig(String loginId) {
+        // Storing data into SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+
+        // Creating an Editor object to edit(write to the file)
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        // Storing the key and its value as the data fetched from edittext
+        // Store the login username
+        myEdit.putString("loginId", loginId);
+
+        // Once the changes have been made,
+        // we need to commit to apply those changes made,
+        // otherwise, it will throw an error
+        myEdit.commit();
+    }
 }
