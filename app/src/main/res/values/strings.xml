@@ -29,16 +29,21 @@
     <string name="todo">TODO</string>
     <string name="save">SAVE</string>
 
-//Potential Matches
+    //Potential Matches
     <string name="pm_app_name">RecyclerViewSW</string>
     <string name="sporticon">sportIcon</string>
     <string name="user_profile_img">User Profile Img</string>
     <string name="pm_full_name">Full Name</string>
+    <string name="spot_me">Spot Me</string>
 
-    <string-array name = "user_fullNames_all">
+    <string-array name="user_fullNames_all">
         <item>Alyssa Jones</item>
         <item>Carter Smith</item>
         <item>Brandon Johnson</item>
     </string-array>
+//FCM
+    <string name="fcm_message">FCM Message</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
 
 </resources>

@@ -210,6 +210,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         return p.getYears();
     }
 
+
     private boolean sportsFilter(List<String> sports) {
         return !Collections.disjoint(sports, preferenceSports);
     }
