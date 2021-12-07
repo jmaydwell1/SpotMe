@@ -184,7 +184,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
         viewHolder.potentialMatchCard.setOnClickListener(itemView -> {
             dialogNameTv.setText(viewHolder.holderNameTv.getText());
             dialogGenderAgeTv.setText(viewHolder.holderGenderAgeTv.getText());
-            dialogDistanceTv.setText(viewHolder.holderDistanceTv.getText() + " miles away");
+            dialogDistanceTv.setText(viewHolder.holderDistanceTv.getText());
             dialogPictureIv.setImageDrawable(viewHolder.holderPictureIv.getDrawable());
             setDialogSportIcons(viewHolder);
             potentialMatchDialog.show();

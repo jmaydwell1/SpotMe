@@ -68,8 +68,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         // default is Northeastern University location
         userALatitude = sharedPreferences.getString("userLatitude", "42.478951");
         userALongitude = sharedPreferences.getString("userLongitude", "-71.189247");
-        Log.d(TAG, userALatitude);
-        Log.d(TAG, userALongitude);
+        Log.d(TAG, "userALat: " + userALatitude);
+        Log.d(TAG, "userALon: " + userALongitude);
 
         preferenceDistance = 100;
         preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong", "Soccer"));
@@ -99,18 +99,17 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                             if (progressBar.getVisibility() == View.VISIBLE) {
                                 progressBar.setVisibility(View.GONE);
                             }
-                            Log.e("Firestore data potential match error", error.getMessage());
+                            Log.e(TAG, "Firestore data potential match error "+ error.getMessage());
                             return;
                         }
 
                         for (DocumentChange dc : value.getDocumentChanges()) {
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                            if (dc.getType() == DocumentChange.Type.ADDED || dc.getType() == DocumentChange.Type.MODIFIED) {
                                 // filter potential matches here
                                 PotentialMatch potentialMatch = dc.getDocument().toObject(PotentialMatch.class);
-                                Log.d("potential match", potentialMatch.getEmail());
-                                Log.d("potential match", potentialMatch.getPhone());
-                                Log.d("potential match", "lat: " + potentialMatch.getLatitude());
-                                Log.d("potential match", "long: " + potentialMatch.getLongitude());
+                                Log.d(TAG, potentialMatch.getEmail());
+                                Log.d(TAG, potentialMatch.getEmail() + " lat: " + potentialMatch.getLatitude());
+                                Log.d(TAG, potentialMatch.getEmail() + " long: " + potentialMatch.getLongitude());
                                 if (notMatchedYet(potentialMatch.getEmail()) && matchPreferences(potentialMatch)) {
                                     potentialMatches.add(potentialMatch);
                                 }
@@ -231,7 +230,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         double distance = Utils.distance(userALatitude, userALongitude, userBLatitude, userBLongitude, "M");
         final double MARGIN_OF_ERROR = 0.2;
         double difference = preferenceDistance - Math.abs(distance);
-        Log.d(TAG, "distance: ");
+        Log.d(TAG, "distance: " + distance);
         return Math.abs(difference) >= MARGIN_OF_ERROR;
     }
 }
