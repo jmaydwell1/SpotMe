@@ -10,8 +10,8 @@
     <ImageView
         android:layout_width="400dp"
         android:layout_height="400dp"
-        android:src="@drawable/ic_spot_me_logo_placeholder"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_spot_me_logo_placeholder" />
 
     <TextView
         android:layout_width="wrap_content"
