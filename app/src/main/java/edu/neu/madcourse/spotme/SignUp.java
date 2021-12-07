@@ -31,7 +31,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.User;
+import edu.neu.madcourse.spotme.database.models.UserLocation;
 
 public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private TextView emailTv;
@@ -147,11 +149,12 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                         } else {
                             if (CLIENT_REGISTRATION_TOKEN == null) {
                                 CLIENT_REGISTRATION_TOKEN = task.getResult();
-                                writeNewUser(email, CLIENT_REGISTRATION_TOKEN, fullName, phone, dob);                            }
+                                User newUser = new User(CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, SELECTED_GENDER, email, null);
+                                Firestore.writeToDB(db, "users", email, newUser);
                             Log.e("CLIENT_REGISTRATION_TOKEN", CLIENT_REGISTRATION_TOKEN);
                         }
                     }
-                });
+                }});
 
                 // You cannot add other properties to the Firebase User object directly -> still have to write to DB
             }
@@ -165,12 +168,6 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
             }
         });
 
-    }
-
-
-    public void writeNewUser(String email, String token, String name, String phone, String dob) {
-        User newUser = new User(token, name, phone, dob, SELECTED_GENDER, email);
-        db.collection("users").document(email).set(newUser);
     }
 
     private void createAccount(String email, String password) {

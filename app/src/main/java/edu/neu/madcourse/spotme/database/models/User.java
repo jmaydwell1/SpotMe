@@ -8,18 +8,20 @@ public class User {
     public String gender;
     public String phone;
     public String email;
+    public UserLocation location;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String tokenId, String name, String phone, String dob, String gender, String email) {
+    public User(String tokenId, String name, String phone, String dob, String gender, String email, UserLocation location) {
         this.tokenId = tokenId;
         this.name = name;
         this.phone = phone;
         this.dob = dob;
         this.gender = gender;
         this.email = email;
+        this.location = location;
     }
 
     public String getName() {
@@ -44,5 +46,13 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public UserLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(UserLocation location) {
+        this.location = location;
     }
 }

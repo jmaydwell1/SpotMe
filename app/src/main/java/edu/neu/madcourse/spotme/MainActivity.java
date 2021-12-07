@@ -2,9 +2,12 @@ package edu.neu.madcourse.spotme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,14 +16,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.android.gms.location.FusedLocationProviderClient;
 
 public class MainActivity extends AppCompatActivity {
     private EditText email;
@@ -33,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    private static String SHARED_PREF_NAME = "SpotMeSP";
     private static final String TAG = "AuthEmailPW";
 
     @Override
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.login_activity);
+
 
         email = findViewById(R.id.editTextTextEmailAddressLogin);
         password = findViewById(R.id.editTextTextPassword);
@@ -107,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            sharedPreferencesConfig(email);
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
                             preferenceIntent.putExtra("userEmail", user.getEmail());
@@ -123,24 +124,4 @@ public class MainActivity extends AppCompatActivity {
 
     private void reload() { }
 
-    private void updateUI(FirebaseUser user) {
-        System.out.println("DONEE " + user);
-    }
-
-    public void sharedPreferencesConfig(String loginId) {
-        // Storing data into SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-
-        // Creating an Editor object to edit(write to the file)
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-
-        // Storing the key and its value as the data fetched from edittext
-        // Store the login username
-        myEdit.putString("loginId", loginId);
-
-        // Once the changes have been made,
-        // we need to commit to apply those changes made,
-        // otherwise, it will throw an error
-        myEdit.commit();
-    }
 }
