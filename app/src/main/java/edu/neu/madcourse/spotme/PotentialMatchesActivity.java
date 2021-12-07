@@ -64,8 +64,9 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         loginId = sharedPreferences.getString("loginId", "empty");
         // TODO add current user's location to sharedPreferences
-        userALatitude = sharedPreferences.getString("latitude", "empty");
-        userALongitude = sharedPreferences.getString("longitude", "empty");
+        // default is Northeastern University location
+        userALatitude = sharedPreferences.getString("latitude", "42.478951");
+        userALongitude = sharedPreferences.getString("longitude", "-71.189247");
 
 
         preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong", "Soccer"));
