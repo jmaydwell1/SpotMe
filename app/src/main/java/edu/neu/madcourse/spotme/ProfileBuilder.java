@@ -24,7 +24,6 @@ public class ProfileBuilder extends AppCompatActivity {
         ImageButton buttonFive = findViewById(R.id.imageView9);
         ImageButton buttonSix = findViewById(R.id.imageView10);
 
-
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

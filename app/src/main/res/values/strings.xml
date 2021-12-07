@@ -17,16 +17,33 @@
     <string name="matched_on_14_11_2021">Matched on 14.11.2021</string>
     <string name="reset_password">Reset your password</string>
     <string name="reset_password_explanation">Please enter the email address associated with your account.</string>
-    <string name="phone number">Phone Number</string>
+    <string name="phone_number">Phone Number</string>
     <string name="dob">Date Of Birth</string>
     <string name="gender">Gender</string>
     <string name="next_button">next button</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="choose_your_preferences">Choose your preferences</string>
     <string name="sport">Sports</string>
     <string name="age">Age</string>
     <string name="distance">Distance</string>
     <string name="todo">TODO</string>
     <string name="save">SAVE</string>
-    <string name="_18">18</string>
-    <string name="_100">100</string>
+
+    //Potential Matches
+    <string name="pm_app_name">RecyclerViewSW</string>
+    <string name="sporticon">sportIcon</string>
+    <string name="user_profile_img">User Profile Img</string>
+    <string name="pm_full_name">Full Name</string>
+    <string name="spot_me">SpotMe</string>
+
+    <string-array name="user_fullNames_all">
+        <item>Alyssa Jones</item>
+        <item>Carter Smith</item>
+        <item>Brandon Johnson</item>
+    </string-array>
+//FCM
+    <string name="fcm_message">FCM Message</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
+
 </resources>

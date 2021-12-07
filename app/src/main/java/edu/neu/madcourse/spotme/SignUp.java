@@ -17,13 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -32,6 +30,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import edu.neu.madcourse.spotme.database.firestore.Firestore;
+import edu.neu.madcourse.spotme.database.models.User;
+import edu.neu.madcourse.spotme.database.models.UserLocation;
 
 public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private TextView emailTv;
@@ -147,11 +149,14 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                         } else {
                             if (CLIENT_REGISTRATION_TOKEN == null) {
                                 CLIENT_REGISTRATION_TOKEN = task.getResult();
-                                writeNewUser(email, CLIENT_REGISTRATION_TOKEN, fullName, phone, dob);                            }
+                                User newUser = new User(CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, SELECTED_GENDER, email, null);
+                                Firestore.writeToDB(db, "users", email, newUser);
                             Log.e("CLIENT_REGISTRATION_TOKEN", CLIENT_REGISTRATION_TOKEN);
+                            Intent preferenceIntent = new Intent(SignUp.this, Preference.class);
+                            SignUp.this.startActivity(preferenceIntent);
                         }
                     }
-                });
+                }});
 
                 // You cannot add other properties to the Firebase User object directly -> still have to write to DB
             }
@@ -165,17 +170,6 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
             }
         });
 
-    }
-
-
-    public void writeNewUser(String email, String token, String name, String phone, String dob) {
-        Map<String, Object> user = new HashMap<>();
-        user.put("token", token);
-        user.put("name", name);
-        user.put("phone", phone);
-        user.put("dob", dob);
-        user.put("gender", SELECTED_GENDER);
-        db.collection("users").document(email).set(user);
     }
 
     private void createAccount(String email, String password) {

@@ -2,9 +2,12 @@ package edu.neu.madcourse.spotme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,16 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.location.FusedLocationProviderClient;
 
+import android.content.SharedPreferences;
 
 public class MainActivity extends AppCompatActivity {
     private EditText email;
@@ -29,25 +32,41 @@ public class MainActivity extends AppCompatActivity {
     private TextView signUpTv;
     private ImageView loginBtn;
     private TextView forgotPw;
+    private Button potentialMatchBtn;
+    private Button matchBtn;
 
-    private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private static String SHARED_PREF_NAME = "SpotMe";
     private static final String TAG = "AuthEmailPW";
+    private static String SHARED_PREF_NAME = "SpotMeSP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+        // If currently there
+//        if (mAuth.getCurrentUser() != null) {
+//            System.out.println("CURRENT USER IS " + mAuth.getCurrentUser().getEmail());
+//            Intent myIntent = new Intent(MainActivity.this, PotentialMatchesActivity.class);
+//            MainActivity.this.startActivity(myIntent);
+//
+//        }
+        getSupportActionBar().hide();
         setContentView(R.layout.login_activity);
+
+
+
 
         email = findViewById(R.id.editTextTextEmailAddressLogin);
         password = findViewById(R.id.editTextTextPassword);
         loginBtn = findViewById(R.id.nextBtn);
         signUpTv = findViewById(R.id.signUpTv);
         forgotPw = findViewById(R.id.forgotPwLogin);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
+
+
+        potentialMatchBtn = findViewById(R.id.test_potential_btn);
+        matchBtn = findViewById(R.id.test_matches);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,17 +78,14 @@ public class MainActivity extends AppCompatActivity {
                 String emailInput = email.getText().toString();
                 String passwordInput = password.getText().toString();
                 if (emailInput.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Email cannot be empty!",
-                            Toast.LENGTH_SHORT).show();
+                    Utils.makeToast(getApplicationContext(),"Email cannot be empty!");
                 } else if (passwordInput.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Password cannot be empty!",
-                            Toast.LENGTH_SHORT).show();
+                    Utils.makeToast(getApplicationContext(), "Password cannot be empty!");
                 } else {
                     signIn(emailInput, passwordInput);
                 }
             }
         });
-
 
         signUpTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +103,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        potentialMatchBtn.setOnClickListener(view -> {
+            Intent potentialIntent = new Intent(MainActivity.this, SplashScreenLoadPreferenceData.class);
+            MainActivity.this.startActivity(potentialIntent);
+        });
 
+        matchBtn.setOnClickListener(view -> {
+            Intent potentialIntent = new Intent(MainActivity.this, MainMatchMessageActivity.class);
+            MainActivity.this.startActivity(potentialIntent);
+        });
 
     }
 
@@ -99,14 +123,15 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
+                            sharedPreferencesConfig(email);
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
+                            preferenceIntent.putExtra("userEmail", user.getEmail());
+                            MainActivity.this.startActivity(preferenceIntent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            Utils.makeToast(MainActivity.this, "Authentication failed.");
                         }
                     }
                 });
@@ -114,13 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void reload() { }
 
-    private void updateUI(FirebaseUser user) {
-        System.out.println("DONEE " + user);
-    }
-
-
-
-    public void sharedPreferencesConfig(String username) {
+    private void sharedPreferencesConfig(String loginId) {
         // Storing data into SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
@@ -129,12 +148,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Storing the key and its value as the data fetched from edittext
         // Store the login username
-        myEdit.putString("username", username);
+        myEdit.putString("loginId", loginId);
 
         // Once the changes have been made,
         // we need to commit to apply those changes made,
         // otherwise, it will throw an error
         myEdit.commit();
     }
-
 }

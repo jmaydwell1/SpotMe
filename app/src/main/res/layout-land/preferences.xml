@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/savePrefBtn"
+            android:layout_width="277dp"
+            android:layout_height="52dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#324A59"
+            android:text="@string/save"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/femaleIcon" />
+
+        <ImageView
+            android:id="@+id/maleIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/todo"
+            app:layout_constraintBottom_toTopOf="@id/savePrefBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/femaleIcon"
+            app:layout_constraintTop_toBottomOf="@id/ageBar"
+            app:srcCompat="@drawable/male" />
+
+
+        <ImageView
+            android:id="@+id/femaleIcon"
+            android:layout_width="37dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/todo"
+            app:layout_constraintBottom_toTopOf="@id/savePrefBtn"
+            app:layout_constraintEnd_toStartOf="@id/maleIcon"
+            app:layout_constraintStart_toEndOf="@id/genderTitle"
+            app:layout_constraintTop_toBottomOf="@id/ageBar"
+            app:srcCompat="@drawable/female"
+            tools:ignore="ImageContrastCheck" />
+
+        <SeekBar
+            android:id="@+id/distanceBar"
+            android:layout_width="500dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toTopOf="@id/ageBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/distanceTitle"
+            app:layout_constraintTop_toBottomOf="@id/sportSpinner" />
+
+        <SeekBar
+            android:id="@+id/ageBar"
+            android:layout_width="500dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toTopOf="@id/femaleIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ageTitle"
+            app:layout_constraintTop_toBottomOf="@id/distanceBar" />
+
+
+<!--    <com.google.android.material.slider.RangeSlider-->
+<!--        android:id="@+id/slider"-->
+<!--        android:layout_width="500dp"-->
+<!--        android:layout_height="33dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginEnd="50dp"-->
+<!--        android:valueFrom="18"-->
+<!--        android:valueTo="100"-->
+<!--        app:labelBehavior="withinBounds"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/femaleIcon"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toEndOf="@id/ageTitle"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/distanceBar"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:values="@array/initial_slider_values" />-->
+
+    <TextView
+            android:id="@+id/distanceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/distance"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/ageTitle"
+            app:layout_constraintEnd_toStartOf="@id/distanceBar"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sportTitle" />
+
+        <TextView
+            android:id="@+id/genderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/gender"
+            app:layout_constraintBottom_toTopOf="@id/savePrefBtn"
+            app:layout_constraintEnd_toStartOf="@id/femaleIcon"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ageTitle"
+            app:layout_constraintVertical_bias="0.466" />
+
+        <TextView
+            android:id="@+id/preferenceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/choose_your_preferences"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/sportTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sportTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/sport"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/distanceBar"
+            app:layout_constraintEnd_toStartOf="@id/sportSpinner"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preferenceTitle" />
+
+        <edu.neu.madcourse.spotme.customui.MultiSpinner
+            android:id="@+id/sportSpinner"
+            android:layout_width="500dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toTopOf="@id/distanceBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sportTitle"
+            app:layout_constraintTop_toBottomOf="@id/preferenceTitle"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/ageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/age"
+            app:layout_constraintBottom_toTopOf="@id/genderTitle"
+            app:layout_constraintEnd_toStartOf="@id/ageBar"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/distanceTitle" />
+
+
+        <TextView
+            android:id="@+id/ageProgressDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/femaleIcon"
+            app:layout_constraintEnd_toEndOf="@id/ageBar"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="@id/ageBar"
+            app:layout_constraintTop_toBottomOf="@id/ageBar"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/distanceProgressDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/ageBar"
+            app:layout_constraintEnd_toEndOf="@id/distanceBar"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="@id/distanceBar"
+            app:layout_constraintTop_toBottomOf="@id/distanceBar"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

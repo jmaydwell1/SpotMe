@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="spotMe_darkerBlue">#182730</color>
     <color name="spotMe_darkBlue">#324A59</color>
     <color name="spotMe_grey">#808080</color>
+    <color name="spotMe_offWhite">#F7F8FB</color>
 </resources>

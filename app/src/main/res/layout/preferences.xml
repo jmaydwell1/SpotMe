@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@id/distanceBar" />
 
 
-<!--        android:id="@+id/multi_spinner" />-->
+    <!--        android:id="@+id/multi_spinner" />-->
 
     <edu.neu.madcourse.spotme.customui.MultiSpinner
         android:id="@+id/sportSpinner"

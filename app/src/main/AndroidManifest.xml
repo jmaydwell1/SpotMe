@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.spotme">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,11 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SpotMe">
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity"/>
-        <activity
-            android:name=".MainMatchMessageActivity"
+            android:name=".SpotMeSplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +23,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUp"/>
-        <activity android:name=".ResetPW"/>
+        <activity android:name=".ProfileBuilder"/>
+
+        <activity
+            android:name="MainActivity"
+            android:exported="true"/>
+        <activity android:name=".SignUp"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ResetPW"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ProfileBuilder"/>
         <activity android:name=".Preference"/>
+        <activity android:name=".SplashScreenLoadPreferenceData"/>
+        <activity
+            android:name=".PotentialMatchesActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MainMatchMessageActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+        <service
+            android:name=".MainActivity"
+            android:foregroundServiceType="location">
+        </service>
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
      </application>
+
 
 </manifest>
