@@ -1,6 +1,7 @@
 package edu.neu.madcourse.spotme;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     private int SELECTED_AGE = MIN_AGE;
     private int SELECTED_DISTANCE = MIN_DISTANCE;
 
+    private static String SHARED_PREF_NAME = "SpotMeSP";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -206,6 +208,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                 if (location != null) {
                     double longitude = location.getLongitude();
                     double latitude = location.getLatitude();
+                    writeSharedPreferencesLocation(latitude, longitude);
                     UserLocation userLocation = new UserLocation(longitude, latitude);
                     Firestore.mergeToDB(db, "users", userEmail, userLocation);
                 } else {
@@ -213,5 +216,22 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                 }
             }
         }));
+    }
+
+    private void writeSharedPreferencesLocation(Double latitude, Double longitude) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+
+        // Creating an Editor object to edit(write to the file)
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        // Storing the key and its value as the data fetched from edittext
+        // Store the login username
+        myEdit.putString("userLatitude", String.valueOf(latitude));
+        myEdit.putString("userLongitude", String.valueOf(longitude));
+
+        // Once the changes have been made,
+        // we need to commit to apply those changes made,
+        // otherwise, it will throw an error
+        myEdit.commit();
     }
 }
