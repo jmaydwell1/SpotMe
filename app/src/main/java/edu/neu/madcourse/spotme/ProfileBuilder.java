@@ -1,14 +1,18 @@
 package edu.neu.madcourse.spotme;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
 public class ProfileBuilder extends AppCompatActivity {
+
+    private ImageView nextBtn;
 
 
     @Override
@@ -16,17 +20,21 @@ public class ProfileBuilder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_builder);
 
-        ImageButton buttonOne = findViewById(R.id.potentialBuilderPingPong);
-        ImageButton buttonTwo = findViewById(R.id.potentialBuilderRunning);
-        ImageButton buttonThree = findViewById(R.id.potentialBuilderSki);
-        ImageButton buttonFour = findViewById(R.id.potentialBuilderSoccer);
-        ImageButton buttonFive = findViewById(R.id.potentialBuilderSwimming);
-        ImageButton buttonSix = findViewById(R.id.potentialBuilderYoga);
+        ImageButton pingPongBtn = findViewById(R.id.potentialBuilderPingPong);
+        ImageButton runningBtn = findViewById(R.id.potentialBuilderRunning);
+        ImageButton skiBtn = findViewById(R.id.potentialBuilderSki);
+        ImageButton soccerBtn = findViewById(R.id.potentialBuilderSoccer);
+        ImageButton swimmingBtn = findViewById(R.id.potentialBuilderSwimming);
+        ImageButton yogaBtn = findViewById(R.id.potentialBuilderYoga);
 
-        buttonOne.setOnClickListener(new View.OnClickListener() {
+        nextBtn = findViewById(R.id.potentialBuilderNext);
+
+        Drawable d = getResources().getDrawable(R.drawable.round_background_dark);
+
+        pingPongBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonOne.setBackgroundResource(R.color.cardview_dark_background);
+                pingPongBtn.setBackgroundResource(R.color.cardview_dark_background);
                 openPreferenceActivity();
             }
 
@@ -37,10 +45,10 @@ public class ProfileBuilder extends AppCompatActivity {
             }
         });
 
-        buttonTwo.setOnClickListener(new View.OnClickListener() {
+        runningBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonTwo.setBackgroundResource((R.color.cardview_dark_background));
+                runningBtn.setBackgroundResource((R.color.cardview_dark_background));
                 openPreferenceActivity();
             }
 
@@ -51,10 +59,10 @@ public class ProfileBuilder extends AppCompatActivity {
             }
         });
 
-        buttonThree.setOnClickListener(new View.OnClickListener() {
+        skiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonThree.setBackgroundResource((R.color.cardview_dark_background));
+                skiBtn.setBackgroundResource((R.color.cardview_dark_background));
                 openPreferenceActivity();
             }
 
@@ -65,10 +73,10 @@ public class ProfileBuilder extends AppCompatActivity {
             }
         });
 
-        buttonFour.setOnClickListener(new View.OnClickListener() {
+        soccerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonFour.setBackgroundResource((R.color.cardview_dark_background));
+                soccerBtn.setBackgroundResource((R.color.cardview_dark_background));
                 openPreferenceActivity();
             }
 
@@ -79,10 +87,10 @@ public class ProfileBuilder extends AppCompatActivity {
             }
         });
 
-        buttonFive.setOnClickListener(new View.OnClickListener() {
+        swimmingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonFive.setBackgroundResource((R.color.cardview_dark_background));
+                swimmingBtn.setBackgroundResource((R.color.cardview_dark_background));
                 openPreferenceActivity();
             }
 
@@ -93,10 +101,12 @@ public class ProfileBuilder extends AppCompatActivity {
             }
         });
 
-        buttonSix.setOnClickListener(new View.OnClickListener() {
+        yogaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonSix.setBackgroundResource((R.color.cardview_dark_background));
+//                yogaBtn.setBackground(R.drawable.round_background_dark);
+                yogaBtn.setBackground(d);
+//                yogaBtn.setBackgroundResource(R.drawable.round_background_dark);
                 openPreferenceActivity();
             }
 
@@ -104,6 +114,14 @@ public class ProfileBuilder extends AppCompatActivity {
                 Intent intent = new Intent(ProfileBuilder.this, Preference.class);
                 String strName = null;
                 intent.putExtra("swimming", strName);
+            }
+        });
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent preferenceIntent = new Intent(ProfileBuilder.this, Preference.class);
+                ProfileBuilder.this.startActivity(preferenceIntent);
             }
         });
     }

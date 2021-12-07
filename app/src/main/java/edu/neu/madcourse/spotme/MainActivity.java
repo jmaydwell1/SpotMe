@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:success");
                             sharedPreferencesConfig(email);
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
+                            Intent preferenceIntent = new Intent(MainActivity.this, ProfileBuilder.class);
                             preferenceIntent.putExtra("userEmail", user.getEmail());
                             MainActivity.this.startActivity(preferenceIntent);
                         } else {
