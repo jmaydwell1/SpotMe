@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         potentialMatchBtn.setOnClickListener(view -> {
-            Intent potentialIntent = new Intent(MainActivity.this, PotentialMatchesActivity.class);
+            Intent potentialIntent = new Intent(MainActivity.this, SplashScreenLoadPreferenceData.class);
             MainActivity.this.startActivity(potentialIntent);
         });
 

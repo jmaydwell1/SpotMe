@@ -1,5 +1,6 @@
 package edu.neu.madcourse.spotme;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import edu.neu.madcourse.spotme.database.models.UserPreference;
@@ -43,14 +46,17 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
 
         getSupportActionBar().hide(); // do we need this?
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        preferencesListener();
     }
 
     private void preferencesListener() {
-        db.collection("preferences").whereEqualTo("email", loginId)
+        Log.d(TAG,"preferencesListener starts");
+        Log.d(TAG, "loginId: " + loginId);
+        db.collection("preferences")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-
                         if (error != null) {
                             if (progressBar.getVisibility() == View.VISIBLE) {
                                 progressBar.setVisibility(View.GONE);
@@ -62,13 +68,16 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED || dc.getType() == DocumentChange.Type.MODIFIED) {
                                 // grab user's preference data here
-                                UserPreference userPreference = dc.getDocument().toObject(UserPreference.class);
-                                writeUserPreferenceToSP(userPreference);
-                                Log.d(TAG, dc.getDocument().getId() + " sport preferences: " + userPreference.getSports());
-
+                                if (dc.getDocument().getId().equals(loginId)) {
+                                    UserPreference userPreference = dc.getDocument().toObject(UserPreference.class);
+                                    writeUserPreferenceToSP(userPreference);
+                                    Log.d(TAG, dc.getDocument().getId() + " sport preferences: " + userPreference.getSports());
+                                }
                             }
                             if (progressBar.getVisibility() == View.VISIBLE) {
                                 progressBar.setVisibility(View.GONE);
+                                Intent potentialMatchesIntent = new Intent(SplashScreenLoadPreferenceData.this, PotentialMatchesActivity.class);
+                                SplashScreenLoadPreferenceData.this.startActivity(potentialMatchesIntent);
                             }
                         }
                     }
@@ -77,8 +86,8 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
 
     private void writeUserPreferenceToSP(UserPreference userPreference) {
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
-        Set<String> gendersSet = (Set<String>) userPreference.getGenders();
-        Set<String> sportsSet = (Set<String>) userPreference.getSports();
+        Set<String> gendersSet = convertListToSet(userPreference.getGenders());
+        Set<String> sportsSet = convertListToSet(userPreference.getSports());
         myEdit.putInt("distancePreference", userPreference.getDistance());
         myEdit.putInt("maxAgePreference", userPreference.getMaxAge());
         myEdit.putInt("minAgePreference", userPreference.getMinAge());
@@ -86,6 +95,14 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
         myEdit.putStringSet("sportsPreference", sportsSet);
 
         myEdit.commit();
+    }
+
+    private Set<String> convertListToSet(List<String> list) {
+        Set<String> stringSet = new HashSet<>();
+        for (String item : list) {
+            stringSet.add(item);
+        }
+        return stringSet;
     }
 
 }

@@ -25,10 +25,13 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import edu.neu.madcourse.spotme.database.models.Match;
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
+import edu.neu.madcourse.spotme.database.models.UserPreference;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class PotentialMatchesActivity extends AppCompatActivity {
@@ -43,6 +46,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+    private UserPreference userPreference;
     private Integer preferenceDistance, preferenceMinAge, preferenceMaxAge;
     private List<String> preferenceGenders, preferenceSports;
     private LocalDate today;
@@ -71,11 +75,13 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         Log.d(TAG, "userALat: " + userALatitude);
         Log.d(TAG, "userALon: " + userALongitude);
 
-        preferenceDistance = 100;
-        preferenceSports = new ArrayList<>(Arrays.asList("Swimming", "Ping Pong", "Soccer"));
-        preferenceGenders = new ArrayList<>(Arrays.asList("Female", "Male"));
-        preferenceMinAge = 0;
-        preferenceMaxAge = 30;
+        Set<String> defaultSports = new HashSet<>(Arrays.asList("Soccer", "Ping Pong", "Yoga", "Ski", "Swimming", "Running"));
+        Set<String> defaultGenders = new HashSet<>(Arrays.asList("Female", "Male"));
+        preferenceDistance = sharedPreferences.getInt("distancePreference", Integer.MAX_VALUE);
+        preferenceMinAge = sharedPreferences.getInt("minAgePreference", Integer.MIN_VALUE);
+        preferenceMaxAge = sharedPreferences.getInt("maxAgePreference", Integer.MAX_VALUE);
+        preferenceSports = convertSetToList(sharedPreferences.getStringSet("sportsPreference", defaultSports));
+        preferenceGenders = convertSetToList(sharedPreferences.getStringSet("gendersPreference", defaultGenders));
 
         today = LocalDate.now();
         db = FirebaseFirestore.getInstance();
@@ -232,5 +238,13 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         double difference = preferenceDistance - Math.abs(distance);
         Log.d(TAG, "distance: " + distance);
         return difference >= MARGIN_OF_ERROR;
+    }
+
+    private List<String> convertSetToList(Set<String> set) {
+        List<String> stringList = new ArrayList<>();
+        for (String item : set) {
+            stringList.add(item);
+        }
+        return stringList;
     }
 }
