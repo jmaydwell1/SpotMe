@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/mipmap-anydpi-v26/female 2.xml" value="0.22135416666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/female.xml" value="0.2375" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/female_round 2.xml" value="0.2375" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/female_round.xml" value="0.2375" />
       </map>
     </option>
   </component>
