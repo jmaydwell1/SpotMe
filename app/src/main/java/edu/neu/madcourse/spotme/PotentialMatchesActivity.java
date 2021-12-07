@@ -231,6 +231,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         final double MARGIN_OF_ERROR = 0.2;
         double difference = preferenceDistance - Math.abs(distance);
         Log.d(TAG, "distance: " + distance);
-        return Math.abs(difference) >= MARGIN_OF_ERROR;
+        return difference >= MARGIN_OF_ERROR;
     }
 }
