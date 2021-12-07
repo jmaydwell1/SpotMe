@@ -4,9 +4,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -19,9 +19,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ import edu.neu.madcourse.spotme.customui.MultiSpinner;
 import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.UserLocation;
 import edu.neu.madcourse.spotme.database.models.UserPreference;
+
+import static android.content.ContentValues.TAG;
 
 public class Preference extends AppCompatActivity implements MultiSpinner.MultiSpinnerListener {
     private ImageView femaleIcon;
@@ -54,7 +57,6 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     private int MIN_DISTANCE = 0;
     private int SELECTED_AGE = MIN_AGE;
     private int SELECTED_DISTANCE = MIN_DISTANCE;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +105,6 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                 Firestore.mergeToDB(db, "preferences", userEmail, preference);
             }
         });
-
 
         // Toggle gender icon when selected
         femaleIcon.setOnClickListener(new View.OnClickListener() {
@@ -198,18 +199,17 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     }
 
     private void getLocation() throws SecurityException {
-
         fusedLocationProvider.getLastLocation().addOnCompleteListener((new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
                 Location location = task.getResult();
                 if (location != null) {
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
+                    String longitude = Double.toString(location.getLongitude());
+                    String latitude = Double.toString(location.getLatitude());
                     UserLocation userLocation = new UserLocation(longitude, latitude);
+                    Log.e("WRITING LOCATION TO DB ", longitude + ", " + latitude);
+                    System.out.println("WRITING LOCATION TO DB " + longitude + ", " + latitude);
                     Firestore.mergeToDB(db, "users", userEmail, userLocation);
-                } else {
-
                 }
             }
         }));

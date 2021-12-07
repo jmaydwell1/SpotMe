@@ -1,59 +1,69 @@
 package edu.neu.madcourse.spotme.fcm;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-
-import androidx.core.app.NotificationCompat;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
 
-import edu.neu.madcourse.spotme.PotentialMatchesActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
+import edu.neu.madcourse.spotme.Utils;
 
 public class FirebaseMessaging extends FirebaseMessagingService {
-    private String CHANNEL_ID = "Channel ID";
-    private String CHANNEL_NAME = "Channel Name";
-    private String CHANNEL_DESCRIPTION = "Channel Description";
+    private static String SERVER_KEY = "AAAA61KOjbQ:APA91bExSNvz1ahVc-vwBr31tMVuLTmxfOmm_" +
+            "0r27dd83zTx2Vygm2ElPU7r9OWVrXyCOzfZfPnj4Co629bp2KPrdsr8ecRCAnNzPCP44-Q-9sllFvIHm" +
+            "UuiomCZARGThKoRuUS_IywP";
 
     /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param remoteMessageNotification FCM message  received.
+     * Button Handler; creates a new thread that sends off a message to the target(this) device
      */
-    private void showNotification(RemoteMessage.Notification remoteMessageNotification) {
+    public static void sendMessageToTargetDevice(String targetToken) {
 
-        // Main Activity is the activity that will be routed to after clicking on notification
-        Intent intent = new Intent(this, PotentialMatchesActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sendMessageToDevice(targetToken);
+            }
+        }).start();
+    }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+    /**
+     * Pushes a notification to a given device-- in particular, this device,
+     * because that's what the instanceID token is defined to be.
+     */
+    private static void sendMessageToDevice(String targetToken) {
 
-        Notification notification;
-        NotificationCompat.Builder builder;
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        // Prepare data
+        JSONObject jPayload = new JSONObject();
+        JSONObject jNotification = new JSONObject();
+        JSONObject jdata = new JSONObject();
+        try {
+            jNotification.put("title", "Message Title from 'SEND MESSAGE TO CLIENT BUTTON'");
+            jNotification.put("body", "Message body from 'SEND MESSAGE TO CLIENT BUTTON'");
+            jNotification.put("sound", "default");
+            jNotification.put("badge", "1");
+            /*
+            // We can add more details into the notification if we want.
+            // We happen to be ignoring them for this demo.
+            jNotification.put("click_action", "OPEN_ACTIVITY_1");
+            */
+            jdata.put("title", "data title from 'SEND MESSAGE TO CLIENT BUTTON'");
+            jdata.put("content", "data content from 'SEND MESSAGE TO CLIENT BUTTON'");
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-            // Configure the notification channel
-            notificationChannel.setDescription(CHANNEL_DESCRIPTION);
-            notificationManager.createNotificationChannel(notificationChannel);
-            builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+            /***
+             * The Notification object is now populated.
+             * Next, build the Payload that we send to the server.
+             */
 
-        } else {
-            builder = new NotificationCompat.Builder(this);
+            // If sending to a single client
+            jPayload.put("to", targetToken);
+            jPayload.put("priority", "high");
+            jPayload.put("notification", jNotification);
+            jPayload.put("data", jdata);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-
-        notification = builder.setContentTitle(remoteMessageNotification.getTitle())
-                .setContentText(remoteMessageNotification.getBody())
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .build();
-        notificationManager.notify(0, notification);
+        final String resp = Utils.fcmHttpConnection(SERVER_KEY, jPayload);
+        System.out.println("RESPONSE " + resp);
 
     }
 }

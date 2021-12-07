@@ -16,6 +16,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,6 +33,9 @@ import java.util.List;
 import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.Match;
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
+import edu.neu.madcourse.spotme.fcm.FirebaseMessaging;
+
+import static android.content.ContentValues.TAG;
 
 public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAdapter.PotentialMatchHolder> {
 
@@ -239,6 +244,46 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
             Firestore.writeToDBSubCollection(db, "matches", userBLoginId, "swiped", loginId, matchData[1]);
             // TODO send a notification
 
+            // SEND NOTIFICATION TO BOTH USERS
+            Firestore.readFromDBCollection(db, "users", loginId).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String loginIdToken = document.getData().get("tokenId").toString();
+                                    // Sending notification
+                                    FirebaseMessaging.sendMessageToTargetDevice(loginIdToken);
+                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData().get("tokenId"));
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+
+            Firestore.readFromDBCollection(db, "users", userBLoginId).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String userBLoginIdToken = document.getData().get("tokenId").toString();
+                                    FirebaseMessaging.sendMessageToTargetDevice(userBLoginIdToken);
+                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData().get("tokenId"));
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+
         } else {
             Log.d("Write Match to DB", "USERS DON'T MATCH");
             matchData[0] = new Match(name, picture, date, false);
@@ -250,4 +295,5 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
         LocalDate today = LocalDate.now();
         return today.getMonthValue() + "/" + today.getDayOfMonth() + "/" + today.getYear();
     }
+
 }
