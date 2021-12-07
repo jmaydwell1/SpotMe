@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void reload() { }
 
-    public void sharedPreferencesConfig(String loginId) {
+    private void sharedPreferencesConfig(String loginId) {
         // Storing data into SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
