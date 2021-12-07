@@ -3,7 +3,6 @@ package edu.neu.madcourse.spotme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +16,12 @@ public class ProfileBuilder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_builder);
 
-        ImageButton buttonOne = findViewById(R.id.imageView5);
-        ImageButton buttonTwo = findViewById(R.id.imageView6);
-        ImageButton buttonThree = findViewById(R.id.imageView7);
-        ImageButton buttonFour = findViewById(R.id.imageView8);
-        ImageButton buttonFive = findViewById(R.id.imageView9);
-        ImageButton buttonSix = findViewById(R.id.imageView10);
+        ImageButton buttonOne = findViewById(R.id.potentialBuilderPingPong);
+        ImageButton buttonTwo = findViewById(R.id.potentialBuilderRunning);
+        ImageButton buttonThree = findViewById(R.id.potentialBuilderSki);
+        ImageButton buttonFour = findViewById(R.id.potentialBuilderSoccer);
+        ImageButton buttonFive = findViewById(R.id.potentialBuilderSwimming);
+        ImageButton buttonSix = findViewById(R.id.potentialBuilderYoga);
 
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
