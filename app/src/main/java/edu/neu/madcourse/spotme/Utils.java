@@ -1,5 +1,7 @@
 package edu.neu.madcourse.spotme;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;

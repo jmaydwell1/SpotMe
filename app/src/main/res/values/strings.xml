@@ -34,7 +34,7 @@
     <string name="sporticon">sportIcon</string>
     <string name="user_profile_img">User Profile Img</string>
     <string name="pm_full_name">Full Name</string>
-    <string name="spot_me">Spot Me</string>
+    <string name="spot_me">SpotMe</string>
 
     <string-array name="user_fullNames_all">
         <item>Alyssa Jones</item>

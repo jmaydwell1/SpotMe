@@ -1,6 +1,7 @@
 package edu.neu.madcourse.spotme;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -57,6 +58,8 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     private int MIN_DISTANCE = 0;
     private int SELECTED_AGE = MIN_AGE;
     private int SELECTED_DISTANCE = MIN_DISTANCE;
+
+    private static String SHARED_PREF_NAME = "SpotMeSP";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,11 +210,29 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                     String longitude = Double.toString(location.getLongitude());
                     String latitude = Double.toString(location.getLatitude());
                     UserLocation userLocation = new UserLocation(longitude, latitude);
+                    writeSharedPreferencesLocation(latitude, longitude);
                     Log.e("WRITING LOCATION TO DB ", longitude + ", " + latitude);
                     System.out.println("WRITING LOCATION TO DB " + longitude + ", " + latitude);
                     Firestore.mergeToDB(db, "users", userEmail, userLocation);
                 }
             }
         }));
+    }
+
+    private void writeSharedPreferencesLocation(String latitude, String longitude) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+
+        // Creating an Editor object to edit(write to the file)
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        // Storing the key and its value as the data fetched from edittext
+        // Store the login username
+        myEdit.putString("userLatitude", latitude);
+        myEdit.putString("userLongitude", longitude);
+
+        // Once the changes have been made,
+        // we need to commit to apply those changes made,
+        // otherwise, it will throw an error
+        myEdit.commit();
     }
 }

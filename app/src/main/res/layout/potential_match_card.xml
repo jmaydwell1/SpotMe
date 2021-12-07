@@ -55,7 +55,7 @@
                     android:layout_margin="3dp"
                     android:visibility="gone"
                     android:contentDescription="@string/sporticon"
-                    app:srcCompat="@drawable/soccer_icon" />
+                    app:srcCompat="@drawable/soccer" />
 
                 <ImageView
                     android:id="@+id/potential_match_pingpong_icon"
@@ -63,7 +63,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="3dp"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/pingpong_icon" />
+                    app:srcCompat="@drawable/pingpong" />
 
                 <ImageView
                     android:id="@+id/potential_match_yoga_icon"
@@ -71,7 +71,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="3dp"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/pingpong_icon" />
+                    app:srcCompat="@drawable/yoga" />
 
             </LinearLayout>
 
@@ -87,7 +87,7 @@
                     android:layout_margin="3dp"
                     android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@+id/potential_match_picture"
-                    app:srcCompat="@drawable/soccer_icon" />
+                    app:srcCompat="@drawable/ski" />
 
                 <ImageView
                     android:id="@+id/potential_match_swimming_icon"
@@ -95,7 +95,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="3dp"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/pingpong_icon" />
+                    app:srcCompat="@drawable/swimming" />
 
                 <ImageView
                     android:id="@+id/potential_match_running_icon"
@@ -103,7 +103,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="3dp"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/pingpong_icon" />
+                    app:srcCompat="@drawable/running" />
 
             </LinearLayout>
         </LinearLayout>

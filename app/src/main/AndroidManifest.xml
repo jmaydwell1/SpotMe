@@ -15,13 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SpotMe">
         <activity
-            android:name="MainActivity"
-            android:exported="true"/>
-        <activity
-            android:name=".MainMatchMessageActivity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".SpotMeSplashScreen"
             android:exported="true">
             <intent-filter>
@@ -33,11 +26,24 @@
         <activity android:name=".ProfileBuilder"/>
 
         <activity
+            android:name="MainActivity"
+            android:exported="true"/>
+        <activity android:name=".SignUp"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ResetPW"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ProfileBuilder"/>
+        <activity android:name=".Preference"/>
+        <activity android:name=".SplashScreenLoadPreferenceData"/>
+        <activity
             android:name=".PotentialMatchesActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".SignUp"/>
-        <activity android:name=".ResetPW"/>
-        <activity android:name=".Preference"/>
+        <activity
+            android:name=".MainMatchMessageActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
         <service
             android:name=".MainActivity"
             android:foregroundServiceType="location">

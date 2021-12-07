@@ -90,7 +90,7 @@
                             android:layout_margin="3dp"
                             android:visibility="visible"
                             android:contentDescription="@string/sporticon"
-                            app:srcCompat="@drawable/soccer_icon" />
+                            app:srcCompat="@drawable/soccer" />
 
                         <ImageView
                             android:id="@+id/potential_big_pingpong_icon"
@@ -99,7 +99,7 @@
                             android:contentDescription="@string/sporticon"
                             android:layout_margin="3dp"
                             android:visibility="visible"
-                            app:srcCompat="@drawable/pingpong_icon" />
+                            app:srcCompat="@drawable/pingpong" />
 
                         <ImageView
                             android:id="@+id/potential_big_yoga_icon"
@@ -108,7 +108,7 @@
                             android:layout_margin="3dp"
                             android:visibility="visible"
                             android:contentDescription="@string/sporticon"
-                            app:srcCompat="@drawable/pingpong_icon" />
+                            app:srcCompat="@drawable/yoga" />
 
                     </LinearLayout>
 
@@ -124,7 +124,7 @@
                             android:layout_margin="3dp"
                             android:visibility="visible"
                             android:contentDescription="@string/sporticon"
-                            app:srcCompat="@drawable/soccer_icon" />
+                            app:srcCompat="@drawable/ski" />
 
                         <ImageView
                             android:id="@+id/potential_big_swimming_icon"
@@ -133,7 +133,7 @@
                             android:layout_margin="3dp"
                             android:visibility="visible"
                             android:contentDescription="@string/sporticon"
-                            app:srcCompat="@drawable/pingpong_icon" />
+                            app:srcCompat="@drawable/swimming" />
 
                         <ImageView
                             android:id="@+id/potential_big_running_icon"
@@ -142,7 +142,7 @@
                             android:layout_margin="3dp"
                             android:visibility="visible"
                             android:contentDescription="@string/sporticon"
-                            app:srcCompat="@drawable/pingpong_icon" />
+                            app:srcCompat="@drawable/running" />
                     </LinearLayout>
                 </LinearLayout>
 

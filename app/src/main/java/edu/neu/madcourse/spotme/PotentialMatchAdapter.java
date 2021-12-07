@@ -77,7 +77,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
         PotentialMatch potentialMatch = potentialMatchArrayList.get(position);
         String genderAge = potentialMatch.getGender() + ", " + calculateAge(potentialMatch.getDob());
         Double distance = Math.round(Utils.distance(userLatitude, userLongitude, potentialMatch.getLatitude(), potentialMatch.getLongitude(), "M") * 100) / 100.0;
-        String distanceText = String.valueOf(distance) + " miles away";
+        String distanceText = distance + " miles away";
         String picturePath = "profile_pictures/" + potentialMatch.getPicture();
         profilePictureStorage = storage.getReference().child(picturePath);
         List<String> sports = potentialMatch.getSports();
@@ -189,7 +189,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
         viewHolder.potentialMatchCard.setOnClickListener(itemView -> {
             dialogNameTv.setText(viewHolder.holderNameTv.getText());
             dialogGenderAgeTv.setText(viewHolder.holderGenderAgeTv.getText());
-            dialogDistanceTv.setText(viewHolder.holderDistanceTv.getText() + " miles away");
+            dialogDistanceTv.setText(viewHolder.holderDistanceTv.getText());
             dialogPictureIv.setImageDrawable(viewHolder.holderPictureIv.getDrawable());
             setDialogSportIcons(viewHolder);
             potentialMatchDialog.show();
