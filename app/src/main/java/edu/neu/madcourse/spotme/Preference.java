@@ -206,10 +206,10 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
             public void onComplete(@NonNull Task<Location> task) {
                 Location location = task.getResult();
                 if (location != null) {
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
+                    String longitude = Double.toString(location.getLongitude());
+                    String latitude = Double.toString(location.getLatitude());
+                    UserLocation userLocation = new UserLocation(longitude, latitude);
                     writeSharedPreferencesLocation(latitude, longitude);
-                    UserLocation userLocation = new UserLocation(String.valueOf(longitude), String.valueOf(latitude));
                     Firestore.mergeToDB(db, "users", userEmail, userLocation);
                 } else {
 
@@ -218,7 +218,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         }));
     }
 
-    private void writeSharedPreferencesLocation(Double latitude, Double longitude) {
+    private void writeSharedPreferencesLocation(String latitude, String longitude) {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
         // Creating an Editor object to edit(write to the file)
@@ -226,8 +226,8 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
 
         // Storing the key and its value as the data fetched from edittext
         // Store the login username
-        myEdit.putString("userLatitude", String.valueOf(latitude));
-        myEdit.putString("userLongitude", String.valueOf(longitude));
+        myEdit.putString("userLatitude", latitude);
+        myEdit.putString("userLongitude", longitude);
 
         // Once the changes have been made,
         // we need to commit to apply those changes made,
