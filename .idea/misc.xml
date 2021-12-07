@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_looks_two_24.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout-land/login_activity.xml" value="0.33" />
         <entry key="app/src/main/res/layout-land/potential_buddy_dialog.xml" value="0.17019400352733685" />
+        <entry key="app/src/main/res/layout-land/preferences.xml" value="0.17548500881834214" />
         <entry key="app/src/main/res/layout/activity_spot_me_splash_screen.xml" value="0.22" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.5" />
         <entry key="app/src/main/res/layout/matched_r_view_row.xml" value="0.22" />
