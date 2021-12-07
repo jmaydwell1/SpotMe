@@ -25,7 +25,7 @@ public class SpotMeSplashScreen extends AppCompatActivity {
                 startActivity(launchIntent);
                 finish();
             }
-        }, 7000);
+        }, 1500);
 
 
 

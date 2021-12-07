@@ -48,6 +48,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private LocalDate today;
 
     private static final String TAG = "PotentialMatchesActivity";
+    private static final String SHARED_PREF_NAME = "SpotMeSP";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +63,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        String SHARED_PREF_NAME = "SpotMeSP";
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         loginId = sharedPreferences.getString("loginId", "empty");
         // default is Northeastern University location
