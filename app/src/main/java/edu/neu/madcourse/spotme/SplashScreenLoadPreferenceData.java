@@ -44,13 +44,13 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spot_me_splash_screen);
+        setContentView(R.layout.splash_screen_load_preferences);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-//        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 //        loginId = sharedPreferences.getString("loginId", "empty");
         loginId = mAuth.getCurrentUser().getEmail();
 
