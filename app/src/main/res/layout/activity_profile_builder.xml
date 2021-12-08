@@ -52,7 +52,6 @@
                android:layout_row="0"
                android:layout_column="0"
                android:background="@drawable/round_background_light"
-               android:backgroundTint="@color/spotMe_offWhite"
                app:srcCompat="@drawable/pingpong" />
 
            <ImageButton
@@ -62,7 +61,6 @@
                android:layout_row="0"
                android:layout_column="1"
                android:background="@drawable/round_background_light"
-               android:backgroundTint="@color/spotMe_offWhite"
                app:srcCompat="@drawable/running" />
 
            <ImageButton
@@ -72,7 +70,6 @@
                android:layout_row="1"
                android:layout_column="0"
                android:background="@drawable/round_background_light"
-               android:backgroundTint="@color/spotMe_offWhite"
                app:srcCompat="@drawable/ski" />
 
            <ImageButton
@@ -82,7 +79,6 @@
                android:layout_row="1"
                android:layout_column="1"
                android:background="@drawable/round_background_light"
-               android:backgroundTint="@color/spotMe_offWhite"
                app:srcCompat="@drawable/soccer" />
 
            <ImageButton
@@ -92,7 +88,6 @@
                android:layout_row="2"
                android:layout_column="0"
                android:background="@drawable/round_background_light"
-               android:backgroundTint="@color/spotMe_offWhite"
                app:srcCompat="@drawable/swimming" />
 
            <ImageButton
@@ -102,7 +97,6 @@
                android:layout_row="2"
                android:layout_column="1"
                android:background="@drawable/round_background_light"
-               android:backgroundTint="@color/spotMe_offWhite"
                app:srcCompat="@drawable/yoga" />
 
            <ImageView
