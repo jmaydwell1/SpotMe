@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     private EditText email;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView forgotPw;
     private Button potentialMatchBtn;
     private Button matchBtn;
+    private String CLIENT_REGISTRATION_TOKEN;
 
     private FirebaseAuth mAuth;
 
@@ -51,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
         getSupportActionBar().hide();
         setContentView(R.layout.login_activity);
-
-
 
 
         email = findViewById(R.id.editTextTextEmailAddressLogin);

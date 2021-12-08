@@ -33,8 +33,7 @@ import edu.neu.madcourse.spotme.customui.MultiSpinner;
 import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.UserLocation;
 import edu.neu.madcourse.spotme.database.models.UserPreference;
-
-import static android.content.ContentValues.TAG;
+import edu.neu.madcourse.spotme.fcm.FirebaseMessaging;
 
 public class Preference extends AppCompatActivity implements MultiSpinner.MultiSpinnerListener {
     private ImageView femaleIcon;
@@ -64,6 +63,8 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         setContentView(R.layout.preferences);
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         getPermission();
+
+//        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
 
         db = FirebaseFirestore.getInstance();
 
