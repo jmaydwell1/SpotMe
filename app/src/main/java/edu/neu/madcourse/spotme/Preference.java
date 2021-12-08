@@ -1,6 +1,7 @@
 package edu.neu.madcourse.spotme;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -50,12 +51,14 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     private String userEmail;
 
 
-    private List<String> sports = Arrays.asList("Soccer", "Running", "Yoga", "Boxing", "Badminton", "Ping Pong");
+    private List<String> sports = Arrays.asList("Soccer", "Ping Pong", "Yoga", "Ski", "Swimming", "Running");
     private List<String> CHOSEN_SPORT;
     private int MIN_AGE = 18;
     private int MIN_DISTANCE = 0;
     private int SELECTED_AGE = MIN_AGE;
     private int SELECTED_DISTANCE = MIN_DISTANCE;
+
+    private static String SHARED_PREF_NAME = "SpotMeSP";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         ageBar.setMin(18);
         ageBar.setMax(100);
         distanceBar = findViewById(R.id.distanceBar);
+        distanceBar.setMax(10000); // Increase max distance for testing purposes
         ageProgressDisplay = findViewById(R.id.ageProgressDisplay);
         distanceProgressDisplay = findViewById(R.id.distanceProgressDisplay);
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.sportSpinner);
@@ -208,11 +212,29 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                     String longitude = Double.toString(location.getLongitude());
                     String latitude = Double.toString(location.getLatitude());
                     UserLocation userLocation = new UserLocation(longitude, latitude);
+                    writeSharedPreferencesLocation(latitude, longitude);
                     Log.e("WRITING LOCATION TO DB ", longitude + ", " + latitude);
                     System.out.println("WRITING LOCATION TO DB " + longitude + ", " + latitude);
                     Firestore.mergeToDB(db, "users", userEmail, userLocation);
                 }
             }
         }));
+    }
+
+    private void writeSharedPreferencesLocation(String latitude, String longitude) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+
+        // Creating an Editor object to edit(write to the file)
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        // Storing the key and its value as the data fetched from edittext
+        // Store the login username
+        myEdit.putString("userLatitude", latitude);
+        myEdit.putString("userLongitude", longitude);
+
+        // Once the changes have been made,
+        // we need to commit to apply those changes made,
+        // otherwise, it will throw an error
+        myEdit.commit();
     }
 }
