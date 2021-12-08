@@ -5,6 +5,9 @@ import java.util.List;
 public class UserSports {
     List<String> sports;
 
+    public UserSports() {
+    }
+
     public UserSports(List<String> sports) {
         this.sports = sports;
     }
