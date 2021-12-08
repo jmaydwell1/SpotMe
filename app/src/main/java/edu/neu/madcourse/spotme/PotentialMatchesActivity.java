@@ -1,7 +1,10 @@
 package edu.neu.madcourse.spotme;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +35,8 @@ import java.util.Set;
 import edu.neu.madcourse.spotme.database.models.Match;
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
 import edu.neu.madcourse.spotme.database.models.UserPreference;
+import edu.neu.madcourse.spotme.fcm.FirebaseMessaging;
+import edu.neu.madcourse.spotme.notification.SendNotificationActivity;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class PotentialMatchesActivity extends AppCompatActivity {
@@ -58,6 +63,11 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.potential_matches);
+
+        // TODO - SENDING NOTI FOREGROUND
+        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
+        createNotificationChannel();
+        SendNotificationActivity.sendNotification(PotentialMatchesActivity.this);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -93,6 +103,23 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId, userALatitude, userALongitude);
         recyclerView.setAdapter(adapter);
         onSwipeConfig();
+    }
+
+    public void createNotificationChannel() {
+        // This must be called early because it must be called before a notification is sent.
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "CHANNEL NAME";
+            String description = "CHANNEL DESCRIPTION";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("CHANNEL ID", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void potentialMatchesListener() {

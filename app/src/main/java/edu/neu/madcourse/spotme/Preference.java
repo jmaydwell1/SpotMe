@@ -1,6 +1,7 @@
 package edu.neu.madcourse.spotme;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -35,6 +36,7 @@ import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.UserLocation;
 import edu.neu.madcourse.spotme.database.models.UserPreference;
 import edu.neu.madcourse.spotme.fcm.FirebaseMessaging;
+import edu.neu.madcourse.spotme.notification.SendNotificationActivity;
 
 public class Preference extends AppCompatActivity implements MultiSpinner.MultiSpinnerListener {
     private ImageView femaleIcon;
@@ -67,9 +69,8 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this);
         getPermission();
 
-//        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
-
         db = FirebaseFirestore.getInstance();
+
 
         femaleIcon = findViewById(R.id.femaleIcon);
         maleIcon = findViewById(R.id.maleIcon);
@@ -82,23 +83,18 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         distanceProgressDisplay = findViewById(R.id.distanceProgressDisplay);
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.sportSpinner);
         multiSpinner.setItems(sports, "Select a sport", this);
+        saveBtn = findViewById(R.id.savePrefBtn);
 
-        Bundle extras = getIntent().getExtras();
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        if (extras != null) {
-            userEmail = extras.getString("userEmail");
-        } else {
-            userEmail = auth.getCurrentUser().getEmail();
-        }
-
-        saveBtn = findViewById(R.id.savePrefBtn);
+        userEmail = auth.getCurrentUser().getEmail();
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CHOSEN_SPORT == null) {
                     Utils.makeToast(getApplicationContext(), "Please select a sport");
+                    return;
                 }
                 List<String> selectedGenders = new ArrayList<>();
                 if (isMaleSelected) {
@@ -108,6 +104,8 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                 }
                 UserPreference preference = new UserPreference(SELECTED_DISTANCE, selectedGenders, SELECTED_AGE, 18, CHOSEN_SPORT);
                 Firestore.mergeToDB(db, "preferences", userEmail, preference);
+                Intent potentialMatchIntent = new Intent(Preference.this, PotentialMatchesActivity.class);
+                Preference.this.startActivity(potentialMatchIntent);
             }
         });
 
