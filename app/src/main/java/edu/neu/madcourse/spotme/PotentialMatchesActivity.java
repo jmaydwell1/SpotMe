@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,6 +47,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private ArrayList<String> matchesId;
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
     private String loginId, userALatitude, userALongitude;
     private ProgressBar progressBar;
 
@@ -77,8 +79,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-        loginId = sharedPreferences.getString("loginId", "empty");
+//        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+//        loginId = sharedPreferences.getString("loginId", "empty");
         // default is Northeastern University location
         userALatitude = sharedPreferences.getString("userLatitude", "42.478951");
         userALongitude = sharedPreferences.getString("userLongitude", "-71.189247");
@@ -95,6 +97,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
         today = LocalDate.now();
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        loginId = mAuth.getCurrentUser().getEmail();
         matchesId = new ArrayList<>();
         potentialMatches = new ArrayList<>();
 //        matchesListener();
