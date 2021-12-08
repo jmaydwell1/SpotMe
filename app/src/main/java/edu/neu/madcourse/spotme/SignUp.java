@@ -165,8 +165,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                                 UserPreference defaultUserPreference = createDefaultPreference();
                                 Firestore.writeToDB(db, "preferences", email, defaultUserPreference);
                             Log.e("CLIENT_REGISTRATION_TOKEN", CLIENT_REGISTRATION_TOKEN);
-//                            Intent preferenceIntent = new Intent(SignUp.this, Preference.class);
-                            Intent preferenceIntent = new Intent(SignUp.this, MainActivity.class);
+                            Intent preferenceIntent = new Intent(SignUp.this, Preference.class);
                             SignUp.this.startActivity(preferenceIntent);
                         }
                     }
