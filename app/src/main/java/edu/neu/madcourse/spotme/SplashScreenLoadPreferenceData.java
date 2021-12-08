@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -32,6 +33,8 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+
     private SharedPreferences sharedPreferences;
     private String loginId;
 
@@ -45,9 +48,11 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-        loginId = sharedPreferences.getString("loginId", "empty");
+//        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+//        loginId = sharedPreferences.getString("loginId", "empty");
+        loginId = mAuth.getCurrentUser().getEmail();
 
         getSupportActionBar().hide(); // do we need this?
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
