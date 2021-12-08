@@ -1,6 +1,7 @@
 package edu.neu.madcourse.spotme;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -11,6 +12,14 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.neu.madcourse.spotme.database.firestore.Firestore;
+import edu.neu.madcourse.spotme.database.models.UserSports;
+
 
 public class ProfileBuilder extends AppCompatActivity {
 
@@ -18,12 +27,21 @@ public class ProfileBuilder extends AppCompatActivity {
     private ImageButton pingPongBtn, runningBtn, skiBtn, soccerBtn, swimmingBtn, yogaBtn;
     private boolean pingPongBtnPressed, runningBtnPressed, yogaBtnPressed, skiBtnPressed, soccerBtnPressed, swimmingBtnPressed;
 
+    private FirebaseFirestore db;
+    private SharedPreferences sharedPreferences;
+    private String loginId;
+
     private static final String TAG = "ProfileBuilder";
+    private static String SHARED_PREF_NAME = "SpotMeSP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_builder);
+
+        db = FirebaseFirestore.getInstance();
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        loginId = sharedPreferences.getString("loginId", "empty");
 
         pingPongBtn = findViewById(R.id.potentialBuilderPingPong);
         runningBtn = findViewById(R.id.potentialBuilderRunning);
@@ -35,14 +53,34 @@ public class ProfileBuilder extends AppCompatActivity {
 
         ButtonClickListener buttonClickListener = new ButtonClickListener();
         pingPongBtn.setOnClickListener(buttonClickListener);
+        runningBtn.setOnClickListener(buttonClickListener);
+        skiBtn.setOnClickListener(buttonClickListener);
+        soccerBtn.setOnClickListener(buttonClickListener);
+        swimmingBtn.setOnClickListener(buttonClickListener);
+        yogaBtn.setOnClickListener(buttonClickListener);
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Write to DB
+                List<String> sportsList = createSportsList();
+                UserSports userSports= new UserSports(sportsList);
+                Firestore.mergeToDB(db, "users", loginId, userSports);
                 Intent preferenceIntent = new Intent(ProfileBuilder.this, Preference.class);
                 ProfileBuilder.this.startActivity(preferenceIntent);
             }
         });
+    }
+
+    private List<String> createSportsList() {
+        List<String> sportsList = new ArrayList<>();
+        if (pingPongBtnPressed) sportsList.add("Ping Pong");
+        if (runningBtnPressed) sportsList.add("Running");
+        if (skiBtnPressed) sportsList.add("Ski");
+        if (soccerBtnPressed) sportsList.add("Soccer");
+        if (swimmingBtnPressed) sportsList.add("Swimming");
+        if (yogaBtnPressed) sportsList.add("Yoga");
+        return sportsList;
     }
 
     class ButtonClickListener implements View.OnClickListener {
@@ -82,7 +120,7 @@ public class ProfileBuilder extends AppCompatActivity {
     }
 
     private void switchButtonState(boolean imageButtonState, ImageButton imageButton) {
-        if (imageButtonState) {
+        if (!imageButtonState) {
             imageButton.setBackgroundResource(R.drawable.round_background_dark);
         } else {
             imageButton.setBackgroundResource(R.drawable.round_background_light);
