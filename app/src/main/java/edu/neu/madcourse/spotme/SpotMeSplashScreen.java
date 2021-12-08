@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.WindowManager;
 
 public class SpotMeSplashScreen extends AppCompatActivity {
+    private static final Integer DELAY_TIME = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class SpotMeSplashScreen extends AppCompatActivity {
                 startActivity(launchIntent);
                 finish();
             }
-        }, 1500);
+        }, DELAY_TIME);
 
 
 
