@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23897435897435898" />
         <entry key="app/src/main/res/drawable/ic_baseline_check_box_24.xml" value="0.20277777777777778" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_baseline_looks_one_24.xml" value="0.2171875" />
         <entry key="app/src/main/res/drawable/ic_baseline_looks_two_24.xml" value="0.2171875" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.23897435897435898" />
         <entry key="app/src/main/res/drawable/round_background_dark.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/round_corner_image.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/sports_selector.xml" value="0.12777777777777777" />
