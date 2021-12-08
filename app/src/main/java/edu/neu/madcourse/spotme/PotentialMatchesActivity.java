@@ -116,7 +116,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                                 Log.d(TAG, potentialMatch.getEmail());
                                 Log.d(TAG, potentialMatch.getEmail() + " lat: " + potentialMatch.getLatitude());
                                 Log.d(TAG, potentialMatch.getEmail() + " long: " + potentialMatch.getLongitude());
-                                if (notMatchedYet(potentialMatch.getEmail()) && matchPreferences(potentialMatch)) {
+                                if (matchPreferences(potentialMatch)) {
                                     potentialMatches.add(potentialMatch);
                                 }
                             }
