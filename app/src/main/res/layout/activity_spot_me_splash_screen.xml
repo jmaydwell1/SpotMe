@@ -29,10 +29,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="110dp"
-        android:text="@string/spot_me"
-        android:textColor="@color/spotMe_offWhite"
         android:fontFamily="@font/poppins_bold"
+        android:text="SpotMe "
+        android:textColor="@color/spotMe_offWhite"
         android:textSize="40sp"
-        android:textStyle="italic"/>
+        android:textStyle="italic" />
 
 </RelativeLayout>

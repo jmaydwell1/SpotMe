@@ -76,6 +76,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         ageBar.setMin(18);
         ageBar.setMax(100);
         distanceBar = findViewById(R.id.distanceBar);
+        distanceBar.setMax(10000); // Increase max distance for testing purposes
         ageProgressDisplay = findViewById(R.id.ageProgressDisplay);
         distanceProgressDisplay = findViewById(R.id.distanceProgressDisplay);
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.sportSpinner);

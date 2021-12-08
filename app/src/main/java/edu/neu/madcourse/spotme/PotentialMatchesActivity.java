@@ -87,8 +87,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         matchesId = new ArrayList<>();
         potentialMatches = new ArrayList<>();
-        matchesListener();
-//        potentialMatchesListener();
+//        matchesListener();
+        potentialMatchesListener();
 
         adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId, userALatitude, userALongitude);
         recyclerView.setAdapter(adapter);
@@ -116,7 +116,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                                 Log.d(TAG, potentialMatch.getEmail());
                                 Log.d(TAG, potentialMatch.getEmail() + " lat: " + potentialMatch.getLatitude());
                                 Log.d(TAG, potentialMatch.getEmail() + " long: " + potentialMatch.getLongitude());
-                                if (notMatchedYet(potentialMatch.getEmail()) && matchPreferences(potentialMatch)) {
+                                if (matchPreferences(potentialMatch)) {
                                     potentialMatches.add(potentialMatch);
                                 }
                             }
@@ -130,34 +130,35 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
     }
 
-    private void matchesListener() {
-        db.collection("matches").document(loginId).collection("swiped")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            if (progressBar.getVisibility() == View.VISIBLE) {
-                                progressBar.setVisibility(View.GONE);
-                            }
-                            Log.e("Firestore data potential match error", error.getMessage());
-                            return;
-                        }
-
-                        for (DocumentChange dc : value.getDocumentChanges()) {
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                // get matched users here
-                                Match match = dc.getDocument().toObject(Match.class);
-                                if (match.isMatch()) {
-                                    Log.d("matches listener", match.getName());
-                                    matchesId.add(dc.getDocument().getId());
-                                }
-                            }
-                        }
-                        Log.d("matches size", String.valueOf(matchesId.size()));
-                        potentialMatchesListener();
-                    }
-                });
-    }
+    // Comment out as no need to filter out the matched users
+//    private void matchesListener() {
+//        db.collection("matches").document(loginId).collection("swiped")
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                        if (error != null) {
+//                            if (progressBar.getVisibility() == View.VISIBLE) {
+//                                progressBar.setVisibility(View.GONE);
+//                            }
+//                            Log.e("Firestore data potential match error", error.getMessage());
+//                            return;
+//                        }
+//
+//                        for (DocumentChange dc : value.getDocumentChanges()) {
+//                            if (dc.getType() == DocumentChange.Type.ADDED) {
+//                                // get matched users here
+//                                Match match = dc.getDocument().toObject(Match.class);
+//                                if (match.isMatch()) {
+//                                    Log.d("matches listener", match.getName());
+//                                    matchesId.add(dc.getDocument().getId());
+//                                }
+//                            }
+//                        }
+//                        Log.d("matches size", String.valueOf(matchesId.size()));
+//                        potentialMatchesListener();
+//                    }
+//                });
+//    }
 
     private void onSwipeConfig() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -196,9 +197,9 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         }).attachToRecyclerView(recyclerView);
     }
 
-    private boolean notMatchedYet(String potentialMatchEmail) {
-        return !matchesId.contains(potentialMatchEmail);
-    }
+//    private boolean notMatchedYet(String potentialMatchEmail) {
+//        return !matchesId.contains(potentialMatchEmail);
+//    }
 
     private boolean matchPreferences(PotentialMatch potentialMatch) {
         return gendersFilter(potentialMatch.getGender())
