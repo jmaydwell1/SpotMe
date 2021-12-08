@@ -26,14 +26,18 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.User;
 import edu.neu.madcourse.spotme.database.models.UserLocation;
+import edu.neu.madcourse.spotme.database.models.UserPreference;
+import edu.neu.madcourse.spotme.database.models.UserSports;
 
 public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private TextView emailTv;
@@ -53,14 +57,18 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
     private static final String TAG = "SignUpSpotMe";
 
     private String[] genders = { "Female", "Male" };
-
+    private static final List<String> DEFAULT_SPORTS = Arrays.asList("Soccer", "Ping Pong", "Yoga", "Ski", "Swimming", "Running");
+    private static final int DEFAULT_DISTANCE = 10000;
+    private static final int DEFAULT_MIN_AGE = 18;
+    private static final int DEFAULT_MAX_AGE = 100;
+    private UserSports userSports;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        userSports = new UserSports(DEFAULT_SPORTS);
     }
 
     @Override
@@ -149,10 +157,14 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                         } else {
                             if (CLIENT_REGISTRATION_TOKEN == null) {
                                 CLIENT_REGISTRATION_TOKEN = task.getResult();
-                                User newUser = new User(CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, SELECTED_GENDER, email, null);
+                                User newUser = new User(CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, SELECTED_GENDER, email);
                                 Firestore.writeToDB(db, "users", email, newUser);
+                                Firestore.mergeToDB(db, "users", email, userSports);
+                                UserPreference defaultUserPreference = createDefaultPreference();
+                                Firestore.writeToDB(db, "preferences", email, defaultUserPreference);
                             Log.e("CLIENT_REGISTRATION_TOKEN", CLIENT_REGISTRATION_TOKEN);
-                            Intent preferenceIntent = new Intent(SignUp.this, Preference.class);
+//                            Intent preferenceIntent = new Intent(SignUp.this, Preference.class);
+                            Intent preferenceIntent = new Intent(SignUp.this, MainActivity.class);
                             SignUp.this.startActivity(preferenceIntent);
                         }
                     }
@@ -211,5 +223,11 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private UserPreference createDefaultPreference() {
+        List<String> defaultGenders = Arrays.asList(genders);
+        UserPreference userPreference = new UserPreference(DEFAULT_DISTANCE, defaultGenders, DEFAULT_MAX_AGE, DEFAULT_MIN_AGE, DEFAULT_SPORTS);
+        return userPreference;
     }
 }
