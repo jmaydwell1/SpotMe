@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,11 +64,17 @@ public class ProfileBuilder extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Write to DB
-                List<String> sportsList = createSportsList();
-                UserSports userSports= new UserSports(sportsList);
-                Firestore.mergeToDB(db, "users", loginId, userSports);
-                Intent preferenceIntent = new Intent(ProfileBuilder.this, Preference.class);
-                ProfileBuilder.this.startActivity(preferenceIntent);
+                Log.d(TAG, "no sports selected: " + noSportSelected());
+                if (noSportSelected()) {
+                    Utils.makeToast(getApplicationContext(),"Please select at least one sport!");
+
+                } else {
+                    List<String> sportsList = createSportsList();
+                    UserSports userSports = new UserSports(sportsList);
+                    Firestore.mergeToDB(db, "users", loginId, userSports);
+                    Intent preferenceIntent = new Intent(ProfileBuilder.this, Preference.class);
+                    ProfileBuilder.this.startActivity(preferenceIntent);
+                }
             }
         });
     }
@@ -125,5 +132,9 @@ public class ProfileBuilder extends AppCompatActivity {
         } else {
             imageButton.setBackgroundResource(R.drawable.round_background_light);
         }
+    }
+
+    private boolean noSportSelected() {
+        return !(pingPongBtnPressed || runningBtnPressed || skiBtnPressed || soccerBtnPressed || swimmingBtnPressed || yogaBtnPressed);
     }
 }
