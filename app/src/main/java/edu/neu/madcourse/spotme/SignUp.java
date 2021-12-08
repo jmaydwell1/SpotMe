@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.User;
@@ -157,7 +158,8 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                         } else {
                             if (CLIENT_REGISTRATION_TOKEN == null) {
                                 CLIENT_REGISTRATION_TOKEN = task.getResult();
-                                User newUser = new User(CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, SELECTED_GENDER, email);
+                                String randomPicture = selectRandomizedProfilePicture();
+                                User newUser = new User(CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, SELECTED_GENDER, email, randomPicture);
                                 Firestore.writeToDB(db, "users", email, newUser);
                                 Firestore.mergeToDB(db, "users", email, userSports);
                                 UserPreference defaultUserPreference = createDefaultPreference();
@@ -229,5 +231,11 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
         List<String> defaultGenders = Arrays.asList(genders);
         UserPreference userPreference = new UserPreference(DEFAULT_DISTANCE, defaultGenders, DEFAULT_MAX_AGE, DEFAULT_MIN_AGE, DEFAULT_SPORTS);
         return userPreference;
+    }
+
+    private String selectRandomizedProfilePicture() {
+        Random rand = new Random();
+        int randInt = rand.nextInt(10) + 1;
+        return "pp" + randInt + ".png";
     }
 }

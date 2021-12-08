@@ -8,18 +8,20 @@ public class User {
     public String gender;
     public String phone;
     public String email;
+    public String picture;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String tokenId, String name, String phone, String dob, String gender, String email) {
-        this.tokenId = tokenId;
+    public User(String name, String tokenId, String dob, String gender, String phone, String email, String picture) {
         this.name = name;
-        this.phone = phone;
+        this.tokenId = tokenId;
         this.dob = dob;
         this.gender = gender;
+        this.phone = phone;
         this.email = email;
+        this.picture = picture;
     }
 
     public String getName() {
@@ -44,5 +46,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPicture() {
+        return picture;
     }
 }
