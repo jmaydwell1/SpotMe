@@ -63,6 +63,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     private int SELECTED_AGE = MIN_AGE;
     private int SELECTED_DISTANCE = MIN_DISTANCE;
 
+    private static String TAG = "Preference";
     private static String SHARED_PREF_NAME = "SpotMeSP";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +109,13 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                 }
                 UserPreference preference = new UserPreference(SELECTED_DISTANCE, selectedGenders, SELECTED_AGE, 18, CHOSEN_SPORT);
                 Firestore.mergeToDB(db, "preferences", userEmail, preference);
-                Intent potentialMatchSplashIntent = new Intent(Preference.this, SplashScreenLoadPreferenceData.class);
-                Preference.this.startActivity(potentialMatchSplashIntent);
+
+                if (ActivityCompat.checkSelfPermission(Preference.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "Second try is good");
+                    getLocation();
+                    Intent potentialMatchSplashIntent = new Intent(Preference.this, SplashScreenLoadPreferenceData.class);
+                    Preference.this.startActivity(potentialMatchSplashIntent);
+                }
             }
         });
 
@@ -229,28 +235,33 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     }
 
     private void getPermission() {
-        if (ActivityCompat.checkSelfPermission(Preference.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(Preference.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "Permission granted");
             getLocation();
         } else {
+            Log.d(TAG, "Permission denied");
             ActivityCompat.requestPermissions(Preference.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         }
     }
 
     private void getLocation() throws SecurityException {
+        Log.d(TAG, "Start getLocation function");
         fusedLocationProvider.getLastLocation().addOnCompleteListener((new OnCompleteListener<Location>() {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
                 Location location = task.getResult();
                 if (location != null) {
+                    Log.d(TAG, "Location is not null");
                     String longitude = Double.toString(location.getLongitude());
                     String latitude = Double.toString(location.getLatitude());
                     UserLocation userLocation = new UserLocation(longitude, latitude);
+                    Firestore.mergeToDB(db, "users", userEmail, userLocation);
                     writeSharedPreferencesLocation(latitude, longitude);
                     Log.e("WRITING LOCATION TO DB ", longitude + ", " + latitude);
                     System.out.println("WRITING LOCATION TO DB " + longitude + ", " + latitude);
-                    Firestore.mergeToDB(db, "users", userEmail, userLocation);
+                } else {
+                    Log.e(TAG, "Location is null");
                 }
             }
         }));
