@@ -46,7 +46,7 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen_load_preferences);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_load_splash);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
@@ -54,11 +54,11 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
 //        loginId = sharedPreferences.getString("loginId", "empty");
         loginId = mAuth.getCurrentUser().getEmail();
 
-        getSupportActionBar().hide(); // do we need this?
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         preferencesListener();
         userALocationListener();
+
+        getSupportActionBar().hide(); // do we need this?
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     private void preferencesListener() {
