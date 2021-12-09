@@ -40,5 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swRecyclerView"
-        app:menu="@menu/menubottomnav" />
+        app:menu="@menu/menubottomnav"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="35dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@
     tools:context=".ProfileBuilder">
 
     <RelativeLayout
-        android:layout_weight="1.5"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/spotMe_darkBlue">
@@ -19,11 +19,12 @@
             android:id="@+id/textGrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:fontFamily="@font/poppins_medium"
             android:text="Choose your interests"
-            android:layout_centerInParent="true"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:paddingTop="15dp"
+            android:textSize="25sp" />
 
     </RelativeLayout>
 
@@ -31,7 +32,7 @@
        android:layout_width="match_parent"
        android:layout_height="0dp"
        android:background="@color/spotMe_darkBlue"
-       android:layout_weight="8.5">
+       android:layout_weight="9">
 
        <GridLayout
            android:id="@+id/potentialBuilderSportsGrid"
@@ -121,6 +122,8 @@
         app:itemBackground="@color/spotMe_offWhite"
         app:itemIconTint="@drawable/navbar_selector"
         app:itemTextColor="@drawable/navbar_selector"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="35dp"
         app:menu="@menu/menubottomnav" />
 
 </LinearLayout>

@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView signUpTv;
     private ImageView loginBtn;
     private TextView forgotPw;
-    private Button potentialMatchBtn;
-    private Button matchBtn;
     private String CLIENT_REGISTRATION_TOKEN;
 
     private FirebaseFirestore db;
@@ -71,9 +69,6 @@ public class MainActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.nextBtn);
         signUpTv = findViewById(R.id.signUpTv);
         forgotPw = findViewById(R.id.forgotPwLogin);
-
-        potentialMatchBtn = findViewById(R.id.test_potential_btn);
-        matchBtn = findViewById(R.id.test_matches);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,17 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(resetPwIntent);
             }
         });
-
-        potentialMatchBtn.setOnClickListener(view -> {
-            Intent potentialIntent = new Intent(MainActivity.this, SplashScreenLoadPreferenceData.class);
-            MainActivity.this.startActivity(potentialIntent);
-        });
-
-        matchBtn.setOnClickListener(view -> {
-            Intent potentialIntent = new Intent(MainActivity.this, MainMatchMessageActivity.class);
-            MainActivity.this.startActivity(potentialIntent);
-        });
-
     }
 
     private void signIn(String email, String password) {
@@ -147,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 }});
-                            Intent preferenceIntent = new Intent(MainActivity.this, ProfileBuilder.class);
+                            Intent preferenceIntent = new Intent(MainActivity.this, SplashScreenLoadPreferenceData.class);
                             preferenceIntent.putExtra("userEmail", user.getEmail());
                             MainActivity.this.startActivity(preferenceIntent);
                         } else {

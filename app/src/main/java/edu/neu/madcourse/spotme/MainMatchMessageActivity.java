@@ -49,7 +49,27 @@ public class MainMatchMessageActivity extends AppCompatActivity {
         loginId = mAuth.getCurrentUser().getEmail();
         query = firebaseFirestore.collection("matches").document(loginId).collection("swiped").whereEqualTo("match", true);
         initialRView();
-        
+
+    }
+
+    private void initialRView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        FirestoreRecyclerOptions<Match> options = new FirestoreRecyclerOptions.Builder<Match>()
+                .setQuery(query, Match.class)
+                .build();
+        adapter = new MatchesRViewAdapter(options);
+        recyclerView.setAdapter(adapter);
+    }
+
+    // Function to tell the app to start getting
+    // data from database on starting of the activity
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.matches);
+
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -76,23 +96,6 @@ public class MainMatchMessageActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    private void initialRView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        FirestoreRecyclerOptions<Match> options = new FirestoreRecyclerOptions.Builder<Match>()
-                .setQuery(query, Match.class)
-                .build();
-        adapter = new MatchesRViewAdapter(options);
-        recyclerView.setAdapter(adapter);
-    }
-
-    // Function to tell the app to start getting
-    // data from database on starting of the activity
-    @Override
-    protected void onStart() {
-        super.onStart();
         adapter.startListening();
     }
 

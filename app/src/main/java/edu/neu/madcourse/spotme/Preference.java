@@ -74,7 +74,6 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
 
         db = FirebaseFirestore.getInstance();
 
-
         femaleIcon = findViewById(R.id.femaleIcon);
         maleIcon = findViewById(R.id.maleIcon);
         ageBar = findViewById(R.id.ageBar);
@@ -88,8 +87,8 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         multiSpinner.setItems(sports, "Select a sport", this);
         saveBtn = findViewById(R.id.savePrefBtn);
 
-        bottomNavigationView = findViewById(R.id.bottom_navigator);
-        bottomNavigationView.setSelectedItemId(R.id.preferences);
+//        bottomNavigationView = findViewById(R.id.bottom_navigator);
+//        bottomNavigationView.setSelectedItemId(R.id.preferences);
       
         FirebaseAuth auth = FirebaseAuth.getInstance();
         userEmail = auth.getCurrentUser().getEmail();
@@ -178,6 +177,13 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.preferences);
 
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -205,7 +211,6 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                 return false;
             }
         });
-
     }
 
     public void onItemsSelected(boolean[] selected) {
