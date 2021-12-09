@@ -1,12 +1,16 @@
 package edu.neu.madcourse.spotme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -25,6 +29,8 @@ public class MainMatchMessageActivity extends AppCompatActivity {
     DocumentReference documentReference;
     Query query;
 
+    BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,36 @@ public class MainMatchMessageActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         query = firebaseFirestore.collection("matches").document("tiffanymarthin@gmail.com").collection("swiped").whereEqualTo("match", true);
        initialRView();
+
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.matches);
+
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.potentialMatches:
+                        startActivity(new Intent(getApplicationContext(), PotentialMatchesActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+
+                    case R.id.matches:
+                        return true;
+
+//                    case R.id.sports:
+//                        startActivity(new Intent(getApplicationContext(), ProfileBuilder.class));
+//                        overridePendingTransition(0, 0);
+
+
+                    case R.id.preferences:
+                        startActivity(new Intent(getApplicationContext(), Preference.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void initialRView() {

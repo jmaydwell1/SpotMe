@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/potentialMatches"
+        android:title="@string/Potential"
+        android:icon="@drawable/ic_potentials"/>
+
+    <item
+        android:id="@+id/matches"
+        android:title="@string/Matches"
+        android:icon="@drawable/ic_matches"/>
+
+    <item
+        android:id="@+id/sports"
+        android:title="@string/Sports"
+        android:icon="@drawable/ic_sports"/>
+
+    <item
+        android:id="@+id/preferences"
+        android:title="@string/Preferences"
+        android:icon="@drawable/ic_preferences"/>
+
+</menu>

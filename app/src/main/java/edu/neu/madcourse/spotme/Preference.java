@@ -1,11 +1,13 @@
 package edu.neu.madcourse.spotme;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +22,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +53,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
     private FirebaseFirestore db;
     private FusedLocationProviderClient fusedLocationProvider;
     private String userEmail;
+    BottomNavigationView bottomNavigationView;
 
 
     private List<String> sports = Arrays.asList("Soccer", "Ping Pong", "Yoga", "Ski", "Swimming", "Running");
@@ -80,6 +84,9 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
         distanceProgressDisplay = findViewById(R.id.distanceProgressDisplay);
         MultiSpinner multiSpinner = (MultiSpinner) findViewById(R.id.sportSpinner);
         multiSpinner.setItems(sports, "Select a sport", this);
+
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.preferences);
 
         Bundle extras = getIntent().getExtras();
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -171,6 +178,32 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.potentialMatches:
+                        startActivity(new Intent(getApplicationContext(), PotentialMatchesActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+
+                    case R.id.matches:
+                        startActivity(new Intent(getApplicationContext(), MainMatchMessageActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+
+//                    case R.id.sports:
+//                        startActivity(new Intent(getApplicationContext(), ****FILLTHISPARTWITHSPORTSCLASSNAME.class));
+//                        overridePendingTransition(0, 0);
+
+                    case R.id.preferences:
+                        return true;
+                }
+                return false;
             }
         });
 

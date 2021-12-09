@@ -44,6 +44,10 @@
 //FCM
     <string name="fcm_message">FCM Message</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="Potential">ic_potential</string>
+    <string name="Matches">ic_matches</string>
+    <string name="Sports">ic_sports</string>
+    <string name="Preferences">ic_preferences</string>
 
 
 </resources>
