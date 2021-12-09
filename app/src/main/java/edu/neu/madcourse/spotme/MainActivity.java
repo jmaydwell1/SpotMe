@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         signUpTv = findViewById(R.id.signUpTv);
         forgotPw = findViewById(R.id.forgotPwLogin);
 
-
         potentialMatchBtn = findViewById(R.id.test_potential_btn);
         matchBtn = findViewById(R.id.test_matches);
 
