@@ -41,13 +41,16 @@
         <item>Carter Smith</item>
         <item>Brandon Johnson</item>
     </string-array>
-//FCM
+    //FCM
     <string name="fcm_message">FCM Message</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <string name="Potential">ic_potential</string>
-    <string name="Matches">ic_matches</string>
-    <string name="Sports">ic_sports</string>
-    <string name="Preferences">ic_preferences</string>
+
+    //BottomNavBar
+    <string name="Potential">potentials</string>
+    <string name="Matches">matches</string>
+    <string name="Sports">sports</string>
+    <string name="Preferences">preferences</string>
+    <string name="sports">sports</string>
 
 
 </resources>

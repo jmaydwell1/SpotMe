@@ -13,6 +13,7 @@
         android:backgroundTint="#324A59"
         android:text="@string/save"
         app:cornerRadius="20dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.535"
@@ -207,14 +208,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:itemBackground="@color/spotMe_offWhite"
-        app:itemIconSize="40dp"
         app:itemIconTint="@drawable/navbar_selector"
         app:itemTextColor="@drawable/navbar_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/savePrefBtn"
-        app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/menubottomnav" />
 
 

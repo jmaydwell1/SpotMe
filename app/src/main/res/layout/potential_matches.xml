@@ -23,7 +23,7 @@
         android:id="@+id/swRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,16 +33,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="704dp"
         app:itemBackground="@color/spotMe_offWhite"
         app:itemIconTint="@drawable/navbar_selector"
-        app:itemIconSize="40dp"
         app:itemTextColor="@drawable/navbar_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/swRecyclerView"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/swRecyclerView"
         app:menu="@menu/menubottomnav" />
 </androidx.constraintlayout.widget.ConstraintLayout>

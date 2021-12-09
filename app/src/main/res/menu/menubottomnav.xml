@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/sports"
-        android:title="@string/Sports"
+        android:title="@string/sports"
         android:icon="@drawable/ic_sports"/>
 
     <item

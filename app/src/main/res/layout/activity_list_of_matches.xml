@@ -10,7 +10,7 @@
         android:id="@+id/matchedRView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,14 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="675dp"
         app:itemBackground="@color/spotMe_offWhite"
         app:itemIconTint="@drawable/navbar_selector"
-        app:itemIconSize="40dp"
         app:itemTextColor="@drawable/navbar_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/matchedRView"
+        app:layout_constraintTop_toBottomOf="@+id/matchedRView"
         app:menu="@menu/menubottomnav" />
 </androidx.constraintlayout.widget.ConstraintLayout>
