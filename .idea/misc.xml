@@ -16,6 +16,8 @@
         <entry key="app/src/main/res/layout-land/potential_buddy_dialog.xml" value="0.17019400352733685" />
         <entry key="app/src/main/res/layout-land/preferences.xml" value="0.17548500881834214" />
         <entry key="app/src/main/res/layout-land/signup.xml" value="0.17548500881834214" />
+        <entry key="app/src/main/res/layout/activity_list_of_matches.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.28072916666666664" />
         <entry key="app/src/main/res/layout/activity_profile_builder.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_spot_me_splash_screen.xml" value="0.22" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.5" />
@@ -23,11 +25,12 @@
         <entry key="app/src/main/res/layout/potential_buddy_dialog.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/potential_match_card.xml" value="0.33" />
         <entry key="app/src/main/res/layout/potential_matches.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/preferences.xml" value="0.15450861195542046" />
+        <entry key="app/src/main/res/layout/preferences.xml" value="0.33" />
         <entry key="app/src/main/res/layout/progress_bar.xml" value="0.1" />
         <entry key="app/src/main/res/layout/roundcornerimage.xml" value="0.10869565217391304" />
         <entry key="app/src/main/res/layout/signup.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/splash_screen_load_preferences.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/menu/menubottomnav.xml" value="0.5971014492753624" />
       </map>
     </option>
   </component>

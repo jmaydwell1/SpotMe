@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_selected="true"
+        android:drawable="@color/spotMe_darkBlue"
+        android:color="@color/spotMe_grey"/>
+
+    <item
+        android:state_selected="false"
+        android:color="@color/spotMe_darkBlue"/>
+</selector>

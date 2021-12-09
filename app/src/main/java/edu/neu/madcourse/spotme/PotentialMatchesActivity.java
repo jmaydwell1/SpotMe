@@ -1,5 +1,6 @@
 package edu.neu.madcourse.spotme;
 
+import android.content.Intent;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -58,6 +61,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private List<String> preferenceGenders, preferenceSports;
     private LocalDate today;
 
+    BottomNavigationView bottomNavigationView;
+
     private static final String TAG = "PotentialMatchesActivity";
     private static final String SHARED_PREF_NAME = "SpotMeSP";
 
@@ -65,6 +70,36 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.potential_matches);
+      
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.potentialMatches);
+
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.potentialMatches:
+                        return true;
+
+                    case R.id.matches:
+                        startActivity(new Intent(getApplicationContext(), MainMatchMessageActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+
+//                    case R.id.sports:
+//                        startActivity(new Intent(getApplicationContext(), ProfileBuilder.class));
+//                        overridePendingTransition(0, 0);
+
+
+                    case R.id.preferences:
+                        startActivity(new Intent(getApplicationContext(), Preference.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
 
     }
 

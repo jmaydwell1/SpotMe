@@ -7,22 +7,42 @@
     android:gravity="center"
     android:layout_gravity="center">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/spotMe_offWhite"
+        app:itemIconSize="40dp"
+        app:itemIconTint="@drawable/navbar_selector"
+        app:itemTextColor="@drawable/navbar_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menubottomnav" />
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_navigator"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="87dp"
         app:cardCornerRadius="40dp"
         app:strokeColor="@color/spotMe_grey"
-        app:strokeWidth="6dp"
-        android:layout_margin="5dp"
-        >
-<!--        android:background="@color/spotMe_darkerBlue"-->
-<!--        app:cardBackgroundColor="@color/spotMe_darkerBlue"-->
+        app:strokeWidth="6dp">
+        <!--        android:background="@color/spotMe_darkerBlue"-->
+        <!--        app:cardBackgroundColor="@color/spotMe_darkerBlue"-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
             android:layout_margin="40dp"
+            android:layout_marginVertical="20dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -54,7 +74,7 @@
                 android:gravity="center_horizontal"
                 android:text="Gender, Age"
                 android:textSize="18sp"
-            android:textStyle="bold" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/potential_big_distance"
@@ -83,16 +103,16 @@
                         android:layout_width="55dp"
                         android:layout_height="55dp"
                         android:layout_margin="3dp"
-                        android:visibility="visible"
                         android:contentDescription="@string/sporticon"
+                        android:visibility="visible"
                         app:srcCompat="@drawable/soccer" />
 
                     <ImageView
                         android:id="@+id/potential_big_pingpong_icon"
                         android:layout_width="55dp"
                         android:layout_height="55dp"
-                        android:contentDescription="@string/sporticon"
                         android:layout_margin="3dp"
+                        android:contentDescription="@string/sporticon"
                         android:visibility="visible"
                         app:srcCompat="@drawable/pingpong" />
 
@@ -101,8 +121,8 @@
                         android:layout_width="55dp"
                         android:layout_height="55dp"
                         android:layout_margin="3dp"
-                        android:visibility="visible"
                         android:contentDescription="@string/sporticon"
+                        android:visibility="visible"
                         app:srcCompat="@drawable/yoga" />
 
                 </LinearLayout>
@@ -117,8 +137,8 @@
                         android:layout_width="55dp"
                         android:layout_height="55dp"
                         android:layout_margin="3dp"
-                        android:visibility="visible"
                         android:contentDescription="@string/sporticon"
+                        android:visibility="visible"
                         app:srcCompat="@drawable/ski" />
 
                     <ImageView
@@ -126,8 +146,8 @@
                         android:layout_width="55dp"
                         android:layout_height="55dp"
                         android:layout_margin="3dp"
-                        android:visibility="visible"
                         android:contentDescription="@string/sporticon"
+                        android:visibility="visible"
                         app:srcCompat="@drawable/swimming" />
 
                     <ImageView
@@ -135,8 +155,8 @@
                         android:layout_width="55dp"
                         android:layout_height="55dp"
                         android:layout_margin="3dp"
-                        android:visibility="visible"
                         android:contentDescription="@string/sporticon"
+                        android:visibility="visible"
                         app:srcCompat="@drawable/running" />
                 </LinearLayout>
             </LinearLayout>
