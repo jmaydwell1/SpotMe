@@ -108,11 +108,8 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
                     } else {
                         Log.d(TAG, "No such document");
                     }
-                    if (progressBar.getVisibility() == View.VISIBLE) {
-                        progressBar.setVisibility(View.GONE);
-                        Intent potentialMatchesIntent = new Intent(SplashScreenLoadPreferenceData.this, PotentialMatchesActivity.class);
-                        SplashScreenLoadPreferenceData.this.startActivity(potentialMatchesIntent);
-                    }
+                    Intent potentialMatchesIntent = new Intent(SplashScreenLoadPreferenceData.this, PotentialMatchesActivity.class);
+                    SplashScreenLoadPreferenceData.this.startActivity(potentialMatchesIntent);
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }

@@ -66,6 +66,12 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.potential_matches);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         // TODO - SENDING NOTI FOREGROUND
 //        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
 //        createNotificationChannel();
@@ -73,27 +79,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-//        progressBar.setProgressTintList(ColorStateList.valueOf(Color.GRAY));
-
-        recyclerView = findViewById(R.id.swRecyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-//        loginId = sharedPreferences.getString("loginId", "empty");
-        // default is Northeastern University location
-        userALatitude = sharedPreferences.getString("userLatitude", "42.478951");
-        userALongitude = sharedPreferences.getString("userLongitude", "-71.189247");
-        Log.d(TAG, "userALat: " + userALatitude);
-        Log.d(TAG, "userALon: " + userALongitude);
-
-        Set<String> defaultSports = new HashSet<>(Arrays.asList("Soccer", "Ping Pong", "Yoga", "Ski", "Swimming", "Running"));
-        Set<String> defaultGenders = new HashSet<>(Arrays.asList("Female", "Male"));
-        preferenceDistance = sharedPreferences.getInt("distancePreference", Integer.MAX_VALUE);
-        preferenceMinAge = sharedPreferences.getInt("minAgePreference", Integer.MIN_VALUE);
-        preferenceMaxAge = sharedPreferences.getInt("maxAgePreference", Integer.MAX_VALUE);
-        preferenceSports = convertSetToList(sharedPreferences.getStringSet("sportsPreference", defaultSports));
-        preferenceGenders = convertSetToList(sharedPreferences.getStringSet("gendersPreference", defaultGenders));
 
         today = LocalDate.now();
         db = FirebaseFirestore.getInstance();
@@ -101,12 +86,25 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         loginId = mAuth.getCurrentUser().getEmail();
         matchesId = new ArrayList<>();
         potentialMatches = new ArrayList<>();
+
+        recyclerView = findViewById(R.id.swRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        savePreferencesLocally();
+
 //        matchesListener();
         potentialMatchesListener();
 
         adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId, userALatitude, userALongitude);
         recyclerView.setAdapter(adapter);
         onSwipeConfig();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     public void createNotificationChannel() {
@@ -126,6 +124,22 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         }
     }
 
+    private void savePreferencesLocally() {
+        // default is Northeastern University location
+        userALatitude = sharedPreferences.getString("userLatitude", "42.478951");
+        userALongitude = sharedPreferences.getString("userLongitude", "-71.189247");
+        Log.d(TAG, "userALat: " + userALatitude);
+        Log.d(TAG, "userALon: " + userALongitude);
+
+        Set<String> defaultSports = new HashSet<>(Arrays.asList("Soccer", "Ping Pong", "Yoga", "Ski", "Swimming", "Running"));
+        Set<String> defaultGenders = new HashSet<>(Arrays.asList("Female", "Male"));
+        preferenceDistance = sharedPreferences.getInt("distancePreference", Integer.MAX_VALUE);
+        preferenceMinAge = sharedPreferences.getInt("minAgePreference", Integer.MIN_VALUE);
+        preferenceMaxAge = sharedPreferences.getInt("maxAgePreference", Integer.MAX_VALUE);
+        preferenceSports = convertSetToList(sharedPreferences.getStringSet("sportsPreference", defaultSports));
+        preferenceGenders = convertSetToList(sharedPreferences.getStringSet("gendersPreference", defaultGenders));
+    }
+
     private void potentialMatchesListener() {
         db.collection("users").whereNotEqualTo("email", loginId)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -134,7 +148,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
                         if (error != null) {
                             if (progressBar.getVisibility() == View.VISIBLE) {
-                                progressBar.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
                             Log.e(TAG, "Firestore data potential match error "+ error.getMessage());
                             return;
@@ -153,7 +167,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                             }
                             adapter.notifyDataSetChanged();
                             if (progressBar.getVisibility() == View.VISIBLE) {
-                                progressBar.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
