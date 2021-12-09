@@ -185,7 +185,7 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
 
                 switch (item.getItemId()) {
                     case R.id.potentialMatches:
-                        startActivity(new Intent(getApplicationContext(), PotentialMatchesActivity.class));
+                        startActivity(new Intent(getApplicationContext(), SplashScreenLoadPreferenceData.class));
                         overridePendingTransition(0, 0);
                         return true;
 
@@ -194,9 +194,10 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                         overridePendingTransition(0, 0);
                         return true;
 
-//                    case R.id.sports:
-//                        startActivity(new Intent(getApplicationContext(), ****FILLTHISPARTWITHSPORTSCLASSNAME.class));
-//                        overridePendingTransition(0, 0);
+                    case R.id.sports:
+                        startActivity(new Intent(getApplicationContext(), ProfileBuilder.class));
+                        overridePendingTransition(0, 0);
+                        return true;
 
                     case R.id.preferences:
                         return true;

@@ -6,13 +6,16 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -28,6 +31,8 @@ public class ProfileBuilder extends AppCompatActivity {
     private ImageView nextBtn;
     private ImageButton pingPongBtn, runningBtn, skiBtn, soccerBtn, swimmingBtn, yogaBtn;
     private boolean pingPongBtnPressed, runningBtnPressed, yogaBtnPressed, skiBtnPressed, soccerBtnPressed, swimmingBtnPressed;
+
+    private BottomNavigationView bottomNavigationView;
 
     private FirebaseFirestore db;
     private SharedPreferences sharedPreferences;
@@ -63,6 +68,36 @@ public class ProfileBuilder extends AppCompatActivity {
         soccerBtn.setOnClickListener(buttonClickListener);
         swimmingBtn.setOnClickListener(buttonClickListener);
         yogaBtn.setOnClickListener(buttonClickListener);
+
+        bottomNavigationView = findViewById(R.id.bottom_navigator);
+        bottomNavigationView.setSelectedItemId(R.id.sports);
+
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.potentialMatches:
+                        startActivity(new Intent(getApplicationContext(), SplashScreenLoadPreferenceData.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+
+                    case R.id.matches:
+                        startActivity(new Intent(getApplicationContext(), MainMatchMessageActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+
+                    case R.id.sports:
+                        return true;
+
+                    case R.id.preferences:
+                        startActivity(new Intent(getApplicationContext(), Preference.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override

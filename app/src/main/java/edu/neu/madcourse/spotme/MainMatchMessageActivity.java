@@ -56,17 +56,17 @@ public class MainMatchMessageActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.potentialMatches:
-                        startActivity(new Intent(getApplicationContext(), PotentialMatchesActivity.class));
+                        startActivity(new Intent(getApplicationContext(), SplashScreenLoadPreferenceData.class));
                         overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.matches:
                         return true;
 
-//                    case R.id.sports:
-//                        startActivity(new Intent(getApplicationContext(), ProfileBuilder.class));
-//                        overridePendingTransition(0, 0);
-
+                    case R.id.sports:
+                        startActivity(new Intent(getApplicationContext(), ProfileBuilder.class));
+                        overridePendingTransition(0, 0);
+                        return true;
 
                     case R.id.preferences:
                         startActivity(new Intent(getApplicationContext(), Preference.class));

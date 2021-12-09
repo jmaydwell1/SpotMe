@@ -87,10 +87,10 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
 
-//                    case R.id.sports:
-//                        startActivity(new Intent(getApplicationContext(), ProfileBuilder.class));
-//                        overridePendingTransition(0, 0);
-
+                    case R.id.sports:
+                        startActivity(new Intent(getApplicationContext(), ProfileBuilder.class));
+                        overridePendingTransition(0, 0);
+                        return true;
 
                     case R.id.preferences:
                         startActivity(new Intent(getApplicationContext(), Preference.class));
