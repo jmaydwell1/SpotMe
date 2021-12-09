@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,8 +24,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import android.content.SharedPreferences;
+
+import edu.neu.madcourse.spotme.database.firestore.Firestore;
+import edu.neu.madcourse.spotme.database.models.User;
+import edu.neu.madcourse.spotme.database.models.UserPreference;
 
 public class MainActivity extends AppCompatActivity {
     private EditText email;
@@ -34,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView forgotPw;
     private Button potentialMatchBtn;
     private Button matchBtn;
+    private String CLIENT_REGISTRATION_TOKEN;
 
+    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
     private static final String TAG = "AuthEmailPW";
@@ -45,25 +54,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         // If currently there
-//        if (mAuth.getCurrentUser() != null) {
-//            System.out.println("CURRENT USER IS " + mAuth.getCurrentUser().getEmail());
-//            Intent myIntent = new Intent(MainActivity.this, PotentialMatchesActivity.class);
-//            MainActivity.this.startActivity(myIntent);
-//
-//        }
+        if (mAuth.getCurrentUser() != null) {
+            System.out.println("CURRENT USER IS " + mAuth.getCurrentUser().getEmail());
+            Intent potentialMatchSplashIntent = new Intent(MainActivity.this, SplashScreenLoadPreferenceData.class);
+            MainActivity.this.startActivity(potentialMatchSplashIntent);
+            return;
+        }
+
         getSupportActionBar().hide();
         setContentView(R.layout.login_activity);
-
-
-
 
         email = findViewById(R.id.editTextTextEmailAddressLogin);
         password = findViewById(R.id.editTextTextPassword);
         loginBtn = findViewById(R.id.nextBtn);
         signUpTv = findViewById(R.id.signUpTv);
         forgotPw = findViewById(R.id.forgotPwLogin);
-
 
         potentialMatchBtn = findViewById(R.id.test_potential_btn);
         matchBtn = findViewById(R.id.test_matches);
@@ -121,11 +128,26 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             sharedPreferencesConfig(email);
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent preferenceIntent = new Intent(MainActivity.this, Preference.class);
+
+                            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                                @Override
+                                public void onComplete(@NonNull Task<String> task) {
+                                    if (!task.isSuccessful()) {
+                                        Log.e("ERROR GENERATE TOKEN UPON LOGIN ", task.getException().getMessage());
+                                    } else {
+                                        if (CLIENT_REGISTRATION_TOKEN == null) {
+                                            CLIENT_REGISTRATION_TOKEN = task.getResult();
+                                            Log.d("CLIENT_REGISTRATION_TOKEN LOGIN", CLIENT_REGISTRATION_TOKEN);
+                                            db.collection("users")
+                                                    .document(email)
+                                                    .update("tokenId", CLIENT_REGISTRATION_TOKEN);
+                                        }
+                                    }
+                                }});
+                            Intent preferenceIntent = new Intent(MainActivity.this, ProfileBuilder.class);
                             preferenceIntent.putExtra("userEmail", user.getEmail());
                             MainActivity.this.startActivity(preferenceIntent);
                         } else {

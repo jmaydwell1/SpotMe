@@ -26,14 +26,19 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.User;
 import edu.neu.madcourse.spotme.database.models.UserLocation;
+import edu.neu.madcourse.spotme.database.models.UserPreference;
+import edu.neu.madcourse.spotme.database.models.UserSports;
 
 public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private TextView emailTv;
@@ -53,14 +58,18 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
     private static final String TAG = "SignUpSpotMe";
 
     private String[] genders = { "Female", "Male" };
-
+    private static final List<String> DEFAULT_SPORTS = Arrays.asList("Soccer", "Ping Pong", "Yoga", "Ski", "Swimming", "Running");
+    private static final int DEFAULT_DISTANCE = 10000;
+    private static final int DEFAULT_MIN_AGE = 18;
+    private static final int DEFAULT_MAX_AGE = 100;
+    private UserSports userSports;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        userSports = new UserSports(DEFAULT_SPORTS);
     }
 
     @Override
@@ -135,29 +144,13 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                 String dob = dobTv.getText().toString();
 
                 if (fullName.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || dob.isEmpty()) {
-                    Toast.makeText(SignUp.this, "Cannot have any empty field",
-                            Toast.LENGTH_SHORT);
+                    Utils.makeToast(SignUp.this, "Cannot have any empty field!");
+                    return;
                 }
-                createAccount(email, password);
+                String randomPicture = selectRandomizedProfilePicture();
+                User newUser = new User(fullName, CLIENT_REGISTRATION_TOKEN, dob, SELECTED_GENDER, phone, email, randomPicture);
 
-                // Get Token
-                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(SignUp.this, "Something is wrong!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (CLIENT_REGISTRATION_TOKEN == null) {
-                                CLIENT_REGISTRATION_TOKEN = task.getResult();
-                                User newUser = new User(CLIENT_REGISTRATION_TOKEN, fullName, phone, dob, SELECTED_GENDER, email, null);
-                                Firestore.writeToDB(db, "users", email, newUser);
-                            Log.e("CLIENT_REGISTRATION_TOKEN", CLIENT_REGISTRATION_TOKEN);
-                            Intent preferenceIntent = new Intent(SignUp.this, Preference.class);
-                            SignUp.this.startActivity(preferenceIntent);
-                        }
-                    }
-                }});
-
+                createAccount(newUser, password);
                 // You cannot add other properties to the Firebase User object directly -> still have to write to DB
             }
         });
@@ -172,7 +165,8 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 
     }
 
-    private void createAccount(String email, String password) {
+    private void createAccount(User newUser, String password) {
+        String email = newUser.getEmail();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -181,6 +175,27 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            // Get Token
+                            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                                @Override
+                                public void onComplete(@NonNull Task<String> task) {
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(SignUp.this, "Something is wrong!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        if (CLIENT_REGISTRATION_TOKEN == null) {
+                                            CLIENT_REGISTRATION_TOKEN = task.getResult();
+                                            newUser.tokenId = CLIENT_REGISTRATION_TOKEN;
+                                            Firestore.writeToDB(db, "users", email, newUser);
+                                            Firestore.mergeToDB(db, "users", email, userSports);
+                                            UserPreference defaultUserPreference = createDefaultPreference();
+                                            Firestore.writeToDB(db, "preferences", email, defaultUserPreference);
+                                            Log.e("CLIENT_REGISTRATION_TOKEN SIGNUP", CLIENT_REGISTRATION_TOKEN);
+                                            Intent preferenceIntent = new Intent(SignUp.this, ProfileBuilder.class);
+                                            preferenceIntent.putExtra("loginId", user.getEmail());
+                                            SignUp.this.startActivity(preferenceIntent);
+                                        }
+                                    }
+                                }});
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -211,5 +226,17 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private UserPreference createDefaultPreference() {
+        List<String> defaultGenders = Arrays.asList(genders);
+        UserPreference userPreference = new UserPreference(DEFAULT_DISTANCE, defaultGenders, DEFAULT_MAX_AGE, DEFAULT_MIN_AGE, DEFAULT_SPORTS);
+        return userPreference;
+    }
+
+    private String selectRandomizedProfilePicture() {
+        Random rand = new Random();
+        int randInt = rand.nextInt(10) + 1;
+        return "pp" + randInt + ".png";
     }
 }

@@ -9,9 +9,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/spotme_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/spotme_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SpotMe">
         <activity
@@ -19,31 +19,36 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileBuilder"/>
-
         <activity
             android:name="MainActivity"
             android:exported="true"/>
-        <activity android:name=".SignUp"
+        <activity
+            android:name=".ProfileBuilder"
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ResetPW"
+        <activity
+            android:name=".SignUp"
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ProfileBuilder"/>
-        <activity android:name=".Preference"/>
+        <activity
+            android:name=".ResetPW"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".Preference"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".SplashScreenLoadPreferenceData"/>
         <activity
             android:name=".PotentialMatchesActivity"
-            android:parentActivityName=".MainActivity" />
+            android:exported="true" />
         <activity
             android:name=".MainMatchMessageActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".SplashScreenLoadPreferenceData" />
         <service
             android:name=".MainActivity"
             android:foregroundServiceType="location">

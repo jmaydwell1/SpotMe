@@ -7,9 +7,7 @@ import org.json.JSONObject;
 import edu.neu.madcourse.spotme.Utils;
 
 public class FirebaseMessaging extends FirebaseMessagingService {
-    private static String SERVER_KEY = "AAAA61KOjbQ:APA91bExSNvz1ahVc-vwBr31tMVuLTmxfOmm_" +
-            "0r27dd83zTx2Vygm2ElPU7r9OWVrXyCOzfZfPnj4Co629bp2KPrdsr8ecRCAnNzPCP44-Q-9sllFvIHm" +
-            "UuiomCZARGThKoRuUS_IywP";
+    private static final String SERVER_KEY = "key=AAAA61KOjbQ:APA91bExSNvz1ahVc-vwBr31tMVuLTmxfOmm_0r27dd83zTx2Vygm2ElPU7r9OWVrXyCOzfZfPnj4Co629bp2KPrdsr8ecRCAnNzPCP44-Q-9sllFvIHmUuiomCZARGThKoRuUS_IywP";
 
     /**
      * Button Handler; creates a new thread that sends off a message to the target(this) device
