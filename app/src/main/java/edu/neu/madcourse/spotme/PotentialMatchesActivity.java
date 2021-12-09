@@ -55,7 +55,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-    private String loginId, userALatitude, userALongitude;
+    private String loginId, userAName, userAPicture, userALatitude, userALongitude;
     private ProgressBar progressBar;
 
     private SharedPreferences sharedPreferences;
@@ -77,7 +77,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        createNotificationChannel();
+//        createNotificationChannel();
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -128,7 +128,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 //        matchesListener();
         potentialMatchesListener();
 
-        adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId, userALatitude, userALongitude);
+        adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId, userAName, userAPicture, userALatitude, userALongitude);
         recyclerView.setAdapter(adapter);
         onSwipeConfig();
     }
@@ -159,6 +159,9 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
 
     private void savePreferencesLocally() {
+        userAName = sharedPreferences.getString("userName", "empty");
+        userAPicture = sharedPreferences.getString("userPicture", "empty");
+
         // default is Northeastern University location
         userALatitude = sharedPreferences.getString("userLatitude", "42.478951");
         userALongitude = sharedPreferences.getString("userLongitude", "-71.189247");

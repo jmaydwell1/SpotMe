@@ -1,9 +1,5 @@
 package edu.neu.madcourse.spotme.fcm;
 
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,20 +15,22 @@ import org.json.JSONObject;
 import edu.neu.madcourse.spotme.MainMatchMessageActivity;
 import edu.neu.madcourse.spotme.R;
 import edu.neu.madcourse.spotme.Utils;
+import edu.neu.madcourse.spotme.notification.SendNotificationActivity;
 
 public class FirebaseMessaging extends FirebaseMessagingService {
     NotificationManagerCompat managerCompat;
     private static final String SERVER_KEY = "key=AAAA61KOjbQ:APA91bExSNvz1ahVc-vwBr31tMVuLTmxfOmm_0r27dd83zTx2Vygm2ElPU7r9OWVrXyCOzfZfPnj4Co629bp2KPrdsr8ecRCAnNzPCP44-Q-9sllFvIHmUuiomCZARGThKoRuUS_IywP";
+    private static final String TAG = "Firebase Messaging";
 
     /**
      * Button Handler; creates a new thread that sends off a message to the target(this) device
      */
-    public static void sendMessageToTargetDevice(String targetToken) {
+    public static void sendMessageToTargetDevice(String targetToken, String userName) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                sendMessageToDevice(targetToken);
+                sendMessageToDevice(targetToken, userName);
             }
         }).start();
     }
@@ -41,15 +39,16 @@ public class FirebaseMessaging extends FirebaseMessagingService {
      * Pushes a notification to a given device-- in particular, this device,
      * because that's what the instanceID token is defined to be.
      */
-    private static void sendMessageToDevice(String targetToken) {
+    private static void sendMessageToDevice(String targetToken, String userName) {
         Log.d("FIREBASE", "send message to device");
+        String message = "Start your sport session today with " + userName;
         // Prepare data
         JSONObject jPayload = new JSONObject();
         JSONObject jNotification = new JSONObject();
         JSONObject jdata = new JSONObject();
         try {
             jNotification.put("title", "You have a new match!");
-            jNotification.put("body", "Start your sport session today!");
+            jNotification.put("body", message);
             jNotification.put("sound", "default");
             jNotification.put("badge", "1");
             jNotification.put("click_action", "edu.neu.madcourse.spotme.matches");
@@ -93,29 +92,13 @@ public class FirebaseMessaging extends FirebaseMessagingService {
 //            String click_action = remoteMessage.getNotification().getClickAction();
 //            SendNotificationActivity.sendNotification(FirebaseMessaging.this, title, body);
             String channelId = getString(R.string.default_notification_channel_id);
-            triggerNotificationWithBackStack(this, channelId, title, body, 0);
+            SendNotificationActivity.sendNotification(this, title, body);
         }
     }
 
 
-    public void triggerNotificationWithBackStack(Context initialContext, String channelId, String title, String text, int pendingIntentFlag){
-
-        Intent intent = new Intent(this, MainMatchMessageActivity.class);
-        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
-        taskStackBuilder.addNextIntentWithParentStack(intent);
-        intent.putExtra("count", title);
-        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, pendingIntentFlag);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,channelId)
-                .setSmallIcon(R.drawable.spotme_icon)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true);
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(initialContext);
-        notificationManagerCompat.notify(0, builder.build());
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
     }
-
 }

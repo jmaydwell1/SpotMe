@@ -7,13 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <meta-data
-        android:name="com.google.firebase.messaging.default_notification_icon"
-        android:resource="@drawable/spotme_icon" />
-    <meta-data
-        android:name="com.google.firebase.messaging.default_notification_channel_id"
-        android:value="@string/default_notification_channel_id" />
+
     <application
+        android:name=".NotificationClass"
         android:allowBackup="true"
         android:icon="@mipmap/spotme_launcher"
         android:label="@string/app_name"
@@ -65,13 +61,18 @@
             android:foregroundServiceType="location">
         </service>
         <service
-            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:name=".fcm.FirebaseMessaging"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/spotme_icon" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
      </application>
 
 

@@ -50,15 +50,17 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
     private FirebaseFirestore db;
     private FirebaseStorage storage;
     private StorageReference profilePictureStorage;
-    private String loginId, userLatitude, userLongitude;
+    private String loginId, userName, userPicture, userLatitude, userLongitude;
     private LocalDate today;
 
-    public PotentialMatchAdapter(Context context, ArrayList<PotentialMatch> potentialMatchArrayList, String loginId, String userLatitude, String userLongitude) {
+    public PotentialMatchAdapter(Context context, ArrayList<PotentialMatch> potentialMatchArrayList, String loginId, String userName, String userPicture, String userLatitude, String userLongitude) {
         this.context = context;
         this.potentialMatchArrayList = potentialMatchArrayList;
         this.today = LocalDate.now();
         this.storage = FirebaseStorage.getInstance();
         this.loginId = loginId;
+        this.userName = userName;
+        this.userPicture = userPicture;
         this.userLatitude = userLatitude;
         this.userLongitude = userLongitude;
         this.db = FirebaseFirestore.getInstance();
@@ -227,20 +229,18 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
     private void writeMatchToDB(PotentialMatch deletedMatch, boolean exist) {
         PotentialMatch userB = deletedMatch;
         String userBLoginId = userB.getEmail();
-        String name = userB.getName();
-        String picture = userB.getPicture();
+        String userBName = userB.getName();
+        String userBPicture = userB.getPicture();
         String date = formatTodayDate();
 
-        Log.d("writeToDB - CURRENT USER: ", loginId);
-        Log.d("writeToDB - USER B: ", userBLoginId);
+        Log.d("writeToDB - CURRENT USER: ", userName);
+        Log.d("writeToDB - USER B: ", userBName);
 
         final Match[] matchData = new Match[2];
         if (exist) {
             Log.d("Write Match to DB", "YES USERS MATCH");
-            String userBName = deletedMatch.getName();
-            String userBPicture = deletedMatch.getPicture();
-            matchData[0] = new Match(name, picture, date, true);
-            matchData[1] = new Match(userBName, userBPicture, date, true);
+            matchData[0] = new Match(userBName, userBPicture, date, true);
+            matchData[1] = new Match(userName, userPicture, date, true);
             Firestore.writeToDBSubCollection(db, "matches", loginId, "swiped", userBLoginId, matchData[0]);
             Firestore.writeToDBSubCollection(db, "matches", userBLoginId, "swiped", loginId, matchData[1]);
             // TODO send a notification
@@ -254,9 +254,9 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
                                 if (document.exists()) {
                                     String userBLoginIdToken = document.getData().get("tokenId").toString();
                                     //Background notification
-                                    FirebaseMessaging.sendMessageToTargetDevice(userBLoginIdToken);
+                                    FirebaseMessaging.sendMessageToTargetDevice(userBLoginIdToken, userName);
                                     //Foreground notification
-                                    SendNotificationActivity.sendNotification(context,"You have a new match!", "Start your sport session today");
+                                    SendNotificationActivity.sendNotification(context,"You have a new match!", "Start your sport session today with " + userBName);
                                     Log.d(TAG, "DocumentSnapshot data: " + document.getData().get("tokenId"));
                                 } else {
                                     Log.d(TAG, "No such document");
@@ -269,7 +269,7 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
 
         } else {
             Log.d("Write Match to DB", "USERS DON'T MATCH");
-            matchData[0] = new Match(name, picture, date, false);
+            matchData[0] = new Match(userBName, userBPicture, date, false);
             Firestore.writeToDBSubCollection(db, "matches", loginId, "swiped", userBLoginId, matchData[0]);
         }
     }

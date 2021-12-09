@@ -26,7 +26,8 @@ public class SendNotificationActivity {
 
         // Build notification
         // Need to define a channel ID after Android Oreo
-        String channelId = "CHANNEL_ID";
+//        String channelId = "CHANNEL_ID";
+        String channelId = "fcm_default_channel";
         NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(initialContext, channelId)
                 //"Notification icons must be entirely white."
                 .setSmallIcon(R.drawable.spotme_icon)

@@ -100,8 +100,11 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        String userAName = document.getData().get("name").toString();
+                        String userAPicture = document.getData().get("picture").toString();
                         String userALatitude = document.getData().get("latitude").toString();
                         String userALongitude = document.getData().get("longitude").toString();
+                        writeUserInformationToSP(userAName, userAPicture);
                         writeUserLocationToSP(userALatitude, userALongitude);
                         Log.d(TAG, "user A lat: " + userALatitude);
                         Log.d(TAG, "user A lon: " + userALongitude);
@@ -135,6 +138,14 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
         myEdit.putString("userLatitude", lat);
         myEdit.putString("userLongitude", lon);
+
+        myEdit.commit();
+    }
+
+    private void writeUserInformationToSP(String name, String picture) {
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        myEdit.putString("userName", name);
+        myEdit.putString("userPicture", picture);
 
         myEdit.commit();
     }
