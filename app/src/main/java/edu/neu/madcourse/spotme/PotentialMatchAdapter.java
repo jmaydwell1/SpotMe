@@ -34,6 +34,7 @@ import edu.neu.madcourse.spotme.database.firestore.Firestore;
 import edu.neu.madcourse.spotme.database.models.Match;
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
 import edu.neu.madcourse.spotme.fcm.FirebaseMessaging;
+import edu.neu.madcourse.spotme.notification.SendNotificationActivity;
 
 import static android.content.ContentValues.TAG;
 
@@ -244,27 +245,6 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
             Firestore.writeToDBSubCollection(db, "matches", userBLoginId, "swiped", loginId, matchData[1]);
             // TODO send a notification
 
-            // SEND NOTIFICATION TO BOTH USERS
-//            Firestore.readFromDBCollection(db, "users", loginId).get()
-//                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                DocumentSnapshot document = task.getResult();
-//                                if (document.exists()) {
-////                                    String loginIdToken = document.getData().get("tokenId").toString();
-//                                    // Sending notification
-////                                    FirebaseMessaging.sendMessageToTargetDevice(loginIdToken);
-//                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData().get("tokenId"));
-//                                } else {
-//                                    Log.d(TAG, "No such document");
-//                                }
-//                            } else {
-//                                Log.d(TAG, "get failed with ", task.getException());
-//                            }
-//                        }
-//                    });
-
             Firestore.readFromDBCollection(db, "users", userBLoginId).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -273,7 +253,10 @@ public class PotentialMatchAdapter extends RecyclerView.Adapter<PotentialMatchAd
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     String userBLoginIdToken = document.getData().get("tokenId").toString();
+                                    //Background notification
                                     FirebaseMessaging.sendMessageToTargetDevice(userBLoginIdToken);
+                                    //Foreground notification
+                                    SendNotificationActivity.sendNotification(context,"You have a new match!", "Start your sport session today");
                                     Log.d(TAG, "DocumentSnapshot data: " + document.getData().get("tokenId"));
                                 } else {
                                     Log.d(TAG, "No such document");

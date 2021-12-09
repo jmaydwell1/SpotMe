@@ -1,5 +1,6 @@
 package edu.neu.madcourse.spotme;
 
+import android.content.Context;
 import android.content.Intent;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -51,7 +52,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<PotentialMatch> potentialMatches;
-    private ArrayList<String> matchesId;
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -59,8 +59,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private SharedPreferences sharedPreferences;
-
-    private UserPreference userPreference;
     private Integer preferenceDistance, preferenceMinAge, preferenceMaxAge;
     private List<String> preferenceGenders, preferenceSports;
     private LocalDate today;
@@ -79,13 +77,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        // TODO - SENDING NOTI FOREGROUND
-
-//        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
         createNotificationChannel();
-        SendNotificationActivity.sendNotification(this);
-
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -94,7 +86,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         loginId = mAuth.getCurrentUser().getEmail();
-        matchesId = new ArrayList<>();
         potentialMatches = new ArrayList<>();
 
         recyclerView = findViewById(R.id.swRecyclerView);
@@ -163,6 +154,8 @@ public class PotentialMatchesActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+
 
     private void savePreferencesLocally() {
         // default is Northeastern University location
