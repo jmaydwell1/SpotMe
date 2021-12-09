@@ -145,8 +145,9 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "CHANNEL NAME";
             String description = "CHANNEL DESCRIPTION";
+            String channelId = getString(R.string.default_notification_channel_id);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("CHANNEL_ID", name, importance);
+            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this

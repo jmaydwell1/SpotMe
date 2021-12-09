@@ -6,7 +6,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_icon"
+        android:resource="@drawable/spotme_icon" />
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_channel_id"
+        android:value="@string/default_notification_channel_id" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/spotme_launcher"
@@ -48,7 +54,12 @@
         <activity
             android:name=".MainMatchMessageActivity"
             android:exported="true"
-            android:parentActivityName=".SplashScreenLoadPreferenceData" />
+            android:parentActivityName=".SplashScreenLoadPreferenceData">
+                <intent-filter>
+                    <action android:name="edu.neu.madcourse.spotme.matches"/>
+                    <category android:name="android.intent.category.DEFAULT"/>
+                </intent-filter>
+        </activity>
         <service
             android:name=".MainActivity"
             android:foregroundServiceType="location">

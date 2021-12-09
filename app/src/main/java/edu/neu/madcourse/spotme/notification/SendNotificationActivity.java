@@ -29,10 +29,11 @@ public class SendNotificationActivity {
         String channelId = "CHANNEL_ID";
         NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(initialContext, channelId)
                 //"Notification icons must be entirely white."
-                .setSmallIcon(R.drawable.foo)
+                .setSmallIcon(R.drawable.spotme_icon)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVibrate(new long[] {1000, 1000, 1000})
                 // hide the notification after its selected
                 .setAutoCancel(true)
                 .setContentIntent(pIntent);
