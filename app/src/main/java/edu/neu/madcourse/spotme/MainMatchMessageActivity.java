@@ -38,7 +38,7 @@ public class MainMatchMessageActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         loginId = mAuth.getCurrentUser().getEmail();
         query = firebaseFirestore.collection("matches").document(loginId).collection("swiped").whereEqualTo("match", true);
-       initialRView();
+        initialRView();
     }
 
     private void initialRView() {
