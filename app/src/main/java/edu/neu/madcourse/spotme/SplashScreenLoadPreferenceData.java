@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -32,6 +33,8 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+
     private SharedPreferences sharedPreferences;
     private String loginId;
 
@@ -41,19 +44,21 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spot_me_splash_screen);
+        setContentView(R.layout.splash_screen_load_preferences);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_load_splash);
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-        loginId = sharedPreferences.getString("loginId", "empty");
-
-        getSupportActionBar().hide(); // do we need this?
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        loginId = sharedPreferences.getString("loginId", "empty");
+        loginId = mAuth.getCurrentUser().getEmail();
 
         preferencesListener();
         userALocationListener();
+
+        getSupportActionBar().hide(); // do we need this?
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     private void preferencesListener() {
@@ -103,11 +108,8 @@ public class SplashScreenLoadPreferenceData extends AppCompatActivity {
                     } else {
                         Log.d(TAG, "No such document");
                     }
-                    if (progressBar.getVisibility() == View.VISIBLE) {
-                        progressBar.setVisibility(View.GONE);
-                        Intent potentialMatchesIntent = new Intent(SplashScreenLoadPreferenceData.this, PotentialMatchesActivity.class);
-                        SplashScreenLoadPreferenceData.this.startActivity(potentialMatchesIntent);
-                    }
+                    Intent potentialMatchesIntent = new Intent(SplashScreenLoadPreferenceData.this, PotentialMatchesActivity.class);
+                    SplashScreenLoadPreferenceData.this.startActivity(potentialMatchesIntent);
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }

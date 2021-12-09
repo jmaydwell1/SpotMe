@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class ProfileBuilder extends AppCompatActivity {
     private FirebaseFirestore db;
     private SharedPreferences sharedPreferences;
     private String loginId;
+    private FirebaseAuth mAuth;
 
     private static final String TAG = "ProfileBuilder";
     private static String SHARED_PREF_NAME = "SpotMeSP";
@@ -41,8 +43,10 @@ public class ProfileBuilder extends AppCompatActivity {
         setContentView(R.layout.activity_profile_builder);
 
         db = FirebaseFirestore.getInstance();
-        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-        loginId = sharedPreferences.getString("loginId", "empty");
+        mAuth = FirebaseAuth.getInstance();
+//        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+//        loginId = sharedPreferences.getString("loginId", "empty");
+        loginId = mAuth.getCurrentUser().getEmail();
 
         pingPongBtn = findViewById(R.id.potentialBuilderPingPong);
         runningBtn = findViewById(R.id.potentialBuilderRunning);
@@ -67,7 +71,6 @@ public class ProfileBuilder extends AppCompatActivity {
                 Log.d(TAG, "no sports selected: " + noSportSelected());
                 if (noSportSelected()) {
                     Utils.makeToast(getApplicationContext(),"Please select at least one sport!");
-
                 } else {
                     List<String> sportsList = createSportsList();
                     UserSports userSports = new UserSports(sportsList);

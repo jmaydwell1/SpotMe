@@ -27,6 +27,7 @@
         <entry key="app/src/main/res/layout/progress_bar.xml" value="0.1" />
         <entry key="app/src/main/res/layout/roundcornerimage.xml" value="0.10869565217391304" />
         <entry key="app/src/main/res/layout/signup.xml" value="0.20729166666666668" />
+        <entry key="app/src/main/res/layout/splash_screen_load_preferences.xml" value="0.20885416666666667" />
       </map>
     </option>
   </component>

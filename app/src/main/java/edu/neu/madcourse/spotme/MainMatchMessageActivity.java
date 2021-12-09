@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -17,13 +18,16 @@ import edu.neu.madcourse.spotme.database.models.Match;
 
 public class MainMatchMessageActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    List<MessageMatchModel> matchList;
-    MatchesRViewAdapter adapter;
-    FirebaseFirestore firebaseFirestore;
-    DocumentReference documentReference;
-    Query query;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private List<MessageMatchModel> matchList;
+    private MatchesRViewAdapter adapter;
+    private FirebaseFirestore firebaseFirestore;
+    private DocumentReference documentReference;
+    private Query query;
+
+    private FirebaseAuth mAuth;
+    private String loginId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +35,10 @@ public class MainMatchMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_of_matches);
         recyclerView = findViewById(R.id.matchedRView);
         firebaseFirestore = FirebaseFirestore.getInstance();
-        query = firebaseFirestore.collection("matches").document("tiffanymarthin@gmail.com").collection("swiped").whereEqualTo("match", true);
-       initialRView();
+        mAuth = FirebaseAuth.getInstance();
+        loginId = mAuth.getCurrentUser().getEmail();
+        query = firebaseFirestore.collection("matches").document(loginId).collection("swiped").whereEqualTo("match", true);
+        initialRView();
     }
 
     private void initialRView() {

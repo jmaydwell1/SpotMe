@@ -1,7 +1,10 @@
 package edu.neu.madcourse.spotme;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +36,8 @@ import java.util.Set;
 import edu.neu.madcourse.spotme.database.models.Match;
 import edu.neu.madcourse.spotme.database.models.PotentialMatch;
 import edu.neu.madcourse.spotme.database.models.UserPreference;
+import edu.neu.madcourse.spotme.fcm.FirebaseMessaging;
+import edu.neu.madcourse.spotme.notification.SendNotificationActivity;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class PotentialMatchesActivity extends AppCompatActivity {
@@ -41,6 +47,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     private ArrayList<String> matchesId;
     private PotentialMatchAdapter adapter;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
     private String loginId, userALatitude, userALongitude;
     private ProgressBar progressBar;
 
@@ -59,16 +66,65 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.potential_matches);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // TODO - SENDING NOTI FOREGROUND
+//        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
+//        createNotificationChannel();
+//        SendNotificationActivity.sendNotification(PotentialMatchesActivity.this);
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-//        progressBar.setProgressTintList(ColorStateList.valueOf(Color.GRAY));
+
+        today = LocalDate.now();
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        loginId = mAuth.getCurrentUser().getEmail();
+        matchesId = new ArrayList<>();
+        potentialMatches = new ArrayList<>();
 
         recyclerView = findViewById(R.id.swRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-        loginId = sharedPreferences.getString("loginId", "empty");
+        savePreferencesLocally();
+
+//        matchesListener();
+        potentialMatchesListener();
+
+        adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId, userALatitude, userALongitude);
+        recyclerView.setAdapter(adapter);
+        onSwipeConfig();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    public void createNotificationChannel() {
+        // This must be called early because it must be called before a notification is sent.
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "CHANNEL NAME";
+            String description = "CHANNEL DESCRIPTION";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("CHANNEL ID", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void savePreferencesLocally() {
         // default is Northeastern University location
         userALatitude = sharedPreferences.getString("userLatitude", "42.478951");
         userALongitude = sharedPreferences.getString("userLongitude", "-71.189247");
@@ -82,17 +138,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         preferenceMaxAge = sharedPreferences.getInt("maxAgePreference", Integer.MAX_VALUE);
         preferenceSports = convertSetToList(sharedPreferences.getStringSet("sportsPreference", defaultSports));
         preferenceGenders = convertSetToList(sharedPreferences.getStringSet("gendersPreference", defaultGenders));
-
-        today = LocalDate.now();
-        db = FirebaseFirestore.getInstance();
-        matchesId = new ArrayList<>();
-        potentialMatches = new ArrayList<>();
-//        matchesListener();
-        potentialMatchesListener();
-
-        adapter = new PotentialMatchAdapter(PotentialMatchesActivity.this, potentialMatches, loginId, userALatitude, userALongitude);
-        recyclerView.setAdapter(adapter);
-        onSwipeConfig();
     }
 
     private void potentialMatchesListener() {
@@ -103,7 +148,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
 
                         if (error != null) {
                             if (progressBar.getVisibility() == View.VISIBLE) {
-                                progressBar.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
                             Log.e(TAG, "Firestore data potential match error "+ error.getMessage());
                             return;
@@ -122,7 +167,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                             }
                             adapter.notifyDataSetChanged();
                             if (progressBar.getVisibility() == View.VISIBLE) {
-                                progressBar.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
