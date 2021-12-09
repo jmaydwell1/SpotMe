@@ -56,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         // If currently there
-        if (mAuth.getCurrentUser() != null) {
-            System.out.println("CURRENT USER IS " + mAuth.getCurrentUser().getEmail());
-            Intent potentialMatchIntent = new Intent(MainActivity.this, PotentialMatchesActivity.class);
-            MainActivity.this.startActivity(potentialMatchIntent);
-            return;
-        }
+//        if (mAuth.getCurrentUser() != null) {
+//            System.out.println("CURRENT USER IS " + mAuth.getCurrentUser().getEmail());
+//            Intent potentialMatchSplashIntent = new Intent(MainActivity.this, SplashScreenLoadPreferenceData.class);
+//            MainActivity.this.startActivity(potentialMatchSplashIntent);
+//            return;
+//        }
 
         getSupportActionBar().hide();
         setContentView(R.layout.login_activity);

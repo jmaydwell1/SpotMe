@@ -67,9 +67,9 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         setContentView(R.layout.potential_matches);
 
         // TODO - SENDING NOTI FOREGROUND
-        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
-        createNotificationChannel();
-        SendNotificationActivity.sendNotification(PotentialMatchesActivity.this);
+//        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
+//        createNotificationChannel();
+//        SendNotificationActivity.sendNotification(PotentialMatchesActivity.this);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
