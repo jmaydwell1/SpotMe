@@ -79,7 +79,7 @@ public class PotentialMatchesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 //        loginId = sharedPreferences.getString("loginId", "empty");
         // default is Northeastern University location
         userALatitude = sharedPreferences.getString("userLatitude", "42.478951");

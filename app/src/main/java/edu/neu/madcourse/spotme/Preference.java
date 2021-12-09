@@ -104,8 +104,8 @@ public class Preference extends AppCompatActivity implements MultiSpinner.MultiS
                 }
                 UserPreference preference = new UserPreference(SELECTED_DISTANCE, selectedGenders, SELECTED_AGE, 18, CHOSEN_SPORT);
                 Firestore.mergeToDB(db, "preferences", userEmail, preference);
-                Intent potentialMatchIntent = new Intent(Preference.this, PotentialMatchesActivity.class);
-                Preference.this.startActivity(potentialMatchIntent);
+                Intent potentialMatchSplashIntent = new Intent(Preference.this, SplashScreenLoadPreferenceData.class);
+                Preference.this.startActivity(potentialMatchSplashIntent);
             }
         });
 
