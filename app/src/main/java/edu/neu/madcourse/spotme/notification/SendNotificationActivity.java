@@ -16,9 +16,9 @@ import edu.neu.madcourse.spotme.PotentialMatchesActivity;
 import edu.neu.madcourse.spotme.R;
 
 public class SendNotificationActivity {
-    public static void sendNotification(Context initialContext) {
-        System.out.println("SENDING NOTI");
 
+
+    public static void sendNotification(Context initialContext) {
         // Prepare intent which is triggered if the
         // notification is selected
         Intent intent = new Intent(initialContext, PotentialMatchesActivity.class);
@@ -29,7 +29,7 @@ public class SendNotificationActivity {
 
         // Build notification
         // Need to define a channel ID after Android Oreo
-        String channelId = "Channel name SpotME";
+        String channelId = "CHANNEL_ID";
         NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(initialContext, channelId)
                 //"Notification icons must be entirely white."
                 .setSmallIcon(R.drawable.foo)
