@@ -74,7 +74,33 @@ public class PotentialMatchesActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.potential_matches);
-      
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // TODO - SENDING NOTI FOREGROUND
+
+//        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
+        createNotificationChannel();
+        SendNotificationActivity.sendNotification(this);
+
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        today = LocalDate.now();
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        loginId = mAuth.getCurrentUser().getEmail();
+        matchesId = new ArrayList<>();
+        potentialMatches = new ArrayList<>();
+
+        recyclerView = findViewById(R.id.swRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         bottomNavigationView = findViewById(R.id.bottom_navigator);
         bottomNavigationView.setSelectedItemId(R.id.potentialMatches);
 
@@ -104,33 +130,6 @@ public class PotentialMatchesActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // TODO - SENDING NOTI FOREGROUND
-
-//        FirebaseMessaging.sendMessageToTargetDevice("dPhRsFDNSuanGfGqWB-Bc4:APA91bETQ_zr92r8MJLOm7HYzcE2bP5GVmzBT4-nOTouTFU6PkoLudnhOLXQuctDOIEjqrZfJ-PCFtyWY0foeohjewzUgrLoxvGd5K7FOMy-dHgQCxqUA01kkXf-sqvVgfPrnOh3Ur2V");
-        createNotificationChannel();
-        SendNotificationActivity.sendNotification(this);
-
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
-
-        today = LocalDate.now();
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        loginId = mAuth.getCurrentUser().getEmail();
-        matchesId = new ArrayList<>();
-        potentialMatches = new ArrayList<>();
-
-        recyclerView = findViewById(R.id.swRecyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         savePreferencesLocally();

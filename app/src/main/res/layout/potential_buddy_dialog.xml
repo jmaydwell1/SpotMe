@@ -7,36 +7,17 @@
     android:gravity="center"
     android:layout_gravity="center">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/spotMe_offWhite"
-        app:itemIconSize="40dp"
-        app:itemIconTint="@drawable/navbar_selector"
-        app:itemTextColor="@drawable/navbar_selector"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menubottomnav" />
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_navigator"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="87dp"
         app:cardCornerRadius="40dp"
         app:strokeColor="@color/spotMe_grey"
         app:strokeWidth="6dp">
-        <!--        android:background="@color/spotMe_darkerBlue"-->
-        <!--        app:cardBackgroundColor="@color/spotMe_darkerBlue"-->
 
         <LinearLayout
             android:layout_width="match_parent"

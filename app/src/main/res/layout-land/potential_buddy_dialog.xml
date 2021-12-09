@@ -5,26 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/spotMe_offWhite"
-        app:itemIconSize="40dp"
-        app:itemIconTint="@drawable/navbar_selector"
-        app:itemTextColor="@drawable/navbar_selector"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menubottomnav" />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/potential_picture_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_navigator"
         android:layout_alignParentTop="true"
         android:layout_marginHorizontal="30dp"
         android:layout_marginVertical="20dp"

@@ -69,6 +69,28 @@ public class ProfileBuilder extends AppCompatActivity {
         swimmingBtn.setOnClickListener(buttonClickListener);
         yogaBtn.setOnClickListener(buttonClickListener);
 
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Write to DB
+                Log.d(TAG, "no sports selected: " + noSportSelected());
+                if (noSportSelected()) {
+                    Utils.makeToast(getApplicationContext(),"Please select at least one sport!");
+                } else {
+                    List<String> sportsList = createSportsList();
+                    UserSports userSports = new UserSports(sportsList);
+                    Firestore.mergeToDB(db, "users", loginId, userSports);
+                    Intent preferenceIntent = new Intent(ProfileBuilder.this, Preference.class);
+                    ProfileBuilder.this.startActivity(preferenceIntent);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         bottomNavigationView = findViewById(R.id.bottom_navigator);
         bottomNavigationView.setSelectedItemId(R.id.sports);
 
@@ -96,23 +118,6 @@ public class ProfileBuilder extends AppCompatActivity {
                         return true;
                 }
                 return false;
-            }
-        });
-
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Write to DB
-                Log.d(TAG, "no sports selected: " + noSportSelected());
-                if (noSportSelected()) {
-                    Utils.makeToast(getApplicationContext(),"Please select at least one sport!");
-                } else {
-                    List<String> sportsList = createSportsList();
-                    UserSports userSports = new UserSports(sportsList);
-                    Firestore.mergeToDB(db, "users", loginId, userSports);
-                    Intent preferenceIntent = new Intent(ProfileBuilder.this, Preference.class);
-                    ProfileBuilder.this.startActivity(preferenceIntent);
-                }
             }
         });
     }
