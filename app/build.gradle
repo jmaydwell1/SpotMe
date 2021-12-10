@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/tmarthin/TMkeystore/spotmekeystore')
+            storePassword 'spotme456'
+            keyAlias 'spotme key'
+            keyPassword 'spotme456'
+        }
+    }
     compileSdkVersion 30
 
     defaultConfig {
@@ -13,6 +21,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
 
 
@@ -20,6 +29,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         applicationVariants.all{
                 // this method is use to rename your all apk weather
