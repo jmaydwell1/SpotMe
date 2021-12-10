@@ -91,35 +91,35 @@ public class ProfileBuilder extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        bottomNavigationView = findViewById(R.id.bottom_navigator);
-        bottomNavigationView.setSelectedItemId(R.id.sports);
-
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()) {
-                    case R.id.potentialMatches:
-                        startActivity(new Intent(getApplicationContext(), SplashScreenLoadPreferenceData.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-
-                    case R.id.matches:
-                        startActivity(new Intent(getApplicationContext(), MainMatchMessageActivity.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-
-                    case R.id.sports:
-                        return true;
-
-                    case R.id.preferences:
-                        startActivity(new Intent(getApplicationContext(), Preference.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                }
-                return false;
-            }
-        });
+//        bottomNavigationView = findViewById(R.id.bottom_navigator);
+//        bottomNavigationView.setSelectedItemId(R.id.sports);
+//
+//        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//                switch (item.getItemId()) {
+//                    case R.id.potentialMatches:
+//                        startActivity(new Intent(getApplicationContext(), SplashScreenLoadPreferenceData.class));
+//                        overridePendingTransition(0, 0);
+//                        return true;
+//
+//                    case R.id.matches:
+//                        startActivity(new Intent(getApplicationContext(), MainMatchMessageActivity.class));
+//                        overridePendingTransition(0, 0);
+//                        return true;
+//
+//                    case R.id.sports:
+//                        return true;
+//
+//                    case R.id.preferences:
+//                        startActivity(new Intent(getApplicationContext(), Preference.class));
+//                        overridePendingTransition(0, 0);
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     private List<String> createSportsList() {

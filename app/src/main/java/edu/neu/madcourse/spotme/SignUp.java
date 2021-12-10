@@ -63,6 +63,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
     private static final int DEFAULT_MIN_AGE = 18;
     private static final int DEFAULT_MAX_AGE = 100;
     private UserSports userSports;
+    private UserLocation userLocation;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +71,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         userSports = new UserSports(DEFAULT_SPORTS);
+        userLocation = new UserLocation("42.3398", "71.0892");
     }
 
     @Override
@@ -187,6 +189,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
                                             newUser.tokenId = CLIENT_REGISTRATION_TOKEN;
                                             Firestore.writeToDB(db, "users", email, newUser);
                                             Firestore.mergeToDB(db, "users", email, userSports);
+                                            Firestore.mergeToDB(db, "users", email, userLocation);
                                             UserPreference defaultUserPreference = createDefaultPreference();
                                             Firestore.writeToDB(db, "preferences", email, defaultUserPreference);
                                             Log.e("CLIENT_REGISTRATION_TOKEN SIGNUP", CLIENT_REGISTRATION_TOKEN);

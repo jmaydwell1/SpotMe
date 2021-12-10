@@ -4,7 +4,6 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23897435897435898" />
-        <entry key="app/src/main/res/drawable/btn_round.xml" value="0.3020833333333333" />
         <entry key="app/src/main/res/drawable/ic_baseline_check_box_24.xml" value="0.20277777777777778" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_baseline_looks_one_24.xml" value="0.2171875" />
@@ -13,29 +12,23 @@
         <entry key="app/src/main/res/drawable/round_background_dark.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/round_corner_image.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/sports_selector.xml" value="0.12777777777777777" />
-        <entry key="app/src/main/res/drawable/spotme_launcher_background.xml" value="0.2898148148148148" />
-        <entry key="app/src/main/res/font/poppins.xml" value="0.2323076923076923" />
         <entry key="app/src/main/res/layout-land/login_activity.xml" value="0.33" />
         <entry key="app/src/main/res/layout-land/potential_buddy_dialog.xml" value="0.17019400352733685" />
-        <entry key="app/src/main/res/layout-land/preferences.xml" value="0.33" />
+        <entry key="app/src/main/res/layout-land/preferences.xml" value="0.1" />
         <entry key="app/src/main/res/layout-land/signup.xml" value="0.17548500881834214" />
-        <entry key="app/src/main/res/layout/activity_list_of_matches.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.28072916666666664" />
+        <entry key="app/src/main/res/layout/activity_list_of_matches.xml" value="0.2644927536231884" />
         <entry key="app/src/main/res/layout/activity_profile_builder.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_spot_me_splash_screen.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/login_activity.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/login_activity.xml" value="0.5" />
         <entry key="app/src/main/res/layout/matched_r_view_row.xml" value="0.33" />
         <entry key="app/src/main/res/layout/potential_buddy_dialog.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/potential_match_card.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/potential_matches.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/preferences.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/potential_matches.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/preferences.xml" value="0.15450861195542046" />
         <entry key="app/src/main/res/layout/progress_bar.xml" value="0.1" />
         <entry key="app/src/main/res/layout/roundcornerimage.xml" value="0.10869565217391304" />
         <entry key="app/src/main/res/layout/signup.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/splash_screen_load_preferences.xml" value="0.20885416666666667" />
-        <entry key="app/src/main/res/menu/menubottomnav.xml" value="0.5971014492753624" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/spotme_launcher.xml" value="0.2898148148148148" />
-        <entry key="app/src/main/res/mipmap-anydpi-v26/spotme_launcher_round.xml" value="0.2898148148148148" />
       </map>
     </option>
   </component>

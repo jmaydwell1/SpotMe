@@ -42,6 +42,8 @@ public class Utils {
         double lat2 = Double.valueOf(latitude2);
         double lon2 = Double.valueOf(longitude2);
 
+        System.out.println(lat1 + " " + lon1);
+
         if ((lat1 == lat2) && (lon1 == lon2)) {
             return 0;
         }

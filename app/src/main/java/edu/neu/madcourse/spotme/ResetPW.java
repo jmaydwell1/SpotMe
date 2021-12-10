@@ -43,6 +43,7 @@ public class ResetPW extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    Utils.makeToast(ResetPW.this, "An Email has been sent to the email address!");
                                     Log.d(TAG, "Email sent.");
                                 } else {
                                     System.out.println("ERROR RESET" + task.getException().getMessage());
